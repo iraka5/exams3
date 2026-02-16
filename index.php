@@ -1,11 +1,14 @@
 <?php
+session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/controllers/LoginController.php';
 
 // Configuration des vues pour FlightPHP  
-Flight::set('flight.views.path', __DIR__ . '/controllers/views');
+Flight::set('flight.views.path', __DIR__ . '/views');
 
 /* ROUTES ACCUEIL */
 Flight::route('GET /', function(){
@@ -48,12 +51,23 @@ Flight::route('POST /signup', function(){
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-    // Ici tu devrais ajouter une validation et vérifier que l'email n'existe pas déjà
-    $db = Database::getConnection();
-    $stmt = $db->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-    $stmt->execute([$username, $email, $password]);
+    try {
+        // Vérifier que l'email n'existe pas déjà
+        $db = getDB();
+        $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->fetchColumn() > 0) {
+            echo "Cet email existe déjà !";
+            return;
+        }
 
-    Flight::redirect('/login');
+        $stmt = $db->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 'user')");
+        $stmt->execute([$username, $email, $password]);
+
+        Flight::redirect('/login');
+    } catch (Exception $e) {
+        echo "Erreur inscription: " . $e->getMessage();
+    }
 });
 
 /* ROUTES REGIONS */
