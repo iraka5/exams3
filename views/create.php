@@ -55,6 +55,17 @@
         .btn-back:hover { opacity: 0.9; }
         .actions { display: flex; gap: 10px; margin-top: 20px; }
         @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+        .footer-link { text-align: center; margin-top: 40px; }
+        .footer-link a { 
+            display: inline-block; 
+            padding: 10px 20px; 
+            border-radius: 999px; 
+            background: var(--muted); 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 600; 
+        }
+        .footer-link a:hover { opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -88,8 +99,16 @@
                     <input id="ville_nom" type="text" name="nom" placeholder="Ex: Antananarivo">
                 </div>
                 <div class="form-group">
-                    <label for="ville_region">ID Région</label>
-                    <input id="ville_region" type="number" name="id_regions" placeholder="Ex: 1" min="1">
+                    <label for="ville_region">Région</label>
+                    <?php if (!empty($regions) && is_array($regions)): ?>
+                        <select id="ville_region" name="id_regions">
+                            <?php foreach ($regions as $r): ?>
+                                <option value="<?php echo htmlspecialchars($r['id']); ?>"><?php echo htmlspecialchars($r['nom']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    <?php else: ?>
+                        <input id="ville_region" type="number" name="id_regions" placeholder="Ex: 1" min="1">
+                    <?php endif; ?>
                 </div>
                 <button class="btn" type="submit">Créer une ville</button>
             </form>
@@ -108,13 +127,26 @@
                     <input id="besoin_nombre" type="number" name="nombre" placeholder="0.00" step="0.01">
                 </div>
                 <div class="form-group">
-                    <label for="besoin_ville">ID Ville</label>
-                    <input id="besoin_ville" type="number" name="id_ville" placeholder="Ex: 1" min="1">
+                    <label for="besoin_ville">Ville</label>
+                    <?php if (!empty($villes) && is_array($villes)): ?>
+                        <select id="besoin_ville" name="id_ville">
+                            <?php foreach ($villes as $v): ?>
+                                <option value="<?php echo htmlspecialchars($v['id']); ?>"><?php echo htmlspecialchars($v['nom']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    <?php else: ?>
+                        <input id="besoin_ville" type="number" name="id_ville" placeholder="Ex: 1" min="1">
+                    <?php endif; ?>
                 </div>
                 <button class="btn" type="submit">Créer un besoin</button>
             </form>
         </div>
 
+    </div>
+
+    <!-- Nouveau lien en bas -->
+    <div class="footer-link">
+        <a href="/exams3-main/exams3/tableau-bord">← aller au tableau de bord</a>
     </div>
 </div>
 
