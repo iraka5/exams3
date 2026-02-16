@@ -144,3 +144,58 @@ Iraka (~2h30)
 
     Classes (models) (40 min)
     Total ≈ 2h30
+
+
+=== PHASE 2 - SYSTÈME ACHATS ===
+
+Personne1 (~2h30)
+
+    Base de données (40 min)
+        - Table achats + relations
+        - Ajout prix_unitaire et type_besoin
+
+    Routes (30 min)
+        - Liste achats
+        - Filtre par ville
+        - Page récap + route AJAX
+
+    Controllers (1h20)
+        - Insertion achat (calcul montant auto)
+        - Filtre par ville
+        - Calcul totaux (besoins, satisfaits, dons reçus, dispatchés)
+
+
+Personne2 (~2h40)
+
+    Page Besoins (40 min)
+        - Affichage prix unitaire + progression
+
+    Formulaire Achat (45 min)
+        - Ville, besoin, quantité
+        - Calcul montant auto (JS)
+
+    Liste Achats (35 min)
+        - Tableau + filtre par ville
+
+    Page Récap (40 min)
+        - Totaux + bouton Actualiser (Ajax)
+
+
+Personne3 (~2h30)
+
+    Models (40 min)
+        - Model Achat + relations
+        - Méthodes de calcul des totaux
+
+    Gestion dispatch dons (50 min)
+        - Déduction automatique des dons
+        - Vérification fonds disponibles
+
+    Dashboard V2 (1h)
+        - Montant achats par ville
+        - Indicateurs besoins satisfaits
+        - Mise à jour dynamique
+
+
+
+
