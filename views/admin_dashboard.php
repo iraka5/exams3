@@ -70,82 +70,8 @@
         Bienvenue administrateur ! Gérez ici les régions, villes et besoins.
     </div>
 
-    <!-- AJOUT REGION -->
-    <div class="section">
-        <h2>➕ Ajouter une Région</h2>
-        <form method="post" action="/exams3-main/exams3/regions">
-            <div class="form-group">
-                <label for="region_nom">Nom de la région</label>
-                <input id="region_nom" type="text" name="nom" placeholder="Ex: Analamanga" required>
-            </div>
-            <button class="btn btn-primary" type="submit">Ajouter une région</button>
-        </form>
-    </div>
-
-    <!-- AJOUT VILLE -->
-    <div class="section">
-        <h2>🏘️ Ajouter une Ville</h2>
-        <form method="post" action="/exams3-main/exams3/villes">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="ville_nom">Nom de la ville</label>
-                    <input id="ville_nom" type="text" name="nom" placeholder="Ex: Antananarivo" required>
-                </div>
-                <div class="form-group">
-                    <label for="ville_region">Région</label>
-                    <select id="ville_region" name="id_regions" required>
-                        <option value="">-- Sélectionner une région --</option>
-                        <?php
-                        try {
-                            $db = getDB();
-                            $stmt = $db->query("SELECT id, nom FROM regions ORDER BY nom");
-                            while ($region = $stmt->fetch()) {
-                                echo "<option value=\"{$region['id']}\">{$region['nom']}</option>";
-                            }
-                        } catch (Exception $e) {
-                            echo "<option disabled>Erreur: {$e->getMessage()}</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-            </div>
-            <button class="btn btn-primary" type="submit">Ajouter une ville</button>
-        </form>
-    </div>
-
-    <!-- AJOUT BESOIN -->
-    <div class="section">
-        <h2>📦 Ajouter un Besoin</h2>
-        <form method="post" action="/exams3-main/exams3/besoins">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="besoin_nom">Type de besoin</label>
-                    <input id="besoin_nom" type="text" name="nom" placeholder="Ex: Riz, Eau, Médicaments" required>
-                </div>
-                <div class="form-group">
-                    <label for="besoin_nombre">Quantité</label>
-                    <input id="besoin_nombre" type="number" name="nombre" placeholder="0.00" step="0.01" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="besoin_ville">Ville concernée</label>
-                <select id="besoin_ville" name="id_ville" required>
-                    <option value="">-- Sélectionner une ville --</option>
-                    <?php
-                    try {
-                        $db = getDB();
-                        $stmt = $db->query("SELECT id, nom FROM ville ORDER BY nom");
-                        while ($ville = $stmt->fetch()) {
-                            echo "<option value=\"{$ville['id']}\">{$ville['nom']}</option>";
-                        }
-                    } catch (Exception $e) {
-                        echo "<option disabled>Erreur: {$e->getMessage()}</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-            <button class="btn btn-primary" type="submit">Ajouter un besoin</button>
-        </form>
+    <div style="text-align: center; margin-bottom: 30px;">
+        <a href="/exams3-main/exams3/create" class="btn btn-primary" style="font-size: 16px; padding: 12px 30px;">➕ Créer une nouvelle ressource</a>
     </div>
 
 </div>

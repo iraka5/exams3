@@ -53,16 +53,25 @@ Flight::route('POST /login', function(){
 /* ROUTE TABLEAU DE BORD */
 Flight::route('GET /tableau-bord', function(){
     if (!isAdmin()) {
-        Flight::redirect('/exams3-main/exams3/login');
+        Flight::redirect('/login');
         return;
     }
     Flight::render('admin_dashboard');
 });
 
+/* ROUTE CREATION */
+Flight::route('GET /create', function(){
+    if (!isAdmin()) {
+        Flight::redirect('/login');
+        return;
+    }
+    Flight::render('create');
+});
+
 /* ROUTE DECONNEXION */
 Flight::route('GET /logout', function(){
     session_destroy();
-    Flight::redirect('/exams3-main/exams3/login');
+    Flight::redirect('/login');
 });
 
 
@@ -103,7 +112,7 @@ Flight::route('POST /signup', function(){
 /* ROUTES REGIONS */
 Flight::route('GET /regions', function(){
     if (!isAdmin()) {
-        Flight::redirect('/exams3-main/exams3/login');
+        Flight::redirect('/login');
         return;
     }
     Flight::render('regions_simple');
@@ -119,7 +128,7 @@ Flight::route('POST /regions', function(){
         $db = getDB();
         $stmt = $db->prepare("INSERT INTO regions (nom) VALUES (?)");
         $stmt->execute([$nom]);
-        Flight::redirect('/exams3-main/exams3/regions');
+        Flight::redirect('/regions');
     } catch (Exception $e) {
         echo "Erreur ajout région: " . $e->getMessage();
     }
@@ -128,7 +137,7 @@ Flight::route('POST /regions', function(){
 /* ROUTES VILLES */
 Flight::route('GET /villes', function(){
     if (!isAdmin()) {
-        Flight::redirect('/exams3-main/exams3/login');
+        Flight::redirect('/login');
         return;
     }
     Flight::render('villes_simple');
@@ -145,7 +154,7 @@ Flight::route('POST /villes', function(){
         $db = getDB();
         $stmt = $db->prepare("INSERT INTO ville (nom, id_regions) VALUES (?, ?)");
         $stmt->execute([$nom, $id_regions]);
-        Flight::redirect('/exams3-main/exams3/villes');
+        Flight::redirect('/villes');
     } catch (Exception $e) {
         echo "Erreur ajout ville: " . $e->getMessage();
     }
@@ -154,7 +163,7 @@ Flight::route('POST /villes', function(){
 /* ROUTES BESOINS */
 Flight::route('GET /besoins', function(){
     if (!isAdmin()) {
-        Flight::redirect('/exams3-main/exams3/login');
+        Flight::redirect('/login');
         return;
     }
     Flight::render('besoins_simple');
@@ -172,7 +181,7 @@ Flight::route('POST /besoins', function(){
         $db = getDB();
         $stmt = $db->prepare("INSERT INTO besoins (nom, nombre, id_ville) VALUES (?, ?, ?)");
         $stmt->execute([$nom, $nombre, $id_ville]);
-        Flight::redirect('/exams3-main/exams3/besoins');
+        Flight::redirect('/besoins');
     } catch (Exception $e) {
         echo "Erreur ajout besoin: " . $e->getMessage();
     }
