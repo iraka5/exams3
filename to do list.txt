@@ -1,0 +1,146 @@
+TO DO LIST
+Base de données (20 min)
+
+    user 
+        id
+        nom
+        password
+        email
+
+    regions
+
+        id
+
+        nom
+
+    ville
+
+        id
+
+        id regions
+
+        nom
+
+    besoins
+
+        id
+
+        nom
+
+        nombre
+
+        id ville
+
+    dons
+
+        id
+
+        nom du donneur
+
+        type don
+
+        nombre don
+
+        id ville
+
+    echange
+
+        id
+
+        id besoins
+
+        id don
+
+        nombre echangee
+
+        date don
+
+Pages
+
+    pages regions (30 min)
+
+        liste des regions
+
+    pages villes (30 min)
+
+        liste des villes
+
+    pages besoins (30 min)
+
+        affiche les listes des besoins de la ville
+
+    pages insertions des besoins formulaire (40 min)
+
+        nom ville
+
+        besoins en quantite
+
+    pages insertion des dons (40 min)
+
+        nom donateur
+
+        type
+
+        quantite
+
+    pages ensemble (60 min)
+
+        regions
+
+        ville
+
+        besoins
+
+        attributions
+
+FlightMVC
+
+    adaptation des routes (30 min)
+
+    organisation mvc
+
+        classes (40 min)
+
+        controllers (40 min)
+
+        views (40 min)
+
+
+
+
+Alintsoa (~2h30)
+
+    Base de données (30 min)
+
+    Pages Régions (30 min)
+
+    Pages Villes (30 min)
+
+    Adaptation des routes (30 min)
+
+    Controllers (40 min)
+    Total ≈ 2h40
+
+Melissa (~2h40)
+
+    Pages Besoins (30 min)
+
+    Formulaire insertion besoins (40 min)
+
+    Pages Dons (30 min)
+
+    Formulaire insertion dons (40 min)
+
+    Views (40 min)
+    Total ≈ 2h40
+
+Iraka (~2h30)
+
+    Page login admin/user (50 min)
+
+    Page signup (40 min)
+
+    Pages Ensemble/Tableau de bord (60 min)
+
+    Classes (models) (40 min)
+    Total ≈ 2h30
