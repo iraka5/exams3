@@ -21,7 +21,7 @@
             max-width: 480px; 
             width: 90%; 
             background: white; 
-            border-radius: 8px; 
+            border-radius: 20px; 
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
@@ -54,7 +54,7 @@
             width: 100%; 
             padding: 0.75rem; 
             border: 2px solid #e5e7eb; 
-            border-radius: 6px; 
+            border-radius: 12px; 
             box-sizing: border-box;
             font-size: 1rem;
             transition: border-color 0.2s ease;
@@ -68,7 +68,7 @@
             width: 100%; 
             padding: 0.75rem; 
             border: none; 
-            border-radius: 6px; 
+            border-radius: 12px; 
             cursor: pointer; 
             font-size: 1rem;
             font-weight: 500;
@@ -88,7 +88,7 @@
         .alert { 
             padding: 0.75rem; 
             margin-bottom: 1.5rem; 
-            border-radius: 6px; 
+            border-radius: 12px; 
             font-size: 0.9rem;
         }
         .alert-error { 

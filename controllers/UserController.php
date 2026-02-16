@@ -60,18 +60,19 @@ class UserController {
     }
     
     public static function authenticate() {
-        $email = trim($_POST['email'] ?? '');
+        $nom = trim($_POST['nom'] ?? '');
+        $prenom = trim($_POST['prenom'] ?? '');
         $password = trim($_POST['password'] ?? '');
         
-        if (empty($email) || empty($password)) {
+        if (empty($nom) || empty($prenom) || empty($password)) {
             Flight::redirect('/exams3-main/exams3/user/login?error=missing_fields');
             return;
         }
         
         try {
             $pdo = getDB();
-            $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND role = 'user'");
-            $stmt->execute([$email]);
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE nom = ? AND prenom = ? AND role = 'user'");
+            $stmt->execute([$nom, $prenom]);
             $user = $stmt->fetch();
             
             if ($user && password_verify($password, $user['password'])) {
@@ -87,7 +88,7 @@ class UserController {
                 $updateStmt->execute([$user['id']]);
                 
                 // Enregistrer la connexion
-                self::logConnection($user['id'], $email);
+                self::logConnection($user['id'], $user['email']);
                 
                 // Définir la session
                 $_SESSION['user'] = $user['email'];

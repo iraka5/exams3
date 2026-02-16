@@ -9,9 +9,9 @@
         .header { background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .header h1 { margin: 0; font-size: 28px; }
         .header p { margin: 5px 0 0 0; opacity: 0.9; }
-        .user-info { background: rgba(255,255,255,0.2); padding: 10px 20px; margin: 15px auto; border-radius: 8px; display: inline-block; }
+        .user-info { background: rgba(255,255,255,0.2); padding: 10px 20px; margin: 15px auto; border-radius: 12px; display: inline-block; }
         nav { background-color: #2c3e50; padding: 15px; }
-        nav a { color: white; text-decoration: none; margin-right: 25px; padding: 10px 15px; border-radius: 6px; display: inline-block; transition: background-color 0.3s; }
+        nav a { color: white; text-decoration: none; margin-right: 25px; padding: 10px 15px; border-radius: 10px; display: inline-block; transition: background-color 0.3s; }
         nav a:hover, nav a.active { background-color: #34495e; }
         .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
         .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 30px 0; }
@@ -19,7 +19,7 @@
         .card:hover { transform: translateY(-5px); }
         .card h3 { margin: 0 0 15px 0; color: #2c3e50; font-size: 20px; }
         .card p { color: #7f8c8d; margin-bottom: 20px; line-height: 1.5; }
-        .btn { display: inline-block; padding: 12px 20px; margin: 5px; text-decoration: none; border-radius: 6px; font-weight: 500; transition: all 0.3s; }
+        .btn { display: inline-block; padding: 12px 20px; margin: 5px; text-decoration: none; border-radius: 10px; font-weight: 500; transition: all 0.3s; }
         .btn-primary { background-color: #3498db; color: white; }
         .btn-primary:hover { background-color: #2980b9; transform: translateY(-2px); }
         .btn-success { background-color: #27ae60; color: white; }
@@ -34,7 +34,7 @@
         .card-besoins { border-left: 5px solid #e74c3c; }
         .card-dons { border-left: 5px solid #27ae60; }
         .card-villes { border-left: 5px solid #3498db; }
-        .limitations { background: #fff3dc; border: 1px solid #ffc107; color: #856404; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .limitations { background: #fff3dc; border: 1px solid #ffc107; color: #856404; padding: 15px; border-radius: 12px; margin: 20px 0; }
         .limitations h4 { margin: 0 0 10px 0; color: #856404; }
         .logout-section { text-align: center; margin-top: 30px; padding: 20px; }
     </style>

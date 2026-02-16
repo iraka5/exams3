@@ -20,8 +20,8 @@
             width: 100%;
             max-width: 420px;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.15);
             overflow: hidden;
         }
         .login-header {
@@ -55,7 +55,7 @@
             width: 100%;
             padding: 0.75rem;
             border: 2px solid #e5e7eb;
-            border-radius: 6px;
+            border-radius: 12px;
             font-size: 1rem;
             transition: border-color 0.2s ease;
         }
@@ -70,7 +70,7 @@
             background: #3b82f6;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
@@ -86,7 +86,7 @@
         .alert {
             padding: 0.75rem;
             margin-bottom: 1.5rem;
-            border-radius: 6px;
+            border-radius: 12px;
             font-size: 0.9rem;
         }
         .alert-error {
@@ -104,7 +104,7 @@
             color: #d97706;
             border: 1px solid #fed7aa;
             padding: 0.75rem;
-            border-radius: 6px;
+            border-radius: 10px;
             font-size: 0.85rem;
             margin-bottom: 1.5rem;
         }
@@ -165,10 +165,10 @@
                     <?php
                     switch($_GET['error']) {
                         case 'missing_fields':
-                            echo "Email et mot de passe requis.";
+                            echo "Nom, prénom et mot de passe requis.";
                             break;
                         case 'invalid_credentials':
-                            echo "Email ou mot de passe incorrect.";
+                            echo "Nom, prénom ou mot de passe incorrect.";
                             break;
                         case 'password_used':
                             echo "Ce mot de passe a déjà été utilisé. Veuillez créer un nouveau compte.";
@@ -200,8 +200,13 @@
 
             <form method="POST" action="/exams3-main/exams3/user/login">
                 <div class="form-group">
-                    <label for="email">Adresse email</label>
-                    <input type="email" id="email" name="email" required placeholder="exemple@email.com" autocomplete="email">
+                    <label for="nom">Nom</label>
+                    <input type="text" id="nom" name="nom" required placeholder="Votre nom de famille" autocomplete="family-name">
+                </div>
+
+                <div class="form-group">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" id="prenom" name="prenom" required placeholder="Votre prénom" autocomplete="given-name">
                 </div>
 
                 <div class="form-group">
