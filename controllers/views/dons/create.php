@@ -23,7 +23,7 @@
     <input type="number" name="nombre_don" min="1" required><br><br>
 
     <label>Ville :</label><br>
-    <select name="ville_id" required>
+    <select name="id_ville" required>
         <option value="">-- Choisir une ville --</option>
         <?php foreach ($villes as $v): ?>
             <option value="<?= $v["id"] ?>">
