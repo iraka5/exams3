@@ -20,6 +20,11 @@ Flight::route('GET /login', function(){
     include 'views/login.html';
 });
 
+// Compatibilité ancien lien direct /login.html
+Flight::route('GET /login.html', function(){
+    Flight::redirect('/login');
+});
+
 Flight::route('POST /login', function(){
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -44,6 +49,11 @@ Flight::route('GET /tableau-bord', function(){
 /* ROUTES SIGNUP */
 Flight::route('GET /signup', function(){
     include 'views/signup.html';
+});
+
+// Compatibilité ancien lien direct /signup.html
+Flight::route('GET /signup.html', function(){
+    Flight::redirect('/signup');
 });
 
 Flight::route('POST /signup', function(){
