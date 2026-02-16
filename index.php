@@ -6,9 +6,13 @@ ini_set('display_errors', 1);
 require __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/controllers/LoginController.php';
+require_once __DIR__ . '/controllers/RegionController.php';
+require_once __DIR__ . '/controllers/VilleController.php';
+require_once __DIR__ . '/controllers/BesoinController.php';
+require_once __DIR__ . '/controllers/DonController.php';
 
 // Configuration des vues pour FlightPHP  
-Flight::set('flight.views.path', __DIR__ . '/views');
+Flight::set('flight.views.path', __DIR__ . '/controllers/views');
 
 /* ROUTES ACCUEIL */
 Flight::route('GET /', function(){
@@ -71,23 +75,39 @@ Flight::route('POST /signup', function(){
 });
 
 /* ROUTES REGIONS */
-Flight::route('GET /regions', function(){
-    Flight::render('regions_simple');
-});
+Flight::route('GET /regions', ['RegionController', 'index']);
+Flight::route('GET /regions/create', ['RegionController', 'createForm']);
+Flight::route('POST /regions/store', ['RegionController', 'store']);
+Flight::route('GET /regions/@id', ['RegionController', 'show']);
+Flight::route('GET /regions/@id/edit', ['RegionController', 'editForm']);
+Flight::route('POST /regions/@id/update', ['RegionController', 'update']);
+Flight::route('GET /regions/@id/delete', ['RegionController', 'delete']);
 
 /* ROUTES VILLES */
-Flight::route('GET /villes', function(){
-    Flight::render('villes_simple');
-});
+Flight::route('GET /villes', ['VilleController', 'index']);
+Flight::route('GET /villes/create', ['VilleController', 'createForm']);
+Flight::route('POST /villes/store', ['VilleController', 'store']);
+Flight::route('GET /villes/@id', ['VilleController', 'show']);
+Flight::route('GET /villes/@id/edit', ['VilleController', 'editForm']);
+Flight::route('POST /villes/@id/update', ['VilleController', 'update']);
+Flight::route('GET /villes/@id/delete', ['VilleController', 'delete']);
 
 /* ROUTES BESOINS */
-Flight::route('GET /besoins', function(){
-    Flight::render('besoins_simple');
-});
+Flight::route('GET /besoins', ['BesoinController', 'index']);
+Flight::route('GET /besoins/create', ['BesoinController', 'createForm']);
+Flight::route('POST /besoins/store', ['BesoinController', 'store']);
+Flight::route('GET /besoins/@id', ['BesoinController', 'show']);
+Flight::route('GET /besoins/@id/edit', ['BesoinController', 'editForm']);
+Flight::route('POST /besoins/@id/update', ['BesoinController', 'update']);
+Flight::route('GET /besoins/@id/delete', ['BesoinController', 'delete']);
 
 /* ROUTES DONS */
-Flight::route('GET /dons', function(){
-    Flight::render('dons_simple');
-});
+Flight::route('GET /dons', ['DonController', 'index']);
+Flight::route('GET /dons/create', ['DonController', 'createForm']);
+Flight::route('POST /dons/store', ['DonController', 'store']);
+Flight::route('GET /dons/@id', ['DonController', 'show']);
+Flight::route('GET /dons/@id/edit', ['DonController', 'editForm']);
+Flight::route('POST /dons/@id/update', ['DonController', 'update']);
+Flight::route('GET /dons/@id/delete', ['DonController', 'delete']);
 
 Flight::start();
