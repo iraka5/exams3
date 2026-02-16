@@ -14,7 +14,7 @@ Flight::route('GET /', function(){
 
 /* ROUTES LOGIN */
 Flight::route('GET /login', function(){
-    include 'views/login.php';
+    include 'views/login.html';
 });
 
 Flight::route('POST /login', function(){
@@ -40,7 +40,7 @@ Flight::route('GET /tableau-bord', function(){
 
 /* ROUTES SIGNUP */
 Flight::route('GET /signup', function(){
-    include 'views/signup.php';
+    include 'views/signup.html';
 });
 
 Flight::route('POST /signup', function(){
