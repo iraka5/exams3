@@ -6,19 +6,19 @@ class Don
     public static function all()
     {
         $db = getDB();
-        $sql = "SELECT dons.*, villes.nom AS ville_nom
+        $sql = "SELECT dons.*, ville.nom AS ville_nom
                 FROM dons
-                JOIN villes ON dons.ville_id = villes.id
+                JOIN ville ON dons.id_ville = ville.id
                 ORDER BY dons.id DESC";
         return $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function create($nom_donneur, $type_don, $nombre_don, $ville_id)
+    public static function create($nom_donneur, $type_don, $nombre_don, $id_ville)
     {
         $db = getDB();
-        $sql = "INSERT INTO dons(nom_donneur, type_don, nombre_don, ville_id)
+        $sql = "INSERT INTO dons(nom_donneur, type_don, nombre_don, id_ville)
                 VALUES(?,?,?,?)";
         $stmt = $db->prepare($sql);
-        return $stmt->execute([$nom_donneur, $type_don, $nombre_don, $ville_id]);
+        return $stmt->execute([$nom_donneur, $type_don, $nombre_don, $id_ville]);
     }
 }
