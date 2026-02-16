@@ -1,79 +1,157 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Dons - BNGRC</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
-        .header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .nav { display: flex; gap: 15px; margin-bottom: 20px; }
-        .nav a { padding: 8px 16px; background: #3498db; color: white; text-decoration: none; border-radius: 4px; }
-        .nav a:hover { background: #2980b9; }
-        table { width: 100%; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        th { background: #34495e; color: white; padding: 12px; text-align: left; }
-        td { padding: 12px; border-bottom: 1px solid #eee; }
-        .actions { display: flex; gap: 5px; }
-        .actions a { padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 12px; }
-        .btn-view { background: #3498db; color: white; }
-        .btn-edit { background: #f39c12; color: white; }
-        .btn-delete { background: #e74c3c; color: white; }
-        .btn-add { background: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin-bottom: 20px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Dons - BNGRC</title>
+  <style>
+    :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background: var(--brand);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .header h1 { margin: 0; font-size: 22px; }
+    .header p { margin: 5px 0 0; font-size: 14px; color: rgba(255,255,255,0.8); }
+
+    nav {
+      background: white;
+      padding: 10px 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    nav a {
+      color: var(--brand);
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 14px;
+      background: rgba(19,38,92,0.08);
+    }
+    nav a:hover, nav a.active {
+      background: var(--brand);
+      color: white;
+    }
+
+    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      background: var(--brand);
+      color: white;
+      text-decoration: none;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn-success { background: #28a745; }
+    .btn-danger { background: #dc3545; }
+    .btn-warning { background: #ffc107; color: black; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      font-size: 14px;
+      border-bottom: 1px solid #e6e9ef;
+    }
+    th {
+      background: var(--brand);
+      color: white;
+      font-weight: 600;
+    }
+    tr:nth-child(even) { background: #f9fafc; }
+    tr:hover { background: rgba(19,38,92,0.05); }
+
+    .no-data {
+      text-align: center;
+      color: var(--muted);
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Gestion des Dons</h1>
-        <div class="nav">
-            <a href="/exams3-main/exams3/">Accueil</a>
-            <a href="/exams3-main/exams3/regions">Régions</a>
-            <a href="/exams3-main/exams3/villes">Villes</a>
-            <a href="/exams3-main/exams3/besoins">Besoins</a>
-            <a href="/exams3-main/exams3/dons">Dons</a>
-        </div>
-    </div>
 
-    <a href="/exams3-main/exams3/dons/create" class="btn-add">Ajouter un Don</a>
+  <div class="header">
+    <h1> Gestion des Dons - BNGRC</h1>
+    <p>Suivi des dons reçus par ville et type</p>
+  </div>
+
+  <nav>
+    <a href="/exams3-main/exams3/">Accueil</a>
+    <a href="/exams3-main/exams3/regions">Régions</a>
+    <a href="/exams3-main/exams3/villes">Villes</a>
+    <a href="/exams3-main/exams3/besoins">Besoins</a>
+    <a href="/exams3-main/exams3/dons" class="active">Dons</a>
+    <a href="/exams3-main/exams3/logout">Déconnexion</a>
+  </nav>
+
+  <div class="container">
+    <a href="/exams3-main/exams3/dons/create" class="btn btn-success"> Ajouter un Don</a>
 
     <table>
-        <thead>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Donneur</th>
+          <th>Type</th>
+          <th>Quantité</th>
+          <th>Ville</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (empty($dons)): ?>
+          <tr>
+            <td colspan="6" class="no-data">Aucun don trouvé.</td>
+          </tr>
+        <?php else: ?>
+          <?php foreach ($dons as $don): ?>
             <tr>
-                <th>ID</th>
-                <th>Donneur</th>
-                <th>Type</th>
-                <th>Quantité</th>
-                <th>Ville</th>
-                <th>Actions</th>
+              <td><?= $don['id'] ?></td>
+              <td><strong><?= htmlspecialchars($don['nom_donneur']) ?></strong></td>
+              <td><?= htmlspecialchars($don['type_don']) ?></td>
+              <td><?= number_format($don['nombre_don'], 0, ',', ' ') ?></td>
+              <td>
+                <span style="background: #e3f2fd; padding: 3px 8px; border-radius: 15px;">
+                  <?= htmlspecialchars($don['ville_nom']) ?>
+                </span>
+              </td>
+              <td>
+                <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>" class="btn"> Voir</a>
+                <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/edit" class="btn btn-warning"> Modifier</a>
+                <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/delete" 
+                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce don ?')" 
+                   class="btn btn-danger"> Supprimer</a>
+              </td>
             </tr>
-        </thead>
-        <tbody>
-            <?php if (empty($dons)): ?>
-                <tr>
-                    <td colspan="6" style="text-align: center; padding: 20px; color: #666;">
-                        Aucun don trouvé.
-                    </td>
-                </tr>
-            <?php else: ?>
-                <?php foreach ($dons as $don): ?>
-                    <tr>
-                        <td><?= $don['id'] ?></td>
-                        <td><?= htmlspecialchars($don['nom_donneur']) ?></td>
-                        <td><?= htmlspecialchars($don['type_don']) ?></td>
-                        <td><?= number_format($don['nombre_don'], 0, ',', ' ') ?></td>
-                        <td><?= htmlspecialchars($don['ville_nom']) ?></td>
-                        <td>
-                            <div class="actions">
-                                <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>" class="btn-view">Voir</a>
-                                <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/edit" class="btn-edit">Modifier</a>
-                                <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/delete" 
-                                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce don ?')" 
-                                   class="btn-delete">Supprimer</a>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </tbody>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </tbody>
     </table>
+  </div>
+
 </body>
 </html>

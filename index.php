@@ -104,10 +104,14 @@ Flight::route('GET /create', function(){
     Flight::render('create', ['regions' => $regions, 'villes' => $villes]);
 });
 
-/* ROUTE DECONNEXION */
+/* ROUTE LOGOUT */
 Flight::route('GET /logout', function(){
-    session_destroy();
-    Flight::redirect('/exams3-main/exams3/login');
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    session_unset();   // supprime toutes les variables de session
+    session_destroy(); // détruit la session
+    Flight::redirect('/login'); // redirige vers la page de connexion
 });
 
 /* ROUTES UTILISATEURS */
@@ -187,6 +191,8 @@ Flight::route('GET /user/villes', function(){
     $villes = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     include __DIR__ . '/views/users/villes_stats.php';
 });
+
+
 
 
 /* ROUTES REGIONS */
