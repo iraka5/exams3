@@ -27,12 +27,12 @@
     </div>
 
     <nav>
-        <a href="/exams3/">🏠 Accueil</a>
-        <a href="/exams3/regions">🗺️ Régions</a>
-        <a href="/exams3/villes" class="active">🏘️ Villes</a>
-        <a href="/exams3/besoins">📦 Besoins</a>
-        <a href="/exams3/dons">🎁 Dons</a>
-        <a href="/exams3/tableau-bord">📊 Tableau de bord</a>
+        <a href="/exams3-main/exams3/">🏠 Accueil</a>
+        <a href="/exams3-main/exams3/regions">🗺️ Régions</a>
+        <a href="/exams3-main/exams3/villes" class="active">🏘️ Villes</a>
+        <a href="/exams3-main/exams3/besoins">📦 Besoins</a>
+        <a href="/exams3-main/exams3/dons">🎁 Dons</a>
+        <a href="/exams3-main/exams3/tableau-bord">📊 Tableau de bord</a>
     </nav>
 
     <div class="container">
@@ -42,7 +42,7 @@
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h2>Liste des Villes</h2>
-            <a href="/exams3/villes/create" class="btn btn-success">➕ Ajouter une ville</a>
+            <a href="/exams3-main/exams3/villes/create" class="btn btn-success">➕ Ajouter une ville</a>
         </div>
 
         <table>
@@ -59,13 +59,13 @@
                     <td>1</td>
                     <td>Antananarivo</td>
                     <td>Analamanga</td>
-                    <td><a href="/exams3/villes/1" class="btn btn-primary">👁️ Voir</a></td>
+                    <td><a href="/exams3-main/exams3/villes/1" class="btn btn-primary">👁️ Voir</a></td>
                 </tr>
                 <tr>
                     <td>2</td>
                     <td>Antsirabe</td>
                     <td>Vakinankaratra</td>
-                    <td><a href="/exams3/villes/2" class="btn btn-primary">👁️ Voir</a></td>
+                    <td><a href="/exams3-main/exams3/villes/2" class="btn btn-primary">👁️ Voir</a></td>
                 </tr>
             </tbody>
         </table>

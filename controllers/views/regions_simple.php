@@ -29,12 +29,12 @@
     </div>
 
     <nav>
-        <a href="/exams3/">🏠 Accueil</a>
-        <a href="/exams3/regions" class="active">🗺️ Régions</a>
-        <a href="/exams3/villes">🏘️ Villes</a>
-        <a href="/exams3/besoins">📦 Besoins</a>
-        <a href="/exams3/dons">🎁 Dons</a>
-        <a href="/exams3/tableau-bord">📊 Tableau de bord</a>
+        <a href="/exams3-main/exams3/">🏠 Accueil</a>
+        <a href="/exams3-main/exams3/regions" class="active">🗺️ Régions</a>
+        <a href="/exams3-main/exams3/villes">🏘️ Villes</a>
+        <a href="/exams3-main/exams3/besoins">📦 Besoins</a>
+        <a href="/exams3-main/exams3/dons">🎁 Dons</a>
+        <a href="/exams3-main/exams3/tableau-bord">📊 Tableau de bord</a>
     </nav>
 
     <div class="container">
@@ -44,7 +44,7 @@
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h2>Liste des Régions</h2>
-            <a href="/exams3/regions/create" class="btn btn-success">➕ Ajouter une région</a>
+            <a href="/exams3-main/exams3/regions/create" class="btn btn-success">➕ Ajouter une région</a>
         </div>
 
         <table>
@@ -62,9 +62,9 @@
                     <td>Analamanga</td>
                     <td>2 villes</td>
                     <td>
-                        <a href="/exams3/regions/1" class="btn btn-primary">👁️ Voir</a>
-                        <a href="/exams3/regions/1/edit" class="btn btn-warning">✏️ Modifier</a>
-                        <a href="/exams3/regions/1/delete" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette région ?')">🗑️ Supprimer</a>
+                        <a href="/exams3-main/exams3/regions/1" class="btn btn-primary">👁️ Voir</a>
+                        <a href="/exams3-main/exams3/regions/1/edit" class="btn btn-warning">✏️ Modifier</a>
+                        <a href="/exams3-main/exams3/regions/1/delete" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette région ?')">🗑️ Supprimer</a>
                     </td>
                 </tr>
                 <tr>
@@ -72,9 +72,9 @@
                     <td>Vakinankaratra</td>
                     <td>2 villes</td>
                     <td>
-                        <a href="/exams3/regions/2" class="btn btn-primary">👁️ Voir</a>
-                        <a href="/exams3/regions/2/edit" class="btn btn-warning">✏️ Modifier</a>
-                        <a href="/exams3/regions/2/delete" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette région ?')">🗑️ Supprimer</a>
+                        <a href="/exams3-main/exams3/regions/2" class="btn btn-primary">👁️ Voir</a>
+                        <a href="/exams3-main/exams3/regions/2/edit" class="btn btn-warning">✏️ Modifier</a>
+                        <a href="/exams3-main/exams3/regions/2/delete" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette région ?')">🗑️ Supprimer</a>
                     </td>
                 </tr>
                 <tr>
@@ -82,9 +82,9 @@
                     <td>Itasy</td>
                     <td>1 ville</td>
                     <td>
-                        <a href="/exams3/regions/3" class="btn btn-primary">👁️ Voir</a>
-                        <a href="/exams3/regions/3/edit" class="btn btn-warning">✏️ Modifier</a>
-                        <a href="/exams3/regions/3/delete" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette région ?')">🗑️ Supprimer</a>
+                        <a href="/exams3-main/exams3/regions/3" class="btn btn-primary">👁️ Voir</a>
+                        <a href="/exams3-main/exams3/regions/3/edit" class="btn btn-warning">✏️ Modifier</a>
+                        <a href="/exams3-main/exams3/regions/3/delete" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette région ?')">🗑️ Supprimer</a>
                     </td>
                 </tr>
                 <tr>
@@ -92,9 +92,9 @@
                     <td>Bongolava</td>
                     <td>1 ville</td>
                     <td>
-                        <a href="/exams3/regions/4" class="btn btn-primary">👁️ Voir</a>
-                        <a href="/exams3/regions/4/edit" class="btn btn-warning">✏️ Modifier</a>
-                        <a href="/exams3/regions/4/delete" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette région ?')">🗑️ Supprimer</a>
+                        <a href="/exams3-main/exams3/regions/4" class="btn btn-primary">👁️ Voir</a>
+                        <a href="/exams3-main/exams3/regions/4/edit" class="btn btn-warning">✏️ Modifier</a>
+                        <a href="/exams3-main/exams3/regions/4/delete" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette région ?')">🗑️ Supprimer</a>
                     </td>
                 </tr>
             </tbody>

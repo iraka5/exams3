@@ -30,13 +30,13 @@
     </div>
 
     <nav>
-        <a href="/exams3/" class="active">🏠 Accueil</a>
-        <a href="/exams3/regions">🗺️ Régions</a>
-        <a href="/exams3/villes">🏘️ Villes</a>
-        <a href="/exams3/besoins">📦 Besoins</a>
-        <a href="/exams3/dons">🎁 Dons</a>
-        <a href="/exams3/tableau-bord">📊 Tableau de bord</a>
-        <a href="/exams3/login">👤 Login</a>
+        <a href="/exams3-main/exams3/" class="active">🏠 Accueil</a>
+        <a href="/exams3-main/exams3/regions">🗺️ Régions</a>
+        <a href="/exams3-main/exams3/villes">🏘️ Villes</a>
+        <a href="/exams3-main/exams3/besoins">📦 Besoins</a>
+        <a href="/exams3-main/exams3/dons">🎁 Dons</a>
+        <a href="/exams3-main/exams3/tableau-bord">📊 Tableau de bord</a>
+        <a href="/exams3-main/exams3/login">👤 Login</a>
     </nav>
 
     <div class="container">
@@ -48,25 +48,25 @@
                 <div class="card">
                     <h3>🗺️ Gestion des Régions</h3>
                     <p>Gérer les régions de Madagascar</p>
-                    <a href="/exams3/regions" class="btn btn-primary">Accéder</a>
+                    <a href="/exams3-main/exams3/regions" class="btn btn-primary">Accéder</a>
                 </div>
                 
                 <div class="card">
                     <h3>🏘️ Gestion des Villes</h3>
                     <p>Gérer les villes et communes</p>
-                    <a href="/exams3/villes" class="btn btn-primary">Accéder</a>
+                    <a href="/exams3-main/exams3/villes" class="btn btn-primary">Accéder</a>
                 </div>
                 
                 <div class="card">
                     <h3>📦 Suivi des Besoins</h3>
                     <p>Enregistrer les besoins des sinistrés</p>
-                    <a href="/exams3/besoins" class="btn btn-success">Accéder</a>
+                    <a href="/exams3-main/exams3/besoins" class="btn btn-success">Accéder</a>
                 </div>
                 
                 <div class="card">
                     <h3>🎁 Gestion des Dons</h3>
                     <p>Enregistrer les dons reçus</p>
-                    <a href="/exams3/dons" class="btn btn-success">Accéder</a>
+                    <a href="/exams3-main/exams3/dons" class="btn btn-success">Accéder</a>
                 </div>
             </div>
         </div>

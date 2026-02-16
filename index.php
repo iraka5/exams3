@@ -6,7 +6,7 @@ Flight::set('flight.views.path', __DIR__ . '/controllers/views');
 
 /* ROUTES ACCUEIL */
 Flight::route('GET /', function(){
-    Flight::redirect('/tableau-bord');
+    Flight::redirect('/exams3-main/exams3/tableau-bord');
 });
 
 /* ROUTE TABLEAU DE BORD */
