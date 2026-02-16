@@ -145,7 +145,10 @@
         <tr>
           <th>ID</th>
           <th>Nom</th>
+          <th>Type</th>
           <th>Quantité</th>
+          <th>Prix unitaire</th>
+          <th>Montant total</th>
           <th>Ville</th>
           <th>Actions</th>
         </tr>
@@ -153,14 +156,31 @@
       <tbody>
         <?php if (empty($besoins)): ?>
           <tr>
-            <td colspan="5" class="no-data">Aucun besoin trouvé.</td>
+            <td colspan="8" class="no-data">Aucun besoin trouvé.</td>
           </tr>
         <?php else: ?>
           <?php foreach ($besoins as $besoin): ?>
             <tr>
               <td><?= $besoin['id'] ?></td>
               <td><strong><?= htmlspecialchars($besoin['nom']) ?></strong></td>
+              <td>
+                <?php 
+                $type_color = [
+                  'nature' => '#27ae60',
+                  'materiaux' => '#e67e22', 
+                  'argent' => '#3498db'
+                ][$besoin['type_besoin'] ?? 'nature'];
+                ?>
+                <span style="background: <?= $type_color ?>20; color: <?= $type_color ?>; padding: 3px 8px; border-radius: 15px; font-size: 12px; font-weight: bold;">
+                  <?= ucfirst($besoin['type_besoin'] ?? 'nature') ?>
+                </span>
+              </td>
               <td><?= number_format($besoin['nombre'], 0, ',', ' ') ?></td>
+              <td><strong><?= number_format($besoin['prix_unitaire'] ?? 0, 0, ',', ' ') ?> Ar</strong></td>
+              <td>
+                <?php $montant_total = $besoin['nombre'] * ($besoin['prix_unitaire'] ?? 0); ?>
+                <strong style="color: #e74c3c;"><?= number_format($montant_total, 0, ',', ' ') ?> Ar</strong>
+              </td>
               <td>
                 <span style="background: #e3f2fd; padding: 3px 8px; border-radius: 15px;">
                   <?= htmlspecialchars($besoin['ville_nom']) ?>

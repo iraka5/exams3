@@ -26,12 +26,12 @@ class Besoin
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function create($nom, $nombre, $id_ville)
+    public static function create($nom, $nombre, $prix_unitaire, $type_besoin, $id_ville)
     {
         $db = getDB();
-        $sql = "INSERT INTO besoins(nom, nombre, id_ville) VALUES(?,?,?)";
+        $sql = "INSERT INTO besoins(nom, nombre, prix_unitaire, type_besoin, id_ville) VALUES(?,?,?,?,?)";
         $stmt = $db->prepare($sql);
-        return $stmt->execute([$nom, $nombre, $id_ville]);
+        return $stmt->execute([$nom, $nombre, $prix_unitaire, $type_besoin, $id_ville]);
     }
 
     public static function find($id)
@@ -46,12 +46,12 @@ class Besoin
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function update($id, $nom, $nombre, $id_ville)
+    public static function update($id, $nom, $nombre, $prix_unitaire, $type_besoin, $id_ville)
     {
         $db = getDB();
-        $sql = "UPDATE besoins SET nom = ?, nombre = ?, id_ville = ? WHERE id = ?";
+        $sql = "UPDATE besoins SET nom = ?, nombre = ?, prix_unitaire = ?, type_besoin = ?, id_ville = ? WHERE id = ?";
         $stmt = $db->prepare($sql);
-        return $stmt->execute([$nom, $nombre, $id_ville, $id]);
+        return $stmt->execute([$nom, $nombre, $prix_unitaire, $type_besoin, $id_ville, $id]);
     }
 
     public static function delete($id)

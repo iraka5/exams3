@@ -49,6 +49,21 @@
             </div>
 
             <div class="form-group">
+                <label for="prix_unitaire">Prix unitaire (Ar) *</label>
+                <input type="number" id="prix_unitaire" name="prix_unitaire" value="<?= $besoin['prix_unitaire'] ?? 0 ?>" step="0.01" min="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="type_besoin">Type de besoin *</label>
+                <select id="type_besoin" name="type_besoin" required>
+                    <option value="">-- Sélectionnez un type --</option>
+                    <option value="nature" <?= (isset($besoin['type_besoin']) && $besoin['type_besoin'] == 'nature') ? 'selected' : '' ?>>Nature (nourriture, eau, etc.)</option>
+                    <option value="materiaux" <?= (isset($besoin['type_besoin']) && $besoin['type_besoin'] == 'materiaux') ? 'selected' : '' ?>>Matériaux (construction, outils, etc.)</option>
+                    <option value="argent" <?= (isset($besoin['type_besoin']) && $besoin['type_besoin'] == 'argent') ? 'selected' : '' ?>>Argent</option>
+                </select>
+            </div>
+
+            <div class="form-group">
                 <label for="id_ville">Ville concernée *</label>
                 <select id="id_ville" name="id_ville" required>
                     <option value="">-- Sélectionnez une ville --</option>

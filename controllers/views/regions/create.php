@@ -7,17 +7,17 @@
         body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
         .header { background: #2c3e50; color: white; padding: 15px; margin: -20px -20px 20px -20px; }
         nav { background: #34495e; padding: 10px; margin: 20px -20px; }
-        nav a { color: white; text-decoration: none; margin-right: 15px; padding: 8px 12px; }
-        nav a.active, nav a:hover { background: #2c3e50; }
+        nav a { color: white; text-decoration: none; margin-right: 15px; padding: 8px 12px; border-radius: 999px; }
+        nav a.active, nav a:hover { background: #2c3e50; border-radius: 999px; }
         .container { max-width: 600px; margin: 0 auto; }
-        .form-container { background: white; padding: 30px; border-radius: 5px; }
+        .form-container { background: white; padding: 30px; border-radius: 12px; }
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 3px; box-sizing: border-box; }
-        .btn { padding: 10px 20px; text-decoration: none; border-radius: 3px; color: white; border: none; cursor: pointer; margin-right: 10px; }
+        input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; }
+        .btn { padding: 10px 20px; text-decoration: none; border-radius: 999px; color: white; border: none; cursor: pointer; margin-right: 10px; }
         .btn-primary { background: #3498db; }
         .btn-secondary { background: #95a5a6; }
-        .error { background: #e74c3c; color: white; padding: 10px; border-radius: 3px; margin-bottom: 20px; }
+        .error { background: #e74c3c; color: white; padding: 10px; border-radius: 12px; margin-bottom: 20px; }
     </style>
 </head>
 <body>

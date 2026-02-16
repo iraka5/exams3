@@ -69,9 +69,15 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
       margin-bottom: 20px;
     }
-    select, button {
+    select {
       padding: 8px 12px;
-      border-radius: 6px;
+      border-radius: 12px;
+      border: 1px solid #e6e9ef;
+      font-size: 14px;
+    }
+    button {
+      padding: 8px 12px;
+      border-radius: 999px;
       border: 1px solid #e6e9ef;
       font-size: 14px;
     }

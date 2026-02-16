@@ -38,14 +38,21 @@ class BesoinController
     {
         $nom = trim($_POST["nom"] ?? "");
         $nombre = floatval($_POST["nombre"] ?? 0);
+        $prix_unitaire = floatval($_POST["prix_unitaire"] ?? 0);
+        $type_besoin = $_POST["type_besoin"] ?? "nature";
         $id_ville = intval($_POST["id_ville"] ?? 0);
 
-        if ($nom === "" || $nombre <= 0 || $id_ville <= 0) {
+        if ($nom === "" || $nombre <= 0 || $prix_unitaire <= 0 || $id_ville <= 0) {
             Flight::redirect("/exams3-main/exams3/besoins/create?error=1");
             return;
         }
 
-        Besoin::create($nom, $nombre, $id_ville);
+        // Validation du type de besoin
+        if (!in_array($type_besoin, ['nature', 'materiaux', 'argent'])) {
+            $type_besoin = 'nature';
+        }
+
+        Besoin::create($nom, $nombre, $prix_unitaire, $type_besoin, $id_ville);
         Flight::redirect("/exams3-main/exams3/besoins");
     }
 
@@ -89,14 +96,21 @@ class BesoinController
 
         $nom = trim($_POST["nom"] ?? "");
         $nombre = floatval($_POST["nombre"] ?? 0);
+        $prix_unitaire = floatval($_POST["prix_unitaire"] ?? 0);
+        $type_besoin = $_POST["type_besoin"] ?? "nature";
         $id_ville = intval($_POST["id_ville"] ?? 0);
 
-        if ($nom === "" || $nombre <= 0 || $id_ville <= 0) {
+        if ($nom === "" || $nombre <= 0 || $prix_unitaire <= 0 || $id_ville <= 0) {
             Flight::redirect("/exams3-main/exams3/besoins/$id/edit?error=1");
             return;
         }
 
-        Besoin::update($id, $nom, $nombre, $id_ville);
+        // Validation du type de besoin
+        if (!in_array($type_besoin, ['nature', 'materiaux', 'argent'])) {
+            $type_besoin = 'nature';
+        }
+
+        Besoin::update($id, $nom, $nombre, $prix_unitaire, $type_besoin, $id_ville);
         Flight::redirect("/exams3-main/exams3/besoins");
     }
 

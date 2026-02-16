@@ -48,6 +48,21 @@
             </div>
 
             <div class="form-group">
+                <label for="prix_unitaire">Prix unitaire (Ar) *</label>
+                <input type="number" id="prix_unitaire" name="prix_unitaire" step="0.01" min="0.01" required placeholder="Ex: 1500">
+            </div>
+
+            <div class="form-group">
+                <label for="type_besoin">Type de besoin *</label>
+                <select id="type_besoin" name="type_besoin" required>
+                    <option value="">-- Sélectionnez un type --</option>
+                    <option value="nature">Nature (nourriture, eau, etc.)</option>
+                    <option value="materiaux">Matériaux (construction, outils, etc.)</option>
+                    <option value="argent">Argent</option>
+                </select>
+            </div>
+
+            <div class="form-group">
                 <label for="id_ville">Ville concernée *</label>
                 <select id="id_ville" name="id_ville" required>
                     <option value="">-- Sélectionnez une ville --</option>

@@ -11,6 +11,7 @@ require_once __DIR__ . '/controllers/RegionController.php';
 require_once __DIR__ . '/controllers/VilleController.php';
 require_once __DIR__ . '/controllers/BesoinController.php';
 require_once __DIR__ . '/controllers/DonController.php';
+require_once __DIR__ . '/controllers/AchatController.php';
 
 // Configuration des vues pour FlightPHP  
 Flight::set('flight.views.path', __DIR__ . '/views');
@@ -45,7 +46,32 @@ Flight::route('GET /', function(){
         Flight::redirect('/exams3-main/exams3/login');
         return;
     }
-    Flight::render('tableau_bord_simple');
+    
+    // Récupération des données des achats par ville
+    try {
+        require_once __DIR__ . '/models/Achat.php';
+        $achats_par_ville = Achat::getMontantAchatsByVille();
+        $totaux_globaux = Achat::calculerTotauxGlobaux();
+        
+        Flight::render('tableau_bord_simple', [
+            'achats_par_ville' => $achats_par_ville,
+            'totaux' => $totaux_globaux
+        ]);
+    } catch (Exception $e) {
+        // En cas d'erreur, fournir des valeurs par défaut
+        Flight::render('tableau_bord_simple', [
+            'achats_par_ville' => [],
+            'totaux' => [
+                'besoins_total' => 0,
+                'besoins_satisfaits' => 0,
+                'dons_recus' => 0,
+                'dons_dispatches' => 0,
+                'fonds_restants' => 0,
+                'taux_satisfaction' => 0
+            ],
+            'error' => 'Erreur lors du chargement des données: ' . $e->getMessage()
+        ]);
+    }
 });
 
 /* ROUTES LOGIN */
@@ -79,7 +105,32 @@ Flight::route('GET /tableau-bord', function(){
         Flight::redirect('/login');
         return;
     }
-    Flight::render('tableau_bord_simple');
+    
+    // Récupération des données des achats par ville
+    try {
+        require_once __DIR__ . '/models/Achat.php';
+        $achats_par_ville = Achat::getMontantAchatsByVille();
+        $totaux_globaux = Achat::calculerTotauxGlobaux();
+        
+        Flight::render('tableau_bord_simple', [
+            'achats_par_ville' => $achats_par_ville,
+            'totaux' => $totaux_globaux
+        ]);
+    } catch (Exception $e) {
+        // En cas d'erreur, fournir des valeurs par défaut
+        Flight::render('tableau_bord_simple', [
+            'achats_par_ville' => [],
+            'totaux' => [
+                'besoins_total' => 0,
+                'besoins_satisfaits' => 0,
+                'dons_recus' => 0,
+                'dons_dispatches' => 0,
+                'fonds_restants' => 0,
+                'taux_satisfaction' => 0
+            ],
+            'error' => 'Erreur lors du chargement des données: ' . $e->getMessage()
+        ]);
+    }
 });
 
 /* ROUTE CREATION */
@@ -230,5 +281,15 @@ Flight::route('GET /dons/@id', ['DonController', 'show']);
 Flight::route('GET /dons/@id/edit', ['DonController', 'editForm']);
 Flight::route('POST /dons/@id', ['DonController', 'update']);
 Flight::route('GET /dons/@id/delete', ['DonController', 'delete']);
+
+/* ROUTES ACHATS */
+Flight::route('GET /achats', ['AchatController', 'index']);
+Flight::route('GET /achats/create', ['AchatController', 'create']);
+Flight::route('POST /achats', ['AchatController', 'store']);
+Flight::route('GET /achats/recapitulatif', ['AchatController', 'recapitulatif']);
+
+/* API ROUTES POUR ACHATS (AJAX) */
+Flight::route('GET /api/achats/besoins/@id_ville', ['AchatController', 'getBesoinsByVille']);
+Flight::route('GET /api/achats/totaux', ['AchatController', 'actualiserTotaux']);
 
 Flight::start();
