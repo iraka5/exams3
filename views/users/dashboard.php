@@ -54,6 +54,7 @@
         <a href="/exams3-main/exams3/user/dons">Faire un Don</a>
         <a href="/exams3-main/exams3/user/villes">Tableaux de Bord par Ville</a>
         <a href="/exams3-main/exams3/user/logout" style="float: right;">Déconnexion</a>
+        <a href="<?= $base ?>/achats/recapitulatif" class="btn btn-info">📈 Voir le Récapitulatif</a>
     </nav>
 
     <div class="container">
