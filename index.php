@@ -63,10 +63,45 @@ Flight::route('POST /login', function(){
     $password = $_POST['password'];
 
     if (LoginController::authenticate($email, $password)) {
-        Flight::redirect('/exams3-main/exams3/');
+        if ($_SESSION['role'] === 'admin') {
+            Flight::redirect('/create'); // admin → créer ressources
+        } else {
+            Flight::redirect('/dons'); // user → page dons
+        }
     } else {
         echo "Identifiants incorrects";
     }
+});
+
+/* ROUTE TABLEAU DE BORD */
+Flight::route('GET /tableau-bord', function(){
+    if (!isAdmin()) {
+        Flight::redirect('/login');
+        return;
+    }
+    Flight::render('tableau_bord_simple');
+});
+
+/* ROUTE CREATION */
+Flight::route('GET /create', function(){
+    if (!isAdmin()) {
+        Flight::redirect('/login');
+        return;
+    }
+    // Load regions and villes to populate selects in the create view
+    try {
+        $db = getDB();
+        $stmt = $db->query("SELECT id, nom FROM regions ORDER BY nom");
+        $regions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt = $db->query("SELECT id, nom FROM ville ORDER BY nom");
+        $villes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        $regions = [];
+        $villes = [];
+    }
+
+    Flight::render('create', ['regions' => $regions, 'villes' => $villes]);
 });
 
 /* ROUTE DECONNEXION */
