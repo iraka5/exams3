@@ -15,12 +15,12 @@ session_start();
 
 /* ROUTES ACCUEIL */
 Flight::route('GET /', function(){
-    Flight::redirect('/views/login.php');
+    Flight::redirect('/views/login.html');
 });
 
 /* ROUTES LOGIN */
 Flight::route('GET /login', function(){
-    include 'views/login.php';
+    include 'views/login.html';
 });
 
 Flight::route('POST /login', function(){
@@ -41,7 +41,7 @@ Flight::route('POST /login', function(){
 
 /* ROUTES SIGNUP */
 Flight::route('GET /signup', function(){
-    include 'views/signup.php';
+    include 'views/signup.html';
 });
 
 Flight::route('POST /signup', function(){
