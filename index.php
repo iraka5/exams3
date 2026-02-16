@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 require __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/controllers/LoginController.php';
+require_once __DIR__ . '/controllers/UserController.php';
 require_once __DIR__ . '/controllers/RegionController.php';
 require_once __DIR__ . '/controllers/VilleController.php';
 require_once __DIR__ . '/controllers/BesoinController.php';
@@ -22,6 +23,20 @@ function isAdmin() {
 // Fonction helper pour vérifier authentification
 function isAuthenticated() {
     return isset($_SESSION['user']);
+}
+
+// Fonction helper pour vérifier authentification utilisateur
+function isUser() {
+    return isset($_SESSION['user']) && $_SESSION['role'] === 'user';
+}
+
+// Fonction helper pour forcer l'authentification utilisateur
+function requireUserAuth() {
+    if (!isUser()) {
+        Flight::redirect('/exams3-main/exams3/user/login');
+        return false;
+    }
+    return true;
 }
 
 /* ROUTES ACCUEIL */
@@ -58,6 +73,84 @@ Flight::route('POST /login', function(){
 Flight::route('GET /logout', function(){
     session_destroy();
     Flight::redirect('/exams3-main/exams3/login');
+});
+
+/* ROUTES UTILISATEURS */
+Flight::route('GET /user/register', ['UserController', 'registerForm']);
+Flight::route('POST /user/register', ['UserController', 'register']);
+Flight::route('GET /user/login', ['UserController', 'loginForm']);
+Flight::route('POST /user/login', ['UserController', 'authenticate']);
+Flight::route('GET /user/logout', ['UserController', 'logout']);
+Flight::route('GET /user/dashboard', ['UserController', 'dashboard']);
+
+// Routes utilisateur pour consulter les besoins (lecture seule)
+Flight::route('GET /user/besoins', function(){
+    if (!requireUserAuth()) return;
+    $db = getDB();
+    $villes = $db->query("SELECT * FROM ville ORDER BY nom ASC")->fetchAll(PDO::FETCH_ASSOC);
+    $id_ville = isset($_GET["id_ville"]) ? intval($_GET["id_ville"]) : 0;
+    
+    if ($id_ville > 0) {
+        $besoins = $db->prepare("SELECT besoins.*, ville.nom AS ville_nom FROM besoins JOIN ville ON besoins.id_ville = ville.id WHERE besoins.id_ville = ? ORDER BY besoins.id DESC");
+        $besoins->execute([$id_ville]);
+        $besoins = $besoins->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $besoins = $db->query("SELECT besoins.*, ville.nom AS ville_nom FROM besoins JOIN ville ON besoins.id_ville = ville.id ORDER BY besoins.id DESC")->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    include __DIR__ . '/views/users/besoins.php';
+});
+
+// Route utilisateur pour faire des dons
+Flight::route('GET /user/dons', function(){
+    if (!requireUserAuth()) return;
+    $db = getDB();
+    $villes = $db->query("SELECT * FROM ville ORDER BY nom ASC")->fetchAll(PDO::FETCH_ASSOC);
+    include __DIR__ . '/views/users/dons_form.php';
+});
+
+Flight::route('POST /user/dons', function(){
+    if (!requireUserAuth()) return;
+    
+    $nom_donneur = trim($_POST["nom_donneur"] ?? "");
+    $type_don = trim($_POST["type_don"] ?? "");
+    $nombre_don = floatval($_POST["nombre_don"] ?? 0);
+    $id_ville = intval($_POST["id_ville"] ?? 0);
+
+    if ($nom_donneur === "" || $type_don === "" || $nombre_don <= 0 || $id_ville <= 0) {
+        Flight::redirect("/exams3-main/exams3/user/dons?error=1");
+        return;
+    }
+
+    $db = getDB();
+    $sql = "INSERT INTO dons(nom_donneur, type_don, nombre_don, id_ville) VALUES(?,?,?,?)";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([$nom_donneur, $type_don, $nombre_don, $id_ville]);
+    
+    Flight::redirect("/exams3-main/exams3/user/dashboard?success=don");
+});
+
+// Route utilisateur pour voir les tableaux par ville
+Flight::route('GET /user/villes', function(){
+    if (!requireUserAuth()) return;
+    $db = getDB();
+    
+    // Statistiques par ville
+    $sql = "SELECT 
+                v.id, v.nom as ville_nom, r.nom as region_nom,
+                COUNT(DISTINCT b.id) as nb_besoins,
+                COUNT(DISTINCT d.id) as nb_dons,
+                COALESCE(SUM(b.nombre), 0) as total_besoins,
+                COALESCE(SUM(d.nombre_don), 0) as total_dons
+            FROM ville v 
+            JOIN regions r ON v.id_regions = r.id
+            LEFT JOIN besoins b ON v.id = b.id_ville
+            LEFT JOIN dons d ON v.id = d.id_ville
+            GROUP BY v.id, v.nom, r.nom
+            ORDER BY r.nom, v.nom";
+    
+    $villes = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    include __DIR__ . '/views/users/villes_stats.php';
 });
 
 
