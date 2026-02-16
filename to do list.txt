@@ -110,13 +110,11 @@ FlightMVC
 
 Alintsoa (~2h30)
 
-    Base de données (30 min)
+    creation Base de données (20 min)
 
     Pages Régions (30 min)
 
     Pages Villes (30 min)
-
-    Adaptation des routes (30 min)
 
     Controllers (40 min)
     Total ≈ 2h40
@@ -140,9 +138,13 @@ Iraka (~2h30)
 
     Page signup (40 min)
 
+    insertion donnees dans base de donnees (20 min)
+
     Pages Ensemble/Tableau de bord (60 min)
 
     Classes (models) (40 min)
+    Adaptation des routes (30 min)
+    initialization design (30 min)
     Total ≈ 2h30
 
 
