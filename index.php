@@ -3,6 +3,25 @@ require 'flight/Flight.php';
 
 require_once __DIR__ . "/controllers/BesoinController.php";
 require_once __DIR__ . "/controllers/DonController.php";
+require_once __DIR__ . "/controllers/LoginController.php";
+
+session_start();
+
+/* ROUTES LOGIN */
+Flight::route('GET /login', function(){
+    include 'views/login.php';
+});
+
+Flight::route('POST /login', function(){
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if (LoginController::authenticate($email, $password)) {
+        Flight::redirect('/besoins'); // ou /dashboard selon ton choix
+    } else {
+        echo "Identifiants incorrects";
+    }
+});
 
 /* ROUTES BESOINS */
 Flight::route('GET /besoins', ['BesoinController', 'index']);
