@@ -148,10 +148,6 @@
         <?php endif; ?>
       </tbody>
     </table>
-
-    <p style="color: var(--muted); margin-top: 15px;">
-      💡 Cliquez sur "Voir" pour consulter les villes d'une région.
-    </p>
   </div>
 
 </body>

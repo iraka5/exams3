@@ -5,20 +5,40 @@
     <title>Inscription</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <style>
-        :root{ --brand:#13265C; --muted:#6b7280; --bg:#f6f8fb; }
-        *{box-sizing:border-box}
-        body{font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);margin:0;padding:0;display:flex;align-items:center;justify-content:center;min-height:100vh}
-        .card{background:#fff;border-radius:12px;box-shadow:0 6px 30px rgba(19,38,92,0.08);width:420px;padding:28px}
-        h1{margin:0 0 12px;color:var(--brand);font-size:22px}
-        label{display:block;font-size:13px;color:var(--muted);margin-top:10px}
-        input[type=text],input[type=email],input[type=password]{width:100%;padding:10px 12px;margin-top:6px;border:1px solid #e6e9ef;border-radius:8px;font-size:14px}
-        .actions{display:flex;gap:10px;margin-top:18px}
-        .btn{flex:1;padding:10px 14px;border-radius:999px;border:none;cursor:pointer;font-weight:600}
-        .btn-primary{background:var(--brand);color:#fff}
-        .btn-ghost{background:transparent;color:var(--brand);border:1px solid rgba(19,38,92,0.12)}
-        .note{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
-        @media (max-width:480px){.card{width:94%;padding:18px}}
-    </style>
+    :root{ --brand:#13265C; --muted:#6b7280; --bg:#f6f8fb; }
+    *{box-sizing:border-box}
+    body{
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      background:var(--bg);
+      margin:0;padding:0;
+      display:flex;align-items:center;justify-content:center;
+      min-height:100vh
+    }
+    .card{
+      background:#fff;
+      border-radius:12px;
+      box-shadow:0 6px 30px rgba(19,38,92,0.12);
+      width:360px;
+      padding:28px
+    }
+    h2{margin:0 0 14px;color:var(--brand);font-size:22px;text-align:center}
+    label{display:block;font-size:13px;color:var(--muted);margin-top:10px}
+    input[type=email],input[type=password]{
+      width:100%;padding:10px 12px;margin-top:6px;
+      border:1px solid #e6e9ef;border-radius:8px;font-size:14px
+    }
+    .actions{display:flex;gap:10px;margin-top:18px}
+    .btn{
+      flex:1;padding:10px 14px;border-radius:999px;
+      border:none;cursor:pointer;font-weight:600
+    }
+    .btn-primary{background:var(--brand);color:#fff}
+    .btn-secondary{background:transparent;color:var(--brand);border:1px solid rgba(19,38,92,0.12)}
+    .small{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
+    a.link{color:var(--brand);text-decoration:none;font-weight:600}
+    a.link:hover{text-decoration:underline}
+    @media (max-width:420px){.card{width:92%;padding:20px}}
+  </style>
 </head>
 <body>
 
@@ -36,12 +56,15 @@
 
         <div class="actions">
             <button class="btn btn-primary" type="submit">S'inscrire</button>
-            <a href="/exams3-main/exams3/login" class="btn btn-ghost" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">Connexion</a>
+            
+        </div>
+        <div class="small">
+            Vous avez deja un compte ? 
+            <a href="/exams3-main/exams3/login" class="link">Se connecter</a>
         </div>
     </form>
 
-    <div class="note">En cliquant sur S'inscrire, vous acceptez les conditions.</div>
-</div>
+
 
 </body>
 </html>
