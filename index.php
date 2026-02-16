@@ -28,11 +28,16 @@ Flight::route('POST /login', function(){
     $password = $_POST['password'];
 
     if (LoginController::authenticate($email, $password)) {
-        Flight::redirect('/besoins'); // ou /dashboard selon ton choix
+        if ($_SESSION['role'] === 'admin') {
+            Flight::redirect('/tableau-bord'); // admin → tableau de bord
+        } else {
+            Flight::redirect('/dons'); // user → page dons
+        }
     } else {
         echo "Identifiants incorrects";
     }
 });
+
 
 /* ROUTES SIGNUP */
 Flight::route('GET /signup', function(){
