@@ -1,5 +1,9 @@
 RewriteEngine On
+<<<<<<< HEAD
 RewriteBase /exams3-main/exams3/
+=======
+RewriteBase /exams3/
+>>>>>>> 3785f791c53a5417db092127f7e5e5ddbdf8ad0c
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]

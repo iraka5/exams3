@@ -1,5 +1,13 @@
 <?php
+<<<<<<< HEAD
 require_once __DIR__ . '/vendor/autoload.php';
+=======
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
+<?php
+require __DIR__ . '/vendor/autoload.php';
+>>>>>>> 3785f791c53a5417db092127f7e5e5ddbdf8ad0c
 
 // Configuration des vues pour FlightPHP  
 Flight::set('flight.views.path', __DIR__ . '/controllers/views');
