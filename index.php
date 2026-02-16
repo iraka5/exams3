@@ -15,7 +15,7 @@ session_start();
 
 /* ROUTES ACCUEIL */
 Flight::route('GET /', function(){
-    Flight::redirect('/tableau-bord');
+    Flight::redirect('/views/login.php');
 });
 
 /* ROUTES LOGIN */
@@ -32,6 +32,24 @@ Flight::route('POST /login', function(){
     } else {
         echo "Identifiants incorrects";
     }
+});
+
+/* ROUTES SIGNUP */
+Flight::route('GET /signup', function(){
+    include 'views/signup.php';
+});
+
+Flight::route('POST /signup', function(){
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+    // Ici tu devrais ajouter une validation et vérifier que l'email n'existe pas déjà
+    $db = Database::getConnection();
+    $stmt = $db->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+    $stmt->execute([$username, $email, $password]);
+
+    Flight::redirect('/login');
 });
 
 /* ROUTES REGIONS */

@@ -8,3 +8,6 @@
     <br>
     <button type="submit">Se connecter</button>
 </form>
+<a href="./signup.php">
+    <button type="button">Créer un compte</button>
+</a>
