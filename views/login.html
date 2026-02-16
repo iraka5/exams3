@@ -37,6 +37,28 @@
     .small{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
     a.link{color:var(--brand);text-decoration:none;font-weight:600}
     a.link:hover{text-decoration:underline}
+    .success-message{
+        background-color:#dcfce7;
+        border:1px solid #22c55e;
+        color:#166534;
+        padding:10px;
+        border-radius:8px;
+        margin-bottom:15px;
+        font-size:14px;
+        text-align:center;
+        display:none;
+    }
+    .error-message{
+        background-color:#fee2e2;
+        border:1px solid #ef4444;
+        color:#b91c1c;
+        padding:10px;
+        border-radius:8px;
+        margin-bottom:15px;
+        font-size:14px;
+        text-align:center;
+        display:none;
+    }
     @media (max-width:420px){.card{width:92%;padding:20px}}
   </style>
 </head>
@@ -44,6 +66,11 @@
 
 <div class="card">
   <h2>Se connecter</h2>
+  
+  <!-- Messages de succès/erreur -->
+  <div id="successMessage" class="success-message"></div>
+  <div id="errorMessage" class="error-message"></div>
+  
   <form method="post" action="/exams3-main/exams3/login">
     <label for="email">Email</label>
     <input id="email" type="email" name="email" required>
@@ -67,6 +94,31 @@
     Utilisateur: user@bngrc.gov.mg / user123
   </div>
 </div>
+
+<script>
+// Afficher les messages de l'URL
+const urlParams = new URLSearchParams(window.location.search);
+const success = urlParams.get('success');
+const error = urlParams.get('error');
+
+if (success === 'registered') {
+    const successDiv = document.getElementById('successMessage');
+    successDiv.textContent = 'Inscription réussie ! Vous pouvez maintenant vous connecter.';
+    successDiv.style.display = 'block';
+}
+
+if (error === 'invalid') {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.textContent = 'Email ou mot de passe incorrect';
+    errorDiv.style.display = 'block';
+}
+
+if (success === 'logged_out') {
+    const successDiv = document.getElementById('successMessage');
+    successDiv.textContent = 'Vous avez été déconnecté avec succès.';
+    successDiv.style.display = 'block';
+}
+</script>
 
 </body>
 </html>

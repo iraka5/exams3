@@ -3,109 +3,95 @@ require_once __DIR__ . '/../config/config.php';
 
 class UserController {
 
-    // Affiche le formulaire d'inscription
-    public static function registerForm() {
-        include __DIR__ . '/../views/signup.html';
-    }
-
-    // Affiche le formulaire de connexion utilisateur (si besoin séparé)
-    public static function loginForm() {
-        include __DIR__ . '/../views/login.html';
-    }
-
     // Inscription
     public static function register() {
-        $username = trim($_POST['username'] ?? '');
+        $nom = trim($_POST['username'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $password = trim($_POST['password'] ?? '');
 
         // Validation
-        if (empty($username) || empty($email) || empty($password)) {
-            Flight::redirect('/exams3-main/exams3/signup?error=missing_fields');
+        if (empty($nom) || empty($email) || empty($password)) {
+            Flight::redirect('/signup?error=missing_fields');
             return;
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            Flight::redirect('/exams3-main/exams3/signup?error=invalid_email');
+            Flight::redirect('/signup?error=invalid_email');
             return;
         }
 
         if (strlen($password) < 6) {
-            Flight::redirect('/exams3-main/exams3/signup?error=weak_password');
+            Flight::redirect('/signup?error=password_too_short');
             return;
         }
 
         try {
             $pdo = getDB();
-
+            
             // Vérifier si l'email existe déjà
-            $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
-            $stmt->execute([$email]);
-            if ($stmt->fetch()) {
-                Flight::redirect('/exams3-main/exams3/signup?error=email_exists');
+            $check = $pdo->prepare("SELECT id FROM user WHERE email = ?");
+            $check->execute([$email]);
+            if ($check->fetch()) {
+                Flight::redirect('/signup?error=email_exists');
                 return;
             }
 
-            // Créer l'utilisateur
+            // Hasher le mot de passe
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            $stmt = $pdo->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 'user')");
-            $stmt->execute([$username, $email, $hashedPassword]);
+            // Insérer l'utilisateur
+            $stmt = $pdo->prepare(
+                "INSERT INTO user (nom, email, password, role, created_at) VALUES (?, ?, ?, 'user', NOW())"
+            );
+            $stmt->execute([$nom, $email, $hashedPassword]);
 
-            // Rediriger vers login
-            Flight::redirect('/exams3-main/exams3/login?success=registered');
-
-        } catch (Exception $e) {
-            error_log("Erreur inscription: " . $e->getMessage());
-            Flight::redirect('/exams3-main/exams3/signup?error=database');
-        }
-    }
-
-    // Authentification utilisateur
-    public static function authenticate() {
-        $email = trim($_POST['email'] ?? '');
-        $password = trim($_POST['password'] ?? '');
-
-        if (empty($email) || empty($password)) {
-            Flight::redirect('/exams3-main/exams3/login?error=missing_fields');
-            return;
-        }
-
-        try {
-            $pdo = getDB();
-            $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND role = 'user'");
-            $stmt->execute([$email]);
-            $user = $stmt->fetch();
-
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user'] = $user['email'];
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['role'] = $user['role'];
-
-                Flight::redirect('/exams3-main/exams3/user/dashboard');
-            } else {
-                Flight::redirect('/exams3-main/exams3/login?error=invalid_credentials');
-            }
-
-        } catch (Exception $e) {
-            error_log("Erreur connexion utilisateur: " . $e->getMessage());
-            Flight::redirect('/exams3-main/exams3/login?error=database');
+            // Rediriger vers login avec message de succès
+            Flight::redirect('/login?success=registered');
+            
+        } catch (PDOException $e) {
+            error_log("Erreur d'inscription: " . $e->getMessage());
+            Flight::redirect('/signup?error=db_error');
         }
     }
 
     // Tableau de bord utilisateur
     public static function dashboard() {
         if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'user') {
-            Flight::redirect('/exams3-main/exams3/login');
+            Flight::redirect('/login');
             return;
         }
-        include __DIR__ . '/../views/users/dashboard.php';
+        
+        // Dashboard simple
+        echo "<!DOCTYPE html>";
+        echo "<html><head><title>Dashboard Utilisateur</title>";
+        echo "<style>
+                body{font-family:Arial;margin:40px;background:#f6f8fb}
+                .container{max-width:800px;margin:0 auto;background:#fff;padding:30px;border-radius:12px;box-shadow:0 6px 30px rgba(19,38,92,0.12)}
+                h1{color:#13265C}
+                .menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin:30px 0}
+                .menu a{display:block;padding:20px;background:#f0f2f5;text-align:center;color:#13265C;text-decoration:none;border-radius:8px;font-weight:bold}
+                .menu a:hover{background:#e0e4e9}
+                .logout{color:#666;text-decoration:none}
+              </style></head><body>";
+        echo "<div class='container'>";
+        echo "<h1>Dashboard Utilisateur</h1>";
+        echo "<p>Bienvenue, " . htmlspecialchars($_SESSION['nom'] ?? 'Utilisateur') . " !</p>";
+        
+        echo "<div class='menu'>";
+        echo "<a href='/user/besoins'>Voir les besoins</a>";
+        echo "<a href='/user/dons'>Faire un don</a>";
+        echo "<a href='/user/villes'>Statistiques par ville</a>";
+        echo "</div>";
+        
+        echo "<p><a href='/logout' class='logout'>Déconnexion</a></p>";
+        echo "</div></body></html>";
     }
 
     // Déconnexion
     public static function logout() {
+        session_unset();
         session_destroy();
-        Flight::redirect('/exams3-main/exams3/login?success=logged_out');
+        Flight::redirect('/login');
     }
 }
+?>

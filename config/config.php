@@ -9,7 +9,7 @@ function getDB()
         $host = "localhost";
         $dbname = "4191_4194_4222";
         $user = "root";
-        $pass = ""; // change si ton mysql a un mot de passe
+        $pass = ""; 
 
         try {
             $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
