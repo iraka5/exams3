@@ -25,46 +25,45 @@
 </head>
 <body>
     <div class="header">
-        <h1>🏛️ BNGRC - Bureau National de Gestion des Risques et Catastrophes</h1>
-        <p>Tableau de Bord - Suivi des Dons aux Sinistrés</p>
+        <h1>BNGRC - Bureau National de Gestion des Risques et Catastrophes</h1>
+        <p>Tableau de bord - Suivi des dons aux sinistrés</p>
     </div>
 
     <nav>
-        <a href="/exams3-main/exams3/" class="active">🏠 Accueil</a>
-        <a href="/exams3-main/exams3/regions">🗺️ Régions</a>
-        <a href="/exams3-main/exams3/villes">🏘️ Villes</a>
-        <a href="/exams3-main/exams3/besoins">📦 Besoins</a>
-        <a href="/exams3-main/exams3/dons">🎁 Dons</a>
-        <a href="/exams3-main/exams3/tableau-bord">📊 Tableau de bord</a>
-        <a href="/exams3-main/exams3/login">👤 Login</a>
+        <a href="/exams3-main/exams3/" class="active">Accueil</a>
+        <a href="/exams3-main/exams3/regions">Régions</a>
+        <a href="/exams3-main/exams3/villes">Villes</a>
+        <a href="/exams3-main/exams3/besoins">Besoins</a>
+        <a href="/exams3-main/exams3/dons">Dons</a>
+        <a href="/exams3-main/exams3/logout">Déconnexion</a>
     </nav>
 
     <div class="container">
         <div class="no-data">
-            <h2>🔧 Application en cours de configuration</h2>
-            <p>La base de données est en cours de configuration. Voici les fonctionnalités disponibles :</p>
+            <h2>Application de gestion des dons</h2>
+            <p>Système de gestion des besoins et dons pour les sinistrés de Madagascar.</p>
             
             <div class="cards">
                 <div class="card">
-                    <h3>🗺️ Gestion des Régions</h3>
+                    <h3>Gestion des Régions</h3>
                     <p>Gérer les régions de Madagascar</p>
                     <a href="/exams3-main/exams3/regions" class="btn btn-primary">Accéder</a>
                 </div>
                 
                 <div class="card">
-                    <h3>🏘️ Gestion des Villes</h3>
+                    <h3>Gestion des Villes</h3>
                     <p>Gérer les villes et communes</p>
                     <a href="/exams3-main/exams3/villes" class="btn btn-primary">Accéder</a>
                 </div>
                 
                 <div class="card">
-                    <h3>📦 Suivi des Besoins</h3>
+                    <h3>Suivi des Besoins</h3>
                     <p>Enregistrer les besoins des sinistrés</p>
                     <a href="/exams3-main/exams3/besoins" class="btn btn-success">Accéder</a>
                 </div>
                 
                 <div class="card">
-                    <h3>🎁 Gestion des Dons</h3>
+                    <h3>Gestion des Dons</h3>
                     <p>Enregistrer les dons reçus</p>
                     <a href="/exams3-main/exams3/dons" class="btn btn-success">Accéder</a>
                 </div>

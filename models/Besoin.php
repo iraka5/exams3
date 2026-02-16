@@ -33,4 +33,32 @@ class Besoin
         $stmt = $db->prepare($sql);
         return $stmt->execute([$nom, $nombre, $id_ville]);
     }
+
+    public static function find($id)
+    {
+        $db = getDB();
+        $sql = "SELECT besoins.*, ville.nom AS ville_nom
+                FROM besoins
+                JOIN ville ON besoins.id_ville = ville.id
+                WHERE besoins.id = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function update($id, $nom, $nombre, $id_ville)
+    {
+        $db = getDB();
+        $sql = "UPDATE besoins SET nom = ?, nombre = ?, id_ville = ? WHERE id = ?";
+        $stmt = $db->prepare($sql);
+        return $stmt->execute([$nom, $nombre, $id_ville, $id]);
+    }
+
+    public static function delete($id)
+    {
+        $db = getDB();
+        $sql = "DELETE FROM besoins WHERE id = ?";
+        $stmt = $db->prepare($sql);
+        return $stmt->execute([$id]);
+    }
 }

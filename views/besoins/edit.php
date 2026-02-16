@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un Don - BNGRC</title>
+    <title>Modifier le Besoin - BNGRC</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
         .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -25,10 +25,11 @@
     <div class="container">
         <div class="nav">
             <a href="/exams3-main/exams3/">← Accueil</a>
-            <a href="/exams3-main/exams3/dons">Liste des dons</a>
+            <a href="/exams3-main/exams3/besoins">Liste des besoins</a>
+            <a href="/exams3-main/exams3/besoins/<?= $besoin['id'] ?>">Voir ce besoin</a>
         </div>
 
-        <h1>Ajouter un Nouveau Don</h1>
+        <h1>Modifier le Besoin #<?= $besoin['id'] ?></h1>
 
         <?php if (isset($_GET['error'])): ?>
             <div class="alert">
@@ -36,35 +37,32 @@
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="/exams3-main/exams3/dons">
+        <form method="POST" action="/exams3-main/exams3/besoins/<?= $besoin['id'] ?>">
             <div class="form-group">
-                <label for="nom_donneur">Nom du donneur *</label>
-                <input type="text" id="nom_donneur" name="nom_donneur" required placeholder="Nom complet du donneur">
+                <label for="nom">Nom du besoin *</label>
+                <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($besoin['nom']) ?>" required>
             </div>
 
             <div class="form-group">
-                <label for="type_don">Type de don *</label>
-                <input type="text" id="type_don" name="type_don" required placeholder="Ex: Riz, Vêtements, Argent...">
+                <label for="nombre">Quantité nécessaire *</label>
+                <input type="number" id="nombre" name="nombre" value="<?= $besoin['nombre'] ?>" step="0.01" min="0.01" required>
             </div>
 
             <div class="form-group">
-                <label for="nombre_don">Quantité *</label>
-                <input type="number" id="nombre_don" name="nombre_don" step="0.01" min="0.01" required placeholder="Quantité donnée">
-            </div>
-
-            <div class="form-group">
-                <label for="id_ville">Ville de destination *</label>
+                <label for="id_ville">Ville concernée *</label>
                 <select id="id_ville" name="id_ville" required>
                     <option value="">-- Sélectionnez une ville --</option>
                     <?php foreach ($villes as $ville): ?>
-                        <option value="<?= $ville['id'] ?>"><?= htmlspecialchars($ville['nom']) ?></option>
+                        <option value="<?= $ville['id'] ?>" <?= ($ville['id'] == $besoin['id_ville']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($ville['nom']) ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
             <div class="btn-group">
-                <button type="submit" class="btn btn-primary">Enregistrer le Don</button>
-                <a href="/exams3-main/exams3/dons" class="btn btn-secondary">Annuler</a>
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                <a href="/exams3-main/exams3/besoins/<?= $besoin['id'] ?>" class="btn btn-secondary">Annuler</a>
             </div>
         </form>
     </div>
