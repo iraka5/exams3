@@ -7,7 +7,7 @@ class RegionController
     {
         $regions = Region::getWithVillesCount();
         
-        Flight::render("regions/index", [
+        Flight::render("../controllers/views/regions/index", [
             "regions" => $regions
         ]);
     }
@@ -23,7 +23,7 @@ class RegionController
         require_once __DIR__ . "/../models/Ville.php";
         $villes = Ville::getByRegion($id);
         
-        Flight::render("regions/show", [
+        Flight::render("../controllers/views/regions/show", [
             "region" => $region,
             "villes" => $villes
         ]);
@@ -31,7 +31,7 @@ class RegionController
 
     public static function createForm()
     {
-        Flight::render("regions/create");
+        Flight::render("../controllers/views/regions/create");
     }
 
     public static function store()
@@ -55,7 +55,7 @@ class RegionController
             return;
         }
 
-        Flight::render("regions/edit", [
+        Flight::render("../controllers/views/regions/edit", [
             "region" => $region
         ]);
     }

@@ -18,7 +18,7 @@ class VilleController
 
         $regions = Region::all();
         
-        Flight::render("villes/index", [
+        Flight::render("../controllers/views/villes/index", [
             "villes" => $villes,
             "regions" => $regions,
             "region_id" => $region_id,
@@ -41,7 +41,7 @@ class VilleController
         $besoins = $db->query("SELECT * FROM besoins WHERE id_ville = {$id} ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
         $dons = $db->query("SELECT * FROM dons WHERE id_ville = {$id} ORDER BY nom_donneur")->fetchAll(PDO::FETCH_ASSOC);
         
-        Flight::render("villes/show", [
+        Flight::render("../controllers/views/villes/show", [
             "ville" => $ville,
             "besoins" => $besoins,
             "dons" => $dons
@@ -52,7 +52,7 @@ class VilleController
     {
         $regions = Region::all();
         
-        Flight::render("villes/create", [
+        Flight::render("../controllers/views/villes/create", [
             "regions" => $regions
         ]);
     }
@@ -81,7 +81,7 @@ class VilleController
 
         $regions = Region::all();
         
-        Flight::render("villes/edit", [
+        Flight::render("../controllers/views/villes/edit", [
             "ville" => $ville,
             "regions" => $regions
         ]);

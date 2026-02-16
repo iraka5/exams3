@@ -17,8 +17,8 @@
 
 ## 🚀 URLs de l'Application
 
-### Pages principales (Tâches d'Alintsoa)
-- **Accueil** : `http://localhost/exams3/` → Redirige vers le tableau de bord
+### Pages principales (http://localhost/exams3/Tâches d'Alintsoa)
+- **Accueil** : `` → Redirige vers le tableau de bord
 - **Régions** : `http://localhost/exams3/regions`
 - **Villes** : `http://localhost/exams3/villes`
 - **Tableau de Bord** : `http://localhost/exams3/tableau-bord`

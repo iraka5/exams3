@@ -2,56 +2,52 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Ajouter une région - BNGRC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter une Région - BNGRC</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
-        .header { background: #2c3e50; color: white; padding: 15px; margin: -20px -20px 20px -20px; }
-        nav { background: #34495e; padding: 10px; margin: 20px -20px; }
-        nav a { color: white; text-decoration: none; margin-right: 15px; padding: 8px 12px; border-radius: 999px; }
-        nav a.active, nav a:hover { background: #2c3e50; border-radius: 999px; }
-        .container { max-width: 600px; margin: 0 auto; }
-        .form-container { background: white; padding: 30px; border-radius: 12px; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; margin-bottom: 20px; }
+        .nav { margin-bottom: 30px; }
+        .nav a { color: #3498db; text-decoration: none; margin-right: 15px; }
+        .nav a:hover { text-decoration: underline; }
         .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; }
-        .btn { padding: 10px 20px; text-decoration: none; border-radius: 999px; color: white; border: none; cursor: pointer; margin-right: 10px; }
-        .btn-primary { background: #3498db; }
-        .btn-secondary { background: #95a5a6; }
-        .error { background: #e74c3c; color: white; padding: 10px; border-radius: 12px; margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; color: #2c3e50; font-weight: 500; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .btn-group { display: flex; gap: 10px; margin-top: 30px; }
+        .btn { padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; text-align: center; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-secondary { background: #95a5a6; color: white; }
+        .alert { padding: 10px; margin-bottom: 20px; border-radius: 4px; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>BNGRC - Ajouter une région</h1>
-    </div>
-
-    <nav>
-        <a href="/exams3-main/exams3/tableau-bord">Tableau de bord</a>
-        <a href="/exams3-main/exams3/regions" class="active">Régions</a>
-        <a href="/exams3-main/exams3/villes">Villes</a>
-        <a href="/exams3-main/exams3/besoins">Besoins</a>
-        <a href="/exams3-main/exams3/dons">Dons</a>
-    </nav>
-
     <div class="container">
-        <div class="form-container">
-            <h2>Nouvelle région</h2>
+        <div class="nav">
+            <a href="/">← Accueil</a>
+            <a href="/regions">Liste des régions</a>
+        </div>
+
+        <h1>Ajouter une Nouvelle Région</h1>
             
             <?php if (isset($_GET['error']) && $_GET['error'] == 1): ?>
-                <div class="error">Le nom de la région est obligatoire.</div>
-            <?php endif; ?>
+            <div class="alert">
+                Le nom de la région est obligatoire.
+            </div>
+        <?php endif; ?>
 
-            <form action="/exams3-main/exams3/regions/store" method="POST">
-                <div class="form-group">
-                    <label for="nom">Nom de la région *</label>
-                    <input type="text" id="nom" name="nom" required maxlength="100" 
-                           placeholder="Ex: Analamanga, Vakinankaratra...">
-                </div>
+        <form action="/regions" method="POST">
+            <div class="form-group">
+                <label for="nom">Nom de la région *</label>
+                <input type="text" id="nom" name="nom" required maxlength="100" 
+                       placeholder="Ex: Analamanga, Vakinankaratra...">
+            </div>
 
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-                <a href="/exams3-main/exams3/regions" class="btn btn-secondary">Annuler</a>
-            </form>
-        </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Ajouter la région</button>
+                <a href="/regions" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
     </div>
 </body>
 </html>

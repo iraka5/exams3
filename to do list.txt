@@ -150,6 +150,8 @@ Iraka (~2h30)
 
 Personne1 (~2h30)
 
+- Alintsoa
+
     Base de données (40 min)
         - Table achats + relations
         - Ajout prix_unitaire et type_besoin
