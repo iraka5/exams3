@@ -15,7 +15,7 @@ class DonController
     public static function createForm()
     {
         $db = getDB();
-        $villes = $db->query("SELECT * FROM villes ORDER BY nom ASC")->fetchAll(PDO::FETCH_ASSOC);
+        $villes = $db->query("SELECT * FROM ville ORDER BY nom ASC")->fetchAll(PDO::FETCH_ASSOC);
 
         Flight::render("dons/create", [
             "villes" => $villes
@@ -26,15 +26,15 @@ class DonController
     {
         $nom_donneur = trim($_POST["nom_donneur"] ?? "");
         $type_don = trim($_POST["type_don"] ?? "");
-        $nombre_don = intval($_POST["nombre_don"] ?? 0);
-        $ville_id = intval($_POST["ville_id"] ?? 0);
+        $nombre_don = floatval($_POST["nombre_don"] ?? 0);
+        $id_ville = intval($_POST["id_ville"] ?? 0);
 
-        if ($nom_donneur === "" || $type_don === "" || $nombre_don <= 0 || $ville_id <= 0) {
+        if ($nom_donneur === "" || $type_don === "" || $nombre_don <= 0 || $id_ville <= 0) {
             Flight::redirect("/dons/create?error=1");
             return;
         }
 
-        Don::create($nom_donneur, $type_don, $nombre_don, $ville_id);
+        Don::create($nom_donneur, $type_don, $nombre_don, $id_ville);
         Flight::redirect("/dons");
     }
 }
