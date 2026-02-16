@@ -1,30 +1,42 @@
 <?php
-<<<<<<< HEAD
-require_once __DIR__ . '/vendor/autoload.php';
-=======
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-?>
-<?php
+
 require __DIR__ . '/vendor/autoload.php';
->>>>>>> 3785f791c53a5417db092127f7e5e5ddbdf8ad0c
 
 // Configuration des vues pour FlightPHP  
 Flight::set('flight.views.path', __DIR__ . '/controllers/views');
 
 /* ROUTES ACCUEIL */
 Flight::route('GET /', function(){
-<<<<<<< HEAD
-    Flight::redirect('/exams3-main/exams3/tableau-bord');
-=======
-    Flight::redirect('/views/login.php');
->>>>>>> 6a2a1ad0c7ed3cd3408636c03209ffc19e32984f
+    Flight::redirect('/login');
+});
+
+/* ROUTES LOGIN */
+Flight::route('GET /login', function(){
+    include 'views/login.php';
+});
+
+Flight::route('POST /login', function(){
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if (LoginController::authenticate($email, $password)) {
+        if ($_SESSION['role'] === 'admin') {
+            Flight::redirect('/tableau-bord'); // admin → tableau de bord
+        } else {
+            Flight::redirect('/dons'); // user → page dons
+        }
+    } else {
+        echo "Identifiants incorrects";
+    }
 });
 
 /* ROUTE TABLEAU DE BORD */
 Flight::route('GET /tableau-bord', function(){
     Flight::render('tableau_bord_simple');
 });
+
 
 /* ROUTES SIGNUP */
 Flight::route('GET /signup', function(){
