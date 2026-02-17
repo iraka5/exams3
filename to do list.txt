@@ -209,8 +209,7 @@ Personne3 (~2h30)
 
 
 bouton reinitialiser au donnees initialement donne
-tableau dons et amena
-
+tableau dons et besoins amena aveo 
 fonctionnalite afaka mivarotra don mamadika don ho lasa vola
 oh hoe nisy nanome camion de nefa le camion tsy misy de avadika vola donc amidy le camion pour de l argent, pour faire un don (oh: toles)
 omaly afaka mividy don ajd afaka mivarotra (si tsy mifanaraka amle region na ville ny zavatra misy)
@@ -230,3 +229,114 @@ IMPORTANT: quand on vend un article offert, ce dernier aura une diminutionde 10%
 il y aura une validation pour les articles essentiels qui ne pourront pas etre vendus (dans les besoins)
 il y aura une liste de besoin, si l'on veut vendre mais que l'article n'est pas vendable (encore dans la liste besoins de certains ) alors il y aura une erreur comme quoi "vente non permise"
 quoique si tout le monde, c est a dire les necessiteux n'ont plus besoin de l'article en question, on peut tout a fait le mettre en vendre pour le convertir en argent ou en autre article pour en faire un don.
+
+
+
+--V3
+
+Alintsoa (~2h30)
+
+Base de données (45 min)
+
+Table parametres (taux diminution configurable – défaut 10%)
+
+Champ essentiel dans besoins
+
+Champ vendu dans dons/articles
+
+Gestion données de base (seed reset)
+
+Routes (30 min)
+
+Route réinitialisation
+
+Route vente article
+
+Route config taux
+
+Controllers (1h15)
+
+Reset : restaurer données initiales
+
+Vente article :
+
+Vérifier si vendable
+
+Appliquer –10% (configurable)
+
+Convertir en don argent
+
+Message erreur "vente non permise"
+
+
+
+Melissa (~2h40)
+
+Bouton Réinitialiser (30 min)
+
+Bouton + confirmation
+
+Rafraîchissement affichage
+
+Interface Vente (50 min)
+
+Bouton “Vendre” sur article
+
+Affichage prix initial / prix après réduction
+
+Message erreur si non vendable
+
+Interface Configuration (40 min)
+
+Champ modification taux (%)
+
+Valeur par défaut 10%
+
+Mise à jour Views (40 min)
+
+Indicateur article essentiel
+
+Statut vendu
+
+Affichage conversion en argent
+
+
+
+
+Iraka (~2h30)
+
+Models (45 min)
+
+Méthode isVendable()
+
+Vérification si encore dans besoins
+
+Méthode calcul prix réduit
+
+Logique Métier (55 min)
+
+Interdire vente si :
+
+Article essentiel
+
+Encore présent dans besoins
+
+Autoriser vente si plus aucun nécessiteux n’en a besoin
+
+Dashboard Update (50 min)
+
+Total argent issu des ventes
+
+Historique conversions
+
+Mise à jour dynamique
+
+
+
+V3 objectifs :
+ Bouton réinitialisation (retour données initiales)
+ Vente d’articles non utiles
+ Réduction automatique 10% (configurable)
+ Blocage vente articles essentiels
+ Erreur si article encore dans liste besoins
+ Conversion article → argent → autre don possible
