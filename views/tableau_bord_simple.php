@@ -206,7 +206,7 @@ $base = '/exams3-main/exams3';
           <th>Actions</th>
         </tr>
       </thead>
-            <tbody>
+      <tbody>
         <?php if (empty($donnees)): ?>
             <tr>
                 <td colspan="7" style="text-align: center; padding: 40px; color: var(--muted);">
@@ -217,31 +217,29 @@ $base = '/exams3-main/exams3';
             <?php foreach ($donnees as $row): ?>
                 <tr>
                     <td>
-                        <span class="region-badge"><?= htmlspecialchars($row['region_nom']) ?></span>
+                        <span class="region-badge"><?= htmlspecialchars($row['region_nom'] ?? '') ?></span>
                     </td>
-                    <td><strong><?= htmlspecialchars($row['ville_nom']) ?></strong></td>
-                    <td><?= htmlspecialchars($row['type_besoin']) ?></td>
-                    <td><?= number_format($row['besoin_quantite'], 0, ',', ' ') ?></td>
-                    <td><?= number_format($row['dons_quantite'], 0, ',', ' ') ?></td>
+                    <td><strong><?= htmlspecialchars($row['ville_nom'] ?? '') ?></strong></td>
+                    <td><?= htmlspecialchars($row['type_besoin'] ?? 'Non spécifié') ?></td>
+                    <td><?= isset($row['besoin_quantite']) ? number_format($row['besoin_quantite'], 0, ',', ' ') : '0' ?></td>
+                    <td><?= isset($row['dons_quantite']) ? number_format($row['dons_quantite'], 0, ',', ' ') : '0' ?></td>
                     <td style="min-width: 150px;">
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: <?= $row['progression'] ?>%"></div>
+                            <div class="progress-fill" style="width: <?= $row['progression'] ?? 0 ?>%"></div>
                         </div>
-                        <small><?= number_format($row['progression'], 1) ?>%</small>
+                        <small><?= number_format($row['progression'] ?? 0, 1) ?>%</small>
                     </td>
                     <td class="actions">
-                            <?php 
-                            $ville_id = isset($row['ville_id']) ? intval($row['ville_id']) : 0; 
-                            ?>
-                            <a href="<?= $base ?>/villes/<?= $ville_id ?>" class="btn">👁️ Voir</a>
-                            <a href="<?= $base ?>/dons/create?ville_id=<?= $ville_id ?>" class="btn btn-success">➕ Don</a>
-                     </td>
-
+                        <?php 
+                        $ville_id = isset($row['ville_id']) ? intval($row['ville_id']) : 0; 
+                        ?>
+                        <a href="<?= $base ?>/villes/<?= $ville_id ?>" class="btn">👁️ Voir</a>
+                        <a href="<?= $base ?>/dons/create?ville_id=<?= $ville_id ?>" class="btn btn-success">➕ Don</a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>
-        </tbody>
-
+      </tbody>
     </table>
 
     <!-- Section Ventes -->
