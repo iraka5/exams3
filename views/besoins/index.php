@@ -1,16 +1,8 @@
 <?php
 $base = '/exams3-main/exams3';
-
 if (!isset($villes)) $villes = [];
-if (!isset($id_ville)) $id_ville = 0;
-if (!isset($ville_selected)) $ville_selected = null;
 if (!isset($besoins)) $besoins = [];
-$total_montant = 0;
-
-// Calcul du montant total sécurisé
-foreach ($besoins as $b) {
-    $total_montant += isset($b['montant']) ? floatval($b['montant']) : 0;
-}
+if (!isset($id_ville)) $id_ville = 0;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -18,32 +10,177 @@ foreach ($besoins as $b) {
     <meta charset="UTF-8">
     <title>Besoins - BNGRC</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f6f8fb; margin: 0; padding: 0; }
+        :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; --success: #28a745; --danger: #dc3545; --warning: #ffc107; }
+        body {
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+            background: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background: var(--brand);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 { margin: 0; font-size: 28px; }
+        .header p { margin: 5px 0 0; opacity: 0.9; font-size: 14px; }
+
+        nav {
+            background: white;
+            padding: 10px 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: var(--brand);
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 14px;
+            background: rgba(19,38,92,0.08);
+            transition: all 0.3s;
+        }
+        nav a:hover, nav a.active {
+            background: var(--brand);
+            color: white;
+        }
+
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        .btn { display: inline-block; padding: 8px 15px; border-radius: 999px; border: none; cursor: pointer; font-weight: 600; font-size: 14px; background: #13265C; color: white; text-decoration: none; margin-right: 5px; }
+
+        h2 {
+            color: var(--brand);
+            margin: 0 0 20px 0;
+        }
+
+        .filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .filter-form {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        select, button {
+            padding: 10px 15px;
+            border: 1px solid #e6e9ef;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        select:focus, button:focus {
+            outline: none;
+            border-color: var(--brand);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 999px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            margin-right: 5px;
+        }
         .btn:hover { opacity: 0.9; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 8px; overflow: hidden; }
-        th, td { padding: 12px 15px; border-bottom: 1px solid #e6e9ef; font-size: 14px; text-align: left; }
-        th { background: #13265C; color: white; }
+        .btn-primary { background: var(--brand); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-warning { background: var(--warning); color: black; }
+        .btn-info { background: #17a2b8; color: white; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        th {
+            background: var(--brand);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e6e9ef;
+        }
         tr:nth-child(even) { background: #f9fafc; }
         tr:hover { background: rgba(19,38,92,0.05); }
-        .filter-form { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        select { padding: 8px 12px; border-radius: 12px; border: 1px solid #e6e9ef; font-size: 14px; }
-        .no-data { text-align: center; padding: 20px; color: #6b7280; }
-        .total { margin-top: 15px; font-weight: bold; font-size: 16px; }
-        .ville-info { background: #e8f5e8; padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-nature { background: #d4edda; color: #155724; }
+        .badge-materiaux { background: #fff3cd; color: #856404; }
+        .badge-argent { background: #d1ecf1; color: #0c5460; }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted);
+        }
+
+        .actions {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .montant-total {
+            font-weight: bold;
+            color: var(--success);
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Besoins</h1>
+<div class="header">
+    <h1>BNGRC - Gestion des Besoins</h1>
+    <p>Liste des besoins par ville</p>
+</div>
 
-    <!-- Filtre par ville -->
-    <div class="filter-form">
-        <form method="GET" action="<?= $base ?>/besoins">
-            <label>Filtrer par ville :</label>
-            <select name="id_ville">
+<nav>
+    <a href="<?= $base ?>/">🏠 Accueil</a>
+    <a href="<?= $base ?>/regions">🗺️ Régions</a>
+    <a href="<?= $base ?>/villes">🏘️ Villes</a>
+    <a href="<?= $base ?>/besoins" class="active">📋 Besoins</a>
+    <a href="<?= $base ?>/dons">🎁 Dons</a>
+    <a href="<?= $base ?>/ventes">💰 Ventes</a>
+    <a href="<?= $base ?>/achats">📝 Achats</a>
+    <a href="<?= $base ?>/config-taux">⚙️ Configuration</a>
+    <a href="<?= $base ?>/logout">🚪 Déconnexion</a>
+</nav>
+
+<div class="container">
+    
+    <div style="margin-bottom: 20px;">
+        <a href="<?= $base ?>/besoins/create" class="btn btn-success">➕ Nouveau besoin</a>
+    </div>
+
+    <div class="filter-section">
+        <form method="GET" class="filter-form">
+            <label for="id_ville">Filtrer par ville :</label>
+            <select name="id_ville" id="id_ville">
                 <option value="0">-- Toutes les villes --</option>
                 <?php foreach ($villes as $v): ?>
                     <option value="<?= htmlspecialchars($v['id'] ?? 0) ?>" <?= ($id_ville == ($v['id'] ?? 0)) ? "selected" : "" ?>>
@@ -51,12 +188,11 @@ foreach ($besoins as $b) {
                     </option>
                 <?php endforeach; ?>
             </select>
-            <button type="submit" class="btn">Filtrer</button>
+            <button type="submit" class="btn btn-primary">Filtrer</button>
+            <?php if ($id_ville > 0): ?>
+                <a href="<?= $base ?>/besoins" class="btn btn-warning">Réinitialiser</a>
+            <?php endif; ?>
         </form>
-
-        <?php if($id_ville > 0): ?>
-            <a href="<?= $base ?>/besoins" class="btn" style="background: #6c757d;">🗑️ Réinitialiser</a>
-        <?php endif; ?>
     </div>
 
     <!-- Affichage ville filtrée -->
@@ -71,8 +207,11 @@ foreach ($besoins as $b) {
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Description</th>
-                <th>Montant</th>
+                <th>Besoin</th>
+                <th>Type</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Montant total</th>
                 <th>Ville</th>
                 <th>Actions</th>
             </tr>
@@ -80,7 +219,7 @@ foreach ($besoins as $b) {
         <tbody>
             <?php if (empty($besoins)): ?>
                 <tr>
-                    <td colspan="5" class="no-data">Aucun besoin trouvé</td>
+                    <td colspan="8" class="no-data">Aucun besoin trouvé</td>
                 </tr>
             <?php else: ?>
                 <?php foreach ($besoins as $b): ?>
@@ -99,12 +238,7 @@ foreach ($besoins as $b) {
             <?php endif; ?>
         </tbody>
     </table>
-
-    <!-- Montant total -->
-    <div class="total">
-        Montant total : <?= number_format($total_montant, 2, ',', ' ') ?> Ar
-    </div>
-
 </div>
+
 </body>
 </html>
