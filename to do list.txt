@@ -205,3 +205,18 @@ Personne3 (~2h30)
 
 
 
+
+
+
+bouton reinitialiser au donnees initialement donne
+tableau dons et amena
+
+fonctionnalite afaka mivarotra don mamadika don ho lasa vola
+oh hoe nisy nanome camion de nefa le camion tsy misy de avadika vola donc amidy le camion pour de l argent, pour faire un don (oh: toles)
+omaly afaka mividy don ajd afaka mivarotra (si tsy mifanaraka amle region na ville ny zavatra misy)
+rehefa mivarotra de mihena vidiny (oh ip 50k ar, de misy pourcentage ana contraire ana majoration(diminution) config iray ihany tsy maintsy 10% ny mihena, misy interface afaka manova anle pourcentage sur l affichage )
+misy validation tsy mahazo mivarotra article ilain' ny olona (anaty besoin)
+misy liste de besoin (avec demande ) si qlq1 veut vendre et que l article qui n est pas vendable (donc encore dans les demandes de certains), il y aura une erreur : "vente non permise"
+raha efa nahazo daholo anefa le olona de afaka varotana reste anle article si personne n a plus besoin de l article en question
+
+
