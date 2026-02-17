@@ -19,13 +19,15 @@
         .filter button:hover { background: #2980b9; }
         .btn-add { background: #27ae60; color: white; padding: 12px 20px; text-decoration: none; border-radius: 999px; display: inline-block; margin-bottom: 20px; }
         .btn-add:hover { background: #229954; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .stat-card { background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .stat-number { font-size: 28px; font-weight: bold; margin-bottom: 5px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: relative; }
+        .stat-info { display: flex; flex-direction: column; align-items: center; }
+        .stat-number { font-size: 28px; font-weight: bold; margin: 0; }
         .stat-label { color: #7f8c8d; font-size: 14px; }
-        .stat-achats .stat-number { color: #3498db; }
-        .stat-montant .stat-number { color: #e67e22; }
-        .stat-fonds .stat-number { color: #27ae60; }
+        .stat-trend { font-size: 12px; }
+        .trend-up { color: #27ae60; }
+        .trend-down { color: #e74c3c; }
+        .icon-besoins { position: absolute; top: 15px; right: 15px; font-size: 32px; }
         table { width: 100%; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         th { background: #3498db; color: white; padding: 15px; text-align: left; }
         td { padding: 15px; border-bottom: 1px solid #eee; }
@@ -94,18 +96,14 @@
             </form>
         </div>
 
-        <div class="stats">
-            <div class="stat-card stat-achats">
-                <div class="stat-number"><?= count($achats ?? []) ?></div>
-                <div class="stat-label">Achats effectués</div>
-            </div>
-            <div class="stat-card stat-montant">
-                <div class="stat-number"><?= number_format(($totaux['besoins_satisfaits'] ?? 0), 0, ',', ' ') ?> Ar</div>
-                <div class="stat-label">Montant total des achats</div>
-            </div>
-            <div class="stat-card stat-fonds">
-                <div class="stat-number"><?= number_format(($totaux['fonds_restants'] ?? 0), 0, ',', ' ') ?> Ar</div>
-                <div class="stat-label">Fonds restants</div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Besoins actifs</h3>
+                    <div class="stat-number">150</div>
+                    <div class="stat-trend trend-up">↑ +11%</div>
+                </div>
+                <div class="stat-icon icon-besoins">📋</div>
             </div>
         </div>
 

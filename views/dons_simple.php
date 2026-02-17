@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Dons - BNGRC</title>
+  <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
   <style>
     :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
     * { box-sizing: border-box; }

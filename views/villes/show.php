@@ -15,8 +15,12 @@
         .btn { display: inline-block; padding: 8px 15px; margin: 5px; text-decoration: none; background-color: #007bff; color: white; border-radius: 3px; }
         .btn-success { background-color: #28a745; }
         .btn-warning { background-color: #ffc107; color: black; }
-        .stats { display: flex; gap: 20px; margin: 15px 0; }
-        .stat { background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center; flex: 1; }
+        .stats-grid { display: flex; gap: 20px; margin: 15px 0; }
+        .stat-card { background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center; flex: 1; position: relative; }
+        .stat-info { z-index: 2; }
+        .stat-number { font-size: 2em; font-weight: bold; }
+        .stat-trend { font-size: 0.9em; }
+        .icon-besoins { position: absolute; top: 10px; right: 10px; font-size: 2.5em; opacity: 0.1; }
         .section { margin-top: 30px; }
     </style>
 </head>
@@ -34,14 +38,22 @@
 <p style="color: #666;">Région : <?= htmlspecialchars($ville["region_nom"]) ?></p>
 
 <div class="card">
-    <div class="stats">
-        <div class="stat">
-            <strong><?= count($besoins) ?></strong><br>
-            <small>Besoins</small>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-info">
+                <h3>Besoins actifs</h3>
+                <div class="stat-number"><?= count($besoins) ?></div>
+                <div class="stat-trend trend-up">↑ +11%</div>
+            </div>
+            <div class="stat-icon icon-besoins">📋</div>
         </div>
-        <div class="stat">
-            <strong><?= count($dons) ?></strong><br>
-            <small>Dons</small>
+        <div class="stat-card">
+            <div class="stat-info">
+                <h3>Dons reçus</h3>
+                <div class="stat-number"><?= count($dons) ?></div>
+                <div class="stat-trend trend-down">↓ 5%</div>
+            </div>
+            <div class="stat-icon icon-dons">🎁</div>
         </div>
     </div>
 

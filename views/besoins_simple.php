@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Besoins - BNGRC</title>
+    <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5; }
         .header { background-color: #dc3545; color: white; padding: 20px; text-align: center; }

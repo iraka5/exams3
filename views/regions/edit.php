@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier la Région - BNGRC</title>
+    <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         nav { background-color: #333; padding: 10px; margin-bottom: 20px; }

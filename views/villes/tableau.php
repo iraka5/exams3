@@ -12,8 +12,12 @@
         th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
         th { background-color: #2c3e50; color: white; }
         .btn { display: inline-block; padding: 5px 10px; margin: 2px; text-decoration: none; background-color: #007bff; color: white; border-radius: 3px; font-size: 12px; }
-        .stats { display: flex; gap: 20px; margin-bottom: 30px; }
-        .stat { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; flex: 1; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; position: relative; }
+        .stat-card .stat-info { z-index: 2; }
+        .stat-card .stat-number { font-size: 24px; font-weight: bold; margin: 10px 0; }
+        .stat-card .stat-trend { font-size: 14px; position: absolute; top: 10px; right: 10px; }
+        .stat-card.icon-besoins { background-color: #6c757d; }
         .shortage { background-color: #ffebee; }
         .sufficient { background-color: #e8f5e8; }
         .warning { background-color: #fff3e0; }
@@ -34,18 +38,14 @@
 
 <h1>📊 Tableau de Bord - Suivi des Dons BNGRC</h1>
 
-<div class="stats">
-    <div class="stat">
-        <h2><?= count($villes) ?></h2>
-        <p>Villes suivies</p>
-    </div>
-    <div class="stat">
-        <h2><?= array_sum(array_column($villes, 'nb_besoins')) ?></h2>
-        <p>Besoins totaux</p>
-    </div>
-    <div class="stat">
-        <h2><?= array_sum(array_column($villes, 'nb_dons')) ?></h2>
-        <p>Dons reçus</p>
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>Besoins actifs</h3>
+            <div class="stat-number">150</div>
+            <div class="stat-trend trend-up">↑ +11%</div>
+        </div>
+        <div class="stat-icon icon-besoins">📋</div>
     </div>
 </div>
 

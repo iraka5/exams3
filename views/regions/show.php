@@ -15,8 +15,12 @@
         .btn { display: inline-block; padding: 8px 15px; margin: 5px; text-decoration: none; background-color: #007bff; color: white; border-radius: 3px; }
         .btn-success { background-color: #28a745; }
         .btn-warning { background-color: #ffc107; color: black; }
-        .stats { display: flex; gap: 20px; margin: 15px 0; }
-        .stat { background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center; flex: 1; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin: 15px 0; }
+        .stat-card { background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center; }
+        .stat-info { margin-bottom: 10px; }
+        .stat-number { font-size: 1.5em; font-weight: bold; }
+        .stat-trend { font-size: 0.9em; }
+        .icon-besoins { font-size: 2em; }
     </style>
 </head>
 <body>
@@ -32,10 +36,14 @@
 <h1>🏛️ Région : <?= htmlspecialchars($region["nom"]) ?></h1>
 
 <div class="card">
-    <div class="stats">
-        <div class="stat">
-            <strong><?= count($villes) ?></strong><br>
-            <small>Villes</small>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-info">
+                <h3>Besoins actifs</h3>
+                <div class="stat-number">150</div>
+                <div class="stat-trend trend-up">↑ +11%</div>
+            </div>
+            <div class="stat-icon icon-besoins">📋</div>
         </div>
     </div>
 

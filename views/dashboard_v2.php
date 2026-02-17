@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard V2 - BNGRC</title>
+    <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: Inter, -apple-system, sans-serif; background: #f8fafc; }
