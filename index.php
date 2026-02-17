@@ -17,3 +17,4 @@ require_once __DIR__ . '/config/config.php';
 
 // Charger les routes
 require_once __DIR__ . '/routes.php';
+          
