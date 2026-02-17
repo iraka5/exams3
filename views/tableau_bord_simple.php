@@ -7,15 +7,48 @@ $base = '/exams3-main/exams3';
   <meta charset="UTF-8">
   <title>Tableau de Bord - BNGRC</title>
   <style>
-    :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
-    body { font-family: Inter, Segoe UI, Arial, sans-serif; background: var(--bg); margin:0; }
-    .header { background: var(--brand); color:white; padding:20px; text-align:center; }
-    .header h1 { margin:0; font-size:28px; }
-    .header p { margin:5px 0 0 0; opacity:0.9; font-size:14px; }
-    nav { background:white; padding:10px 20px; display:flex; gap:10px; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
-    nav a { color:var(--brand); text-decoration:none; padding:8px 15px; border-radius:999px; font-weight:600; font-size:14px; background:rgba(19,38,92,0.08); }
-    nav a:hover, nav a.active { background:var(--brand); color:white; }
-    .container { max-width:1200px; margin:30px auto; padding:0 20px; }
+    :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; --success: #28a745; --info: #17a2b8; --warning: #ffc107; --danger: #dc3545; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background: var(--brand);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .header h1 { margin: 0; font-size: 28px; }
+    .header p { margin: 5px 0 0; opacity: 0.9; font-size: 14px; }
+
+    nav {
+      background: white;
+      padding: 10px 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: var(--brand);
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 14px;
+      background: rgba(19,38,92,0.08);
+      transition: all 0.3s;
+    }
+    nav a:hover, nav a.active {
+      background: var(--brand);
+      color: white;
+    }
+
+    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
     
     table {
       width: 100%;
@@ -60,10 +93,15 @@ $base = '/exams3-main/exams3';
       font-weight: 600;
       font-size: 13px;
       margin: 2px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.3s;
     }
     .btn:hover { opacity: 0.9; }
-    .btn-success { background: #28a745; }
-    .btn-info { background: #17a2b8; }
+    .btn-success { background: var(--success); }
+    .btn-info { background: var(--info); }
+    .btn-warning { background: var(--warning); color: black; }
+    .btn-danger { background: var(--danger); }
     
     .progress-bar {
       width: 100%;
@@ -90,6 +128,36 @@ $base = '/exams3-main/exams3';
       margin: 30px 0 15px 0;
     }
     
+    .feature-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 30px;
+      border-radius: 12px;
+      margin: 30px 0;
+      color: white;
+      text-align: center;
+    }
+    .feature-section h2 {
+      color: white;
+      margin: 0 0 10px 0;
+    }
+    .feature-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .feature-buttons .btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 12px 24px;
+      font-size: 14px;
+    }
+    .feature-buttons .btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
     .action-buttons {
       display: flex;
       gap: 20px;
@@ -110,14 +178,16 @@ $base = '/exams3-main/exams3';
   </div>
 
   <nav>
-    <a href="<?= $base ?>/" class="active">Accueil</a>
-    <a href="<?= $base ?>/regions">Régions</a>
-    <a href="<?= $base ?>/villes">Villes</a>
-    <a href="<?= $base ?>/besoins">Besoins</a>
-    <a href="<?= $base ?>/dons">Dons</a>
-    <a href="<?= $base ?>/config-taux" style="background: #17a2b8; color: white;">Config V3</a>
-    <a href="<?= $base ?>/reset-data" style="background: #ffc107; color: black;">Reset</a>
-    <a href="<?= $base ?>/logout">Déconnexion</a>
+    <a href="<?= $base ?>/" class="active">🏠 Accueil</a>
+    <a href="<?= $base ?>/regions">🗺️ Régions</a>
+    <a href="<?= $base ?>/villes">🏘️ Villes</a>
+    <a href="<?= $base ?>/besoins">📋 Besoins</a>
+    <a href="<?= $base ?>/dons">🎁 Dons</a>
+    <a href="<?= $base ?>/ventes">💰 Ventes</a>
+    <a href="<?= $base ?>/achats">📝 Achats</a>
+    <a href="<?= $base ?>/config-taux">⚙️ Configuration</a>
+    <a href="<?= $base ?>/reset-data">🔄 Reset</a>
+    <a href="<?= $base ?>/logout">🚪 Déconnexion</a>
   </nav>
 
   <div class="container">
@@ -160,7 +230,7 @@ $base = '/exams3-main/exams3';
                 <small><?= number_format($row['progression'], 1) ?>%</small>
               </td>
               <td class="actions">
-                <a href="<?= $base ?>/villes/<?= $row['ville_id'] ?>" class="btn">Voir</a>
+                <a href="<?= $base ?>/villes/<?= $row['ville_id'] ?>" class="btn">👁️ Voir</a>
                 <a href="<?= $base ?>/dons/create?ville_id=<?= $row['ville_id'] ?>" class="btn btn-success">➕ Don</a>
               </td>
             </tr>
@@ -169,32 +239,23 @@ $base = '/exams3-main/exams3';
       </tbody>
     </table>
 
-<<<<<<< HEAD
-    <!-- Fonctionnalités V3 -->
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 12px; margin: 30px 0; color: white; text-align: center;">
-      <h2 style="margin: 0 0 10px 0; color: white;">🚀 Nouvelles fonctionnalités V3</h2>
-      <p style="margin: 0 0 20px 0; opacity: 0.9;">Système de vente d'articles et gestion configurable</p>
-      <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-        <a href="<?= $base ?>/config-taux" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
-          ⚙️ Configurer taux de vente
-        </a>
-        <a href="<?= $base ?>/dons" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
-          💰 Vendre des articles
-        </a>
-        <a href="<?= $base ?>/reset-data" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
-          🔄 Réinitialiser données
-        </a>
+    <!-- Section Ventes -->
+    <div class="feature-section">
+      <h2>🚀 Système de Vente d'Articles</h2>
+      <p>Convertissez les dons en argent selon un taux configurable</p>
+      <div class="feature-buttons">
+        <a href="<?= $base ?>/config-taux" class="btn">⚙️ Configurer taux de vente</a>
+        <a href="<?= $base ?>/dons" class="btn">💰 Vendre des articles</a>
+        <a href="<?= $base ?>/ventes" class="btn">📊 Historique des ventes</a>
+        <a href="<?= $base ?>/reset-data" class="btn">🔄 Réinitialiser données</a>
       </div>
     </div>
 
-    <!-- Liens rapides -->
-    <div style="text-align: center; margin: 40px 0;">
-      <a href="<?= $base ?>/create" class="btn btn-success" style="padding: 15px 30px; font-size: 16px;">➕ Créer (Région, Ville, Besoin)</a>
-=======
-    <!-- Boutons d'action -->
+    <!-- Actions rapides -->
     <div class="action-buttons">
+      <a href="<?= $base ?>/create" class="btn btn-success">➕ Créer (Région, Ville, Besoin)</a>
       <a href="<?= $base ?>/dons/create" class="btn btn-info">🎁 Faire un don</a>
->>>>>>> 440cd6c1b68c915059324f07a8149f02f8ec3097
+      <a href="<?= $base ?>/achats/create" class="btn btn-warning">💰 Nouvel achat</a>
     </div>
 
   </div>

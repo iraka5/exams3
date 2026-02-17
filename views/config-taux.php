@@ -225,13 +225,6 @@ foreach ($parametres as $param) {
             font-size: 12px;
             color: var(--muted);
         }
-        .stats-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e6e9ef;
-        }
-        .stats-row:last-child { border-bottom: none; }
 
         .table-responsive {
             overflow-x: auto;
@@ -284,7 +277,6 @@ foreach ($parametres as $param) {
         .text-center { text-align: center; }
         .py-4 { padding: 30px 0; }
         .text-muted { color: var(--muted); }
-        .fa-3x { font-size: 3em; }
 
         @media (max-width: 968px) {
             .grid-2 { grid-template-columns: 1fr; }
@@ -300,14 +292,15 @@ foreach ($parametres as $param) {
     </div>
 
     <nav>
-        <a href="<?= $base ?>/">Accueil</a>
-        <a href="<?= $base ?>/regions">Régions</a>
-        <a href="<?= $base ?>/villes">Villes</a>
-        <a href="<?= $base ?>/besoins">Besoins</a>
-        <a href="<?= $base ?>/dons">Dons</a>
-        <a href="<?= $base ?>/tableau-bord">Tableau de bord</a>
-        <a href="<?= $base ?>/config-taux" class="active">Configuration</a>
-        <a href="<?= $base ?>/logout">Déconnexion</a>
+        <a href="<?= $base ?>/">🏠 Accueil</a>
+        <a href="<?= $base ?>/regions">🗺️ Régions</a>
+        <a href="<?= $base ?>/villes">🏘️ Villes</a>
+        <a href="<?= $base ?>/besoins">📋 Besoins</a>
+        <a href="<?= $base ?>/dons">🎁 Dons</a>
+        <a href="<?= $base ?>/ventes">💰 Ventes</a>
+        <a href="<?= $base ?>/achats">📝 Achats</a>
+        <a href="<?= $base ?>/config-taux" class="active">⚙️ Configuration</a>
+        <a href="<?= $base ?>/logout">🚪 Déconnexion</a>
     </nav>
 
     <div class="container">
@@ -460,7 +453,7 @@ foreach ($parametres as $param) {
                                                     <td><?= number_format($vente['prix_original'], 0, ',', ' ') ?></td>
                                                     <td><?= number_format($vente['prix_vente'], 0, ',', ' ') ?></td>
                                                     <td>
-                                                        <span class="badge badge-<?= $vente['taux_applique'] > 15 ? 'danger' : ($vente['taux_applique'] > 10 ? 'warning' : 'success') ?>">
+                                                        <span class="badge <?= $vente['taux_applique'] > 15 ? 'badge-warning' : 'badge-info' ?>">
                                                             <?= number_format($vente['taux_applique'], 1) ?>%
                                                         </span>
                                                     </td>

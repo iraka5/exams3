@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/models/Don.php';  // IMPORTANT: Inclusion du modèle Don
 
 // Vérifier si BASE_URL est déjà défini
 if (!defined('BASE_URL')) {
@@ -34,7 +35,43 @@ switch ($path) {
         include __DIR__ . '/views/create.php';
         break;
     
-    // ========== 2. TOUTES LES ROUTES DE CRÉATION ==========
+    // ========== 2. TABLEAU DE BORD ==========
+    case '/tableau-bord':
+        $sql = "SELECT 
+                    r.id as region_id,
+                    r.nom as region_nom,
+                    v.id as ville_id,
+                    v.nom as ville_nom,
+                    b.nom as type_besoin,
+                    COALESCE(b.nombre, 0) as besoin_quantite,
+                    COALESCE(SUM(d.nombre_don), 0) as dons_quantite
+                FROM regions r
+                LEFT JOIN ville v ON r.id = v.id_regions
+                LEFT JOIN besoins b ON v.id = b.id_ville
+                LEFT JOIN dons d ON v.id = d.id_ville
+                GROUP BY v.id, b.id
+                ORDER BY r.nom, v.nom";
+        
+        $donnees = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach ($donnees as &$row) {
+            $row['besoin_quantite'] = $row['besoin_quantite'] ?? 0;
+            $row['dons_quantite'] = $row['dons_quantite'] ?? 0;
+            $row['type_besoin'] = $row['type_besoin'] ?? 'Non spécifié';
+            $row['region_nom'] = $row['region_nom'] ?? 'Non définie';
+            $row['ville_nom'] = $row['ville_nom'] ?? 'Non définie';
+            
+            if ($row['besoin_quantite'] > 0) {
+                $row['progression'] = min(100, round(($row['dons_quantite'] / $row['besoin_quantite']) * 100, 1));
+            } else {
+                $row['progression'] = 0;
+            }
+        }
+        
+        include __DIR__ . '/views/tableau_bord_simple.php';
+        break;
+    
+    // ========== 3. TOUTES LES ROUTES DE CRÉATION ==========
     
     // RÉGIONS - Création
     case '/regions/create':
@@ -94,7 +131,7 @@ switch ($path) {
         }
         break;
     
-    // DONS - Création (AVEC VÉRIFICATION)
+    // DONS - Création
     case '/dons/create':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // TRAITEMENT DU FORMULAIRE
@@ -104,86 +141,16 @@ switch ($path) {
             $id_ville = intval($_POST['id_ville'] ?? 0);
             
             if (!empty($nom_donneur) && !empty($type_don) && $nombre_don > 0 && $id_ville > 0) {
-                
-                // ===== VÉRIFICATION DE LA QUANTITÉ =====
-                // Calculer le total des besoins pour cette ville
-                $stmt = $db->prepare("SELECT COALESCE(SUM(nombre), 0) as total_besoins FROM besoins WHERE id_ville = ?");
-                $stmt->execute([$id_ville]);
-                $total_besoins = $stmt->fetch(PDO::FETCH_ASSOC)['total_besoins'];
-                
-                // Calculer le total des dons déjà reçus pour cette ville
-                $stmt = $db->prepare("SELECT COALESCE(SUM(nombre_don), 0) as total_dons FROM dons WHERE id_ville = ?");
-                $stmt->execute([$id_ville]);
-                $total_dons = $stmt->fetch(PDO::FETCH_ASSOC)['total_dons'];
-                
-                // Vérifier si le nouveau don dépasse les besoins
-                $nouveau_total = $total_dons + $nombre_don;
-                $max_autorise = $total_besoins - $total_dons;
-                
-                if ($max_autorise <= 0) {
-                    // Plus aucun besoin à satisfaire
-                    header('Location: ' . BASE_URL . '/dons/create?error=plus_besoin');
-                    exit;
-                }
-                
-                if ($nouveau_total > $total_besoins) {
-                    // Rediriger avec un message d'erreur
-                    header('Location: ' . BASE_URL . '/dons/create?error=depassement&max=' . $max_autorise);
-                    exit;
-                }
-                // ===== FIN DE LA VÉRIFICATION =====
-                
-                // Si tout est OK, insérer le don
                 $stmt = $db->prepare("INSERT INTO dons (nom_donneur, type_don, nombre_don, id_ville) VALUES (?, ?, ?, ?)");
                 $stmt->execute([$nom_donneur, $type_don, $nombre_don, $id_ville]);
-                
-                header('Location: ' . BASE_URL . '/dons?success=created');
-                exit;
-            } else {
-                header('Location: ' . BASE_URL . '/dons/create?error=invalid');
-                exit;
             }
+            header('Location: ' . BASE_URL . '/dons');
+            exit;
         } else {
             // AFFICHAGE DU FORMULAIRE
             $villes = $db->query("SELECT * FROM ville ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
             include __DIR__ . '/views/dons/create.php';
         }
-        break;
-    
-    // ========== 3. TABLEAU DE BORD ==========
-    case '/tableau-bord':
-        $sql = "SELECT 
-                    r.id as region_id,
-                    r.nom as region_nom,
-                    v.id as ville_id,
-                    v.nom as ville_nom,
-                    b.nom as type_besoin,
-                    COALESCE(b.nombre, 0) as besoin_quantite,
-                    COALESCE(SUM(d.nombre_don), 0) as dons_quantite
-                FROM regions r
-                LEFT JOIN ville v ON r.id = v.id_regions
-                LEFT JOIN besoins b ON v.id = b.id_ville
-                LEFT JOIN dons d ON v.id = d.id_ville
-                GROUP BY v.id, b.id
-                ORDER BY r.nom, v.nom";
-        
-        $donnees = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-        
-        foreach ($donnees as &$row) {
-            $row['besoin_quantite'] = $row['besoin_quantite'] ?? 0;
-            $row['dons_quantite'] = $row['dons_quantite'] ?? 0;
-            $row['type_besoin'] = $row['type_besoin'] ?? 'Non spécifié';
-            $row['region_nom'] = $row['region_nom'] ?? 'Non définie';
-            $row['ville_nom'] = $row['ville_nom'] ?? 'Non définie';
-            
-            if ($row['besoin_quantite'] > 0) {
-                $row['progression'] = min(100, round(($row['dons_quantite'] / $row['besoin_quantite']) * 100, 1));
-            } else {
-                $row['progression'] = 0;
-            }
-        }
-        
-        include __DIR__ . '/views/tableau_bord_simple.php';
         break;
     
     // ========== 4. ROUTES DE LISTAGE ==========
@@ -241,7 +208,169 @@ switch ($path) {
         include __DIR__ . '/views/dons/index.php';
         break;
     
-    // ========== 5. SUPPRESSION ==========
+    // VENTES - Liste
+    case '/ventes':
+        $ventes = Don::getDernieresVentes(50);
+        $stats = Don::getStatsVentes();
+        include __DIR__ . '/views/ventes/index.php';
+        break;
+    
+    // ACHATS - Liste
+    case '/achats':
+        $villes = $db->query("SELECT v.*, r.nom as region_nom FROM ville v JOIN regions r ON v.id_regions = r.id ORDER BY r.nom, v.nom")->fetchAll(PDO::FETCH_ASSOC);
+        $achats = $db->query("
+            SELECT a.*, v.nom as ville_nom, r.nom as region_nom, b.nom as besoin_nom, b.type_besoin 
+            FROM achats a
+            JOIN besoins b ON a.id_besoin = b.id
+            JOIN ville v ON b.id_ville = v.id
+            JOIN regions r ON v.id_regions = r.id
+            ORDER BY a.date_achat DESC
+        ")->fetchAll(PDO::FETCH_ASSOC);
+        include __DIR__ . '/views/achats/index.php';
+        break;
+    
+    // ACHATS - Création
+    case '/achats/create':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // TRAITEMENT DU FORMULAIRE
+            $id_besoin = intval($_POST['id_besoin'] ?? 0);
+            $quantite = floatval($_POST['quantite'] ?? 0);
+            $prix_unitaire = floatval($_POST['prix_unitaire'] ?? 0);
+            
+            if ($id_besoin > 0 && $quantite > 0 && $prix_unitaire > 0) {
+                $montant = $quantite * $prix_unitaire;
+                $stmt = $db->prepare("INSERT INTO achats (id_besoin, quantite, prix_unitaire, montant, date_achat) VALUES (?, ?, ?, ?, NOW())");
+                $stmt->execute([$id_besoin, $quantite, $prix_unitaire, $montant]);
+                header('Location: ' . BASE_URL . '/achats?success=created');
+                exit;
+            }
+            header('Location: ' . BASE_URL . '/achats/create?error=invalid');
+            exit;
+        } else {
+            // AFFICHAGE DU FORMULAIRE
+            $besoins = $db->query("SELECT b.*, v.nom as ville_nom FROM besoins b JOIN ville v ON b.id_ville = v.id ORDER BY v.nom")->fetchAll(PDO::FETCH_ASSOC);
+            include __DIR__ . '/views/achats/create.php';
+        }
+        break;
+    
+    // ACHATS - Récapitulatif
+    case '/achats/recapitulatif':
+        $stats_achats = $db->query("SELECT COUNT(*) as total, SUM(montant) as total_montant FROM achats")->fetch(PDO::FETCH_ASSOC);
+        include __DIR__ . '/views/achats/recapitulatif.php';
+        break;
+    
+    // ========== 5. PARAMÈTRES ==========
+    case '/config-taux':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Traitement du formulaire
+            $taux = floatval($_POST['taux_diminution'] ?? 10);
+            
+            if ($taux < 0 || $taux > 100) {
+                header('Location: ' . BASE_URL . '/config-taux?error=taux_invalide');
+                exit;
+            }
+            
+            try {
+                // Récupérer l'ancien taux
+                $stmt = $db->prepare("SELECT valeur FROM parametres WHERE cle = 'taux_diminution_vente'");
+                $stmt->execute();
+                $ancien = $stmt->fetch(PDO::FETCH_ASSOC);
+                $ancien_taux = $ancien ? $ancien['valeur'] : 10;
+                
+                // Mettre à jour le taux
+                $stmt = $db->prepare("UPDATE parametres SET valeur = ? WHERE cle = 'taux_diminution_vente'");
+                $stmt->execute([$taux]);
+                
+                header('Location: ' . BASE_URL . '/config-taux?success=1&ancien=' . $ancien_taux . '&nouveau=' . $taux);
+                exit;
+            } catch (Exception $e) {
+                header('Location: ' . BASE_URL . '/config-taux?error=erreur_sauvegarde');
+                exit;
+            }
+        } else {
+            // Afficher la page de configuration
+            $parametres = $db->query("SELECT * FROM parametres")->fetchAll(PDO::FETCH_ASSOC);
+            $stats_vente = Don::getStatsVentes();
+            $dernieres_ventes = Don::getDernieresVentes(10);
+            include __DIR__ . '/views/config-taux.php';
+        }
+        break;
+    
+    // ========== 6. VENDRE UN DON ==========
+    case '/dons/vendre':
+        $id_don = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Traitement de la vente
+            $id_don = intval($_POST['id_don'] ?? 0);
+            
+            if ($id_don <= 0) {
+                header('Location: ' . BASE_URL . '/dons');
+                exit;
+            }
+            
+            // Vérifier si le don peut être vendu
+            $check = Don::isVendable($id_don);
+            if (!$check['vendable']) {
+                header('Location: ' . BASE_URL . '/dons/vendre?id=' . $id_don . '&error=vente_non_permise&raison=' . urlencode($check['raison']));
+                exit;
+            }
+            
+            // Récupérer le taux actuel
+            $stmt = $db->query("SELECT valeur FROM parametres WHERE cle = 'taux_diminution_vente'");
+            $taux = $stmt->fetch(PDO::FETCH_ASSOC);
+            $taux_diminution = $taux ? floatval($taux['valeur']) : 10;
+            
+            // Vendre le don
+            if (Don::vendre($id_don, $taux_diminution)) {
+                header('Location: ' . BASE_URL . '/ventes?success=vendu');
+            } else {
+                header('Location: ' . BASE_URL . '/dons/vendre?id=' . $id_don . '&error=erreur_vente');
+            }
+            exit;
+            
+        } else {
+            // Afficher la page de confirmation de vente
+            if ($id_don <= 0) {
+                header('Location: ' . BASE_URL . '/dons');
+                exit;
+            }
+            
+            $don = Don::find($id_don);
+            if (!$don) {
+                header('Location: ' . BASE_URL . '/dons');
+                exit;
+            }
+            
+            // Vérifier si vendable
+            $check = Don::isVendable($id_don);
+            
+            // Calculer le prix
+            $stmt = $db->query("SELECT valeur FROM parametres WHERE cle = 'taux_diminution_vente'");
+            $taux = $stmt->fetch(PDO::FETCH_ASSOC);
+            $taux_diminution = $taux ? floatval($taux['valeur']) : 10;
+            
+            $prix_info = Don::calculPrixReduit($id_don, $taux_diminution);
+            $prix_original = $prix_info['prix_original'] ?? 0;
+            $prix_vente = $prix_info['prix_reduit'] ?? 0;
+            
+            // Variables pour la vue
+            $error = $_GET['error'] ?? '';
+            $raison = $_GET['raison'] ?? '';
+            
+            include __DIR__ . '/views/dons/vendre.php';
+        }
+        break;
+    
+    // ========== 7. API ==========
+    case (preg_match('/^\/api\/dons\/(\d+)\/vendable$/', $path, $matches) ? true : false):
+        $id_don = $matches[1];
+        header('Content-Type: application/json');
+        echo json_encode(Don::isVendable($id_don));
+        exit;
+        break;
+    
+    // ========== 8. SUPPRESSION ==========
     case (preg_match('/^\/(regions|villes|besoins|dons)\/(\d+)\/delete$/', $path, $matches) ? true : false):
         $table = $matches[1];
         $id = $matches[2];
@@ -261,60 +390,19 @@ switch ($path) {
         exit;
         break;
     
-    // ========== 6. DÉCONNEXION ==========
+    // ========== 9. RÉINITIALISATION ==========
+    case '/reset-data':
+        include __DIR__ . '/views/reset-data.php';
+        break;
+    
+    // ========== 10. DÉCONNEXION ==========
     case '/logout':
         session_destroy();
         header('Location: ' . BASE_URL . '/');
         exit;
         break;
     
-    // ========== NOUVELLES ROUTES V3 - SYSTÈME DE VENTE ==========
-    
-    // Route de réinitialisation des données (accessible à tous)
-    case '/reset-data':
-        require_once __DIR__ . '/controllers/ResetController.php';
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            ResetController::executeReset();
-        } else {
-            ResetController::showResetForm();
-        }
-        break;
-    
-    // Route de vente d'article
-    case (preg_match('/^\/dons\/(\d+)\/vendre$/', $path, $matches) ? true : false):
-        require_once __DIR__ . '/controllers/VenteController.php';
-        $don_id = $matches[1];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            VenteController::processSale($don_id);
-        } else {
-            VenteController::showSaleForm($don_id);
-        }
-        break;
-        
-    // API pour vérifier si un article est vendable
-    case (preg_match('/^\/api\/dons\/(\d+)\/vendable$/', $path, $matches) ? true : false):
-        require_once __DIR__ . '/controllers/VenteController.php';
-        $don_id = $matches[1];
-        VenteController::checkVendable($don_id);
-        break;
-    
-    // Route de configuration du taux de diminution (accessible à tous)
-    case '/config-taux':
-        require_once __DIR__ . '/controllers/ConfigController.php';
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            ConfigController::updateTaux();
-        } else {
-            ConfigController::showConfigForm();
-        }
-        break;
-        
-    // API pour récupérer le taux actuel
-    case '/api/config/taux':
-        require_once __DIR__ . '/controllers/ConfigController.php';
-        ConfigController::getTauxApi();
-        break;
-    
-    // ========== PAGE 404 ==========
+    // ========== 11. PAGE 404 ==========
     default:
         http_response_code(404);
         echo "<!DOCTYPE html>
