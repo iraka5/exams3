@@ -1,5 +1,7 @@
 <?php
+// index.php
 session_start();
+<<<<<<< HEAD
 
 // Servir les fichiers statiques du dossier public directement
 $publicPath = __DIR__ . '/public';
@@ -12,6 +14,9 @@ if (preg_match('#^/public/(.+)$#', $_SERVER['REQUEST_URI'], $matches)) {
         exit;
     }
 }
+=======
+<<<<<<< HEAD
+>>>>>>> d94a0b0 (changes)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -619,4 +624,7 @@ switch ($path) {
         echo "<a href='" . $base . "'>Accueil</a>";
         break;
 }
+=======
+require_once __DIR__ . '/routes.php';
+>>>>>>> 23d5555 (changes)
 ?>

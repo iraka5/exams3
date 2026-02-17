@@ -1,3 +1,6 @@
+<?php
+$base = '/exams3-main/exams3';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,98 +10,189 @@
     :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
     body { font-family: Inter, Segoe UI, Arial, sans-serif; background: var(--bg); margin:0; }
     .header { background: var(--brand); color:white; padding:20px; text-align:center; }
+    .header h1 { margin:0; font-size:28px; }
+    .header p { margin:5px 0 0 0; opacity:0.9; font-size:14px; }
     nav { background:white; padding:10px 20px; display:flex; gap:10px; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
     nav a { color:var(--brand); text-decoration:none; padding:8px 15px; border-radius:999px; font-weight:600; font-size:14px; background:rgba(19,38,92,0.08); }
     nav a:hover, nav a.active { background:var(--brand); color:white; }
     .container { max-width:1200px; margin:30px auto; padding:0 20px; }
-    table { width:100%; border-collapse:collapse; background:white; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.08); overflow:hidden; }
-    th, td { padding:12px 15px; text-align:left; font-size:14px; }
-    th { background:var(--brand); color:white; font-weight:600; }
-    tr:nth-child(even) { background:#f9fafc; }
-    tr:hover { background:rgba(19,38,92,0.05); }
-    .no-data { text-align:center; color:var(--muted); margin-top:20px; }
+    
+    /* Stats cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .stat-card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--brand);
+      margin: 10px 0;
+    }
+    .stat-label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    th {
+      background: var(--brand);
+      color: white;
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e6e9ef;
+    }
+    tr:nth-child(even) { background: #f9fafc; }
+    tr:hover { background: rgba(19,38,92,0.05); }
+    
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge-success { background: #d4edda; color: #155724; }
+    .badge-warning { background: #fff3cd; color: #856404; }
+    .badge-info { background: #d1ecf1; color: #0c5460; }
+    
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: var(--brand);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      margin: 5px;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn-success { background: #28a745; }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1>BNGRC - Bureau National de Gestion des Risques et Catastrophes</h1>
-    <p>Tableau de bord - Suivi des dons aux sinistrés</p>
+    <h1>BNGRC - Tableau de Bord</h1>
+    <p>Bureau National de Gestion des Risques et Catastrophes</p>
   </div>
 
   <nav>
-    <a href="/exams3-main/exams3/" class="active">Accueil</a>
-    <a href="/exams3-main/exams3/regions">Régions</a>
-    <a href="/exams3-main/exams3/villes">Villes</a>
-    <a href="/exams3-main/exams3/besoins">Besoins</a>
-    <a href="/exams3-main/exams3/dons">Dons</a>
-    <a href="/exams3-main/exams3/achats">💰 Achats</a>
-    <a href="/exams3-main/exams3/achats/recapitulatif">📊 Récap</a>
-    <a href="/exams3-main/exams3/logout">Déconnexion</a>
+    <a href="<?= $base ?>/" class="active">Accueil</a>
+    <a href="<?= $base ?>/regions">Régions</a>
+    <a href="<?= $base ?>/villes">Villes</a>
+    <a href="<?= $base ?>/besoins">Besoins</a>
+    <a href="<?= $base ?>/dons">Dons</a>
+    <a href="<?= $base ?>/logout">Déconnexion</a>
   </nav>
 
   <div class="container">
-    <?php if (isset($error)): ?>
-    <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb;">
-      ⚠️ <?= htmlspecialchars($error) ?>
-    </div>
-    <?php endif; ?>
     
-    <?php if (!empty($totaux)): ?>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
-      <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-        <div style="font-size: 24px; font-weight: bold; color: #e74c3c;"><?= number_format($totaux['besoins_total'] ?? 0, 0, ',', ' ') ?> Ar</div>
-        <div style="color: #6b7280; font-size: 12px;">Besoins totaux</div>
+    <!-- Statistiques générales -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div style="font-size: 40px;">🗺️</div>
+        <div class="stat-value"><?= $stats['regions'] ?? 0 ?></div>
+        <div class="stat-label">Régions</div>
       </div>
-      <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-        <div style="font-size: 24px; font-weight: bold; color: #27ae60;"><?= number_format($totaux['besoins_satisfaits'] ?? 0, 0, ',', ' ') ?> Ar</div>
-        <div style="color: #6b7280; font-size: 12px;">Achats effectués</div>
+      <div class="stat-card">
+        <div style="font-size: 40px;">🏘️</div>
+        <div class="stat-value"><?= $stats['villes'] ?? 0 ?></div>
+        <div class="stat-label">Villes</div>
       </div>
-      <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-        <div style="font-size: 24px; font-weight: bold; color: #3498db;"><?= number_format($totaux['dons_recus'] ?? 0, 0, ',', ' ') ?> Ar</div>
-        <div style="color: #6b7280; font-size: 12px;">Dons reçus</div>
+      <div class="stat-card">
+        <div style="font-size: 40px;">📦</div>
+        <div class="stat-value"><?= $stats['besoins'] ?? 0 ?></div>
+        <div class="stat-label">Besoins</div>
       </div>
-      <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-        <div style="font-size: 24px; font-weight: bold; color: #8e44ad;"><?= number_format($totaux['fonds_restants'] ?? 0, 0, ',', ' ') ?> Ar</div>
-        <div style="color: #6b7280; font-size: 12px;">Fonds disponibles</div>
+      <div class="stat-card">
+        <div style="font-size: 40px;">🎁</div>
+        <div class="stat-value"><?= $stats['dons'] ?? 0 ?></div>
+        <div class="stat-label">Dons</div>
       </div>
     </div>
-    <?php endif; ?>
-    
-    <h2>💰 Montants d'achats par ville</h2>
+
+    <!-- Dernières régions ajoutées -->
+    <h2>🗺️ Dernières régions</h2>
     <table>
       <thead>
         <tr>
-          <th>Région</th>
-          <th>Ville</th>
-          <th>Nombre d'achats</th>
-          <th>Montant total des achats</th>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <?php if (!empty($achats_par_ville)): ?>
-          <?php foreach ($achats_par_ville as $ville): ?>
-            <tr>
-              <td><strong><?= htmlspecialchars($ville['region_nom']) ?></strong></td>
-              <td><?= htmlspecialchars($ville['ville_nom']) ?></td>
-              <td style="text-align: center;">
-                <span style="background: #e3f2fd; padding: 3px 8px; border-radius: 15px; font-weight: bold;">
-                  <?= $ville['nb_achats'] ?>
-                </span>
-              </td>
-              <td style="text-align: right;">
-                <strong style="color: <?= $ville['montant_achats'] > 0 ? '#27ae60' : '#6b7280' ?>;">
-                  <?= number_format($ville['montant_achats'], 0, ',', ' ') ?> Ar
-                </strong>
-              </td>
-            </tr>
-          <?php endforeach; ?>
+        <?php if (empty($dernieres_regions)): ?>
+          <tr><td colspan="3" style="text-align:center">Aucune région</td></tr>
         <?php else: ?>
+          <?php foreach ($dernieres_regions as $r): ?>
           <tr>
-            <td colspan="4" class="no-data">Aucune donnée d'achat disponible.</td>
+            <td><?= $r['id'] ?></td>
+            <td><?= htmlspecialchars($r['nom']) ?></td>
+            <td>
+              <a href="<?= $base ?>/regions/<?= $r['id'] ?>" class="btn">Voir</a>
+            </td>
           </tr>
+          <?php endforeach; ?>
         <?php endif; ?>
       </tbody>
     </table>
+
+    <!-- Dernières villes ajoutées -->
+    <h2>🏘️ Dernières villes</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Région</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (empty($dernieres_villes)): ?>
+          <tr><td colspan="4" style="text-align:center">Aucune ville</td></tr>
+        <?php else: ?>
+          <?php foreach ($dernieres_villes as $v): ?>
+          <tr>
+            <td><?= $v['id'] ?></td>
+            <td><?= htmlspecialchars($v['nom']) ?></td>
+            <td><?= htmlspecialchars($v['region_nom']) ?></td>
+            <td>
+              <a href="<?= $base ?>/villes/<?= $v['id'] ?>" class="btn">Voir</a>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </tbody>
+    </table>
+
+    <!-- Liens rapides -->
+    <div style="text-align: center; margin: 40px 0;">
+      <a href="<?= $base ?>/create" class="btn btn-success" style="padding: 15px 30px; font-size: 16px;">➕ Créer (Région, Ville, Besoin)</a>
+    </div>
+
   </div>
 </body>
 </html>

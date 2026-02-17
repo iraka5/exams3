@@ -1,6 +1,14 @@
 <?php
 // config/config.php
 
+// Démarrer la session si pas déjà fait
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Constante pour l'URL de base (utilisée dans les redirections)
+define('BASE_URL', '/exams3-main/exams3');
+
 function getDB()
 {
     static $db = null;
@@ -21,3 +29,4 @@ function getDB()
 
     return $db;
 }
+?>

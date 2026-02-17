@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
+=======
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+>>>>>>> 23d5555 (changes)
 RewriteRule ^(.*)$ index.php [QSA,L]
