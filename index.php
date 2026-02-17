@@ -75,42 +75,52 @@ switch ($path) {
             $email = trim($_POST['email'] ?? '');
             $password = trim($_POST['password'] ?? '');
             
+            error_log("DEBUG SIGNUP: nom=$nom, email=$email, password_length=" . strlen($password));
+            
             if (empty($nom) || empty($email) || empty($password)) {
+                error_log("DEBUG: Champs vides");
                 header('Location: ' . $base . '/signup?error=missing_fields');
                 exit;
             }
             
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                error_log("DEBUG: Email invalide");
                 header('Location: ' . $base . '/signup?error=invalid_email');
                 exit;
             }
             
             if (strlen($password) < 6) {
+                error_log("DEBUG: Mot de passe trop court");
                 header('Location: ' . $base . '/signup?error=password_too_short');
                 exit;
             }
             
             try {
                 $pdo = getDB();
+                error_log("DEBUG: DB connected");
                 
                 // Vérifier si l'email existe
                 $check = $pdo->prepare("SELECT id FROM user WHERE email = ?");
                 $check->execute([$email]);
                 if ($check->fetch()) {
+                    error_log("DEBUG: Email déjà existant");
                     header('Location: ' . $base . '/signup?error=email_exists');
                     exit;
                 }
                 
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                $stmt = $pdo->prepare("INSERT INTO user (nom, email, password, role, created_at) VALUES (?, ?, ?, 'user', NOW())");
+                $stmt = $pdo->prepare("INSERT INTO user (nom, email, password, created_at) VALUES (?, ?, ?, NOW())");
+                error_log("DEBUG: Tentative INSERT");
                 $stmt->execute([$nom, $email, $hashedPassword]);
+                error_log("DEBUG: INSERT réussi");
                 
                 header('Location: ' . $base . '/login?success=registered');
                 exit;
                 
             } catch (Exception $e) {
-                header('Location: ' . $base . '/signup?error=db_error');
-                exit;
+                error_log("DEBUG: Exception - " . $e->getMessage());
+                echo "Erreur DB: " . $e->getMessage();
+                die();
             }
         } else {
             // Inclure le fichier HTML
@@ -135,6 +145,33 @@ switch ($path) {
         echo "<a href='" . $base . "/user/dons'>Faire un don</a><br>";
         echo "<a href='" . $base . "/user/villes'>Statistiques</a><br>";
         echo "<a href='" . $base . "/logout'>Déconnexion</a>";
+        break;
+        
+    // USER BESOINS
+    case '/user/besoins':
+        if (!isset($_SESSION['user'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once __DIR__ . '/views/users/besoins.php';
+        break;
+        
+    // USER DONS
+    case '/user/dons':
+        if (!isset($_SESSION['user'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once __DIR__ . '/views/users/dons_form.php';
+        break;
+        
+    // USER VILLES (STATISTIQUES)
+    case '/user/villes':
+        if (!isset($_SESSION['user'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once __DIR__ . '/views/users/villes_stats.php';
         break;
         
     // DASHBOARD V2
