@@ -1,5 +1,17 @@
 <?php
 session_start();
+
+// Servir les fichiers statiques du dossier public directement
+$publicPath = __DIR__ . '/public';
+if (preg_match('#^/public/(.+)$#', $_SERVER['REQUEST_URI'], $matches)) {
+    $file = realpath($publicPath . '/' . $matches[1]);
+    if ($file && strpos($file, $publicPath) === 0 && is_file($file)) {
+        $mime = mime_content_type($file);
+        header('Content-Type: ' . $mime);
+        readfile($file);
+        exit;
+    }
+}
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
