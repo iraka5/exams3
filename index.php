@@ -486,7 +486,7 @@ switch ($path) {
     
     // Routes pour les régions
     case '/regions':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -496,7 +496,7 @@ switch ($path) {
         break;
         
     case '/regions/create':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -510,7 +510,7 @@ switch ($path) {
         break;
         
     case '/regions/edit':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -525,7 +525,7 @@ switch ($path) {
         break;
         
     case '/regions/show':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -537,7 +537,7 @@ switch ($path) {
         
     // Routes pour les villes
     case '/villes':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -547,7 +547,7 @@ switch ($path) {
         break;
         
     case '/villes/create':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -561,7 +561,7 @@ switch ($path) {
         break;
         
     case '/villes/edit':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -576,7 +576,7 @@ switch ($path) {
         break;
         
     case '/villes/show':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -588,7 +588,7 @@ switch ($path) {
         
     // Routes pour les besoins
     case '/besoins':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -598,7 +598,7 @@ switch ($path) {
         break;
         
     case '/besoins/create':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -612,7 +612,7 @@ switch ($path) {
         break;
         
     case '/besoins/edit':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -627,7 +627,7 @@ switch ($path) {
         break;
         
     case '/besoins/show':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -639,7 +639,7 @@ switch ($path) {
         
     // Routes pour les dons
     case '/dons':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -649,7 +649,7 @@ switch ($path) {
         break;
         
     case '/dons/create':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -663,7 +663,7 @@ switch ($path) {
         break;
         
     case '/dons/edit':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -678,7 +678,7 @@ switch ($path) {
         break;
         
     case '/dons/show':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -690,7 +690,7 @@ switch ($path) {
         
     // Routes pour les achats
     case '/achats':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -700,7 +700,7 @@ switch ($path) {
         break;
         
     case '/achats/create':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -714,7 +714,7 @@ switch ($path) {
         break;
         
     case '/achats/recapitulatif':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -722,6 +722,27 @@ switch ($path) {
         $controller = new AchatController();
         $controller->recapitulatif();
         break;
+        
+    // API pour récupérer les besoins par ville
+    case (preg_match('/^\/api\/achats\/besoins\/(\d+)$/', $path, $matches) ? true : false):
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            exit;
+        }
+        $ville_id = $matches[1];
+        try {
+            $pdo = getDB();
+            $stmt = $pdo->prepare("SELECT id, nom, prix_unitaire, nombre FROM besoins WHERE id_ville = ? ORDER BY nom");
+            $stmt->execute([$ville_id]);
+            $besoins = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            header('Content-Type: application/json');
+            echo json_encode($besoins);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+        exit;
         
     // Page de test (sans authen)
     case '/test':
@@ -755,7 +776,7 @@ switch ($path) {
                         <li>Server: " . $_SERVER['SERVER_SOFTWARE'] . "</li>
                         <li>Request URI: " . $_SERVER['REQUEST_URI'] . "</li>
                         <li>Path: $path</li>
-                        <li>Session: " . (isset($_SESSION['user_id']) ? 'Connecté ID=' . $_SESSION['user_id'] : 'Non connecté') . "</li>
+                        <li>Session: " . (isset($_SESSION['user']) ? 'Connecté ID=' . $_SESSION['user'] : 'Non connecté') . "</li>
                     </ul>
                 </div>
             </div>
@@ -767,7 +788,7 @@ switch ($path) {
         
     // Dashboard principal
     case '/dashboard':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: ' . $base . '/login');
             exit;
         }
@@ -776,7 +797,7 @@ switch ($path) {
         
     // Connexion automatique de test
     case '/auto-login':
-        $_SESSION['user_id'] = 1;
+        $_SESSION['user'] = 1;
         $_SESSION['username'] = 'Utilisateur Test';
         $_SESSION['role'] = 'admin';
         echo "<!DOCTYPE html>

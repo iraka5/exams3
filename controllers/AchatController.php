@@ -3,6 +3,27 @@ require_once __DIR__ . '/../config/config.php';
 
 class AchatController {
     
+    // Afficher la liste des achats
+    public static function index() {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /exams3-main/exams3/login');
+            exit;
+        }
+        
+        $db = getDB();
+        $sql = "SELECT a.*, v.nom as ville_nom, b.nom as besoin_nom, r.nom as region_nom
+                FROM achats a
+                JOIN besoins b ON a.id_besoin = b.id
+                JOIN ville v ON a.id_ville = v.id
+                JOIN regions r ON v.id_regions = r.id
+                ORDER BY a.created_at DESC";
+        
+        $stmt = $db->query($sql);
+        $achats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        include __DIR__ . '/../views/achats/index.php';
+    }
+    
     // Afficher le formulaire de création d'achat
     public static function create() {
         if (!isset($_SESSION['user']) || $_SESSION['role'] !== 'user') {
@@ -11,16 +32,16 @@ class AchatController {
         }
         
         $db = getDB();
-        $villes = $db->query("SELECT * FROM ville ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
+        $villes = $db->query("SELECT v.*, r.nom as region_nom FROM ville v LEFT JOIN regions r ON v.id_regions = r.id ORDER BY v.nom")->fetchAll(PDO::FETCH_ASSOC);
         
         // Pour chaque ville, récupérer les besoins
         foreach ($villes as &$ville) {
-            $stmt = $db->prepare("SELECT id, description, prix_unitaire, nombre FROM besoins WHERE id_ville = ?");
+            $stmt = $db->prepare("SELECT id, nom, prix_unitaire, nombre FROM besoins WHERE id_ville = ?");
             $stmt->execute([$ville['id']]);
             $ville['besoins'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         
-        include __DIR__ . '/../views/users/achats_form.php';
+        include __DIR__ . '/../views/achats/create.php';
     }
     
     // Enregistrer un achat
