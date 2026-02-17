@@ -89,40 +89,48 @@ switch ($path) {
             exit;
         }
         break;
+
+        // ========== PAGE DE CRÉATION ==========
+case '/create':
+    $regions = $db->query("SELECT * FROM regions ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
+    $villes = $db->query("SELECT * FROM ville ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
+    include __DIR__ . '/views/create.php';
+    break;
     
-    // ========== VILLES ==========
-    case '/villes':
-        $region_id = isset($_GET['region_id']) ? intval($_GET['region_id']) : 0;
+// ========== VILLES ==========
+case '/villes':
+    // Récupérer toutes les régions pour le filtre
+    $regions = $db->query("SELECT * FROM regions ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Récupérer l'ID de la région depuis l'URL
+    $region_id = isset($_GET['region_id']) ? intval($_GET['region_id']) : 0;
+    
+    // Initialiser la variable region_selected
+    $region_selected = null;
+    
+    // Construire la requête en fonction du filtre
+    if ($region_id > 0) {
+        // Vérifier que la région existe
+        $region_check = $db->prepare("SELECT * FROM regions WHERE id = ?");
+        $region_check->execute([$region_id]);
+        $region_selected = $region_check->fetch(PDO::FETCH_ASSOC);
         
-        if ($region_id > 0) {
+        if ($region_selected) {
+            // Récupérer les villes de la région sélectionnée
             $stmt = $db->prepare("SELECT v.*, r.nom as region_nom FROM ville v JOIN regions r ON v.id_regions = r.id WHERE v.id_regions = ? ORDER BY v.nom");
             $stmt->execute([$region_id]);
             $villes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            $region = $db->prepare("SELECT * FROM regions WHERE id = ?");
-            $region->execute([$region_id]);
-            $region_selected = $region->fetch(PDO::FETCH_ASSOC);
         } else {
+            // Si la région n'existe pas, on ignore le filtre
             $villes = $db->query("SELECT v.*, r.nom as region_nom FROM ville v JOIN regions r ON v.id_regions = r.id ORDER BY r.nom, v.nom")->fetchAll(PDO::FETCH_ASSOC);
-            $region_selected = null;
         }
-        
-        $regions = $db->query("SELECT * FROM regions ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
-        include __DIR__ . '/views/villes/index.php';
-        break;
-        
-    case '/villes/create':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom = trim($_POST['nom'] ?? '');
-            $id_regions = intval($_POST['id_regions'] ?? 0);
-            if (!empty($nom) && $id_regions > 0) {
-                $stmt = $db->prepare("INSERT INTO ville (nom, id_regions) VALUES (?, ?)");
-                $stmt->execute([$nom, $id_regions]);
-            }
-            header('Location: ' . BASE_URL . '/villes');
-            exit;
-        }
-        break;
+    } else {
+        // Pas de filtre, toutes les villes
+        $villes = $db->query("SELECT v.*, r.nom as region_nom FROM ville v JOIN regions r ON v.id_regions = r.id ORDER BY r.nom, v.nom")->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    include __DIR__ . '/views/villes/index.php';
+    break;
     
     // ========== BESOINS ==========
     case '/besoins':

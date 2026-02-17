@@ -64,6 +64,7 @@ $base = '/exams3-main/exams3';
     }
     .btn:hover { opacity: 0.9; }
     .btn-success { background: #28a745; }
+    .btn-info { background: #17a2b8; }
     
     .progress-bar {
       width: 100%;
@@ -89,6 +90,18 @@ $base = '/exams3-main/exams3';
       color: var(--brand);
       margin: 30px 0 15px 0;
     }
+    
+    .action-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+    .action-buttons .btn {
+      padding: 15px 30px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
@@ -103,7 +116,6 @@ $base = '/exams3-main/exams3';
     <a href="<?= $base ?>/villes">Villes</a>
     <a href="<?= $base ?>/besoins">Besoins</a>
     <a href="<?= $base ?>/dons">Dons</a>
-    <a href="<?= $base ?>/create" class="btn-success">➕ Créer</a>
     <a href="<?= $base ?>/logout">Déconnexion</a>
   </nav>
 
@@ -156,9 +168,10 @@ $base = '/exams3-main/exams3';
       </tbody>
     </table>
 
-    <div style="text-align: center; margin: 40px 0;">
-      <a href="<?= $base ?>/create" class="btn btn-success" style="padding: 15px 30px; font-size: 16px;">➕ Ajouter une région, une ville ou un besoin</a>
-      <a href="<?= $base ?>/dons/create" class="btn" style="padding: 15px 30px; font-size: 16px; background: #17a2b8;">🎁 Ajouter un don</a>
+    <!-- Boutons d'action -->
+    <div class="action-buttons">
+      <a href="<?= $base ?>/create" class="btn btn-success">➕ Créer (Région, Ville, Besoin)</a>
+      <a href="<?= $base ?>/dons/create" class="btn btn-info">🎁 Faire un don</a>
     </div>
 
   </div>

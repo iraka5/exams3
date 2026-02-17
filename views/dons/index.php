@@ -106,7 +106,7 @@
     <a href="/exams3-main/exams3/villes">Villes</a>
     <a href="/exams3-main/exams3/besoins">Besoins</a>
     <a href="/exams3-main/exams3/dons" class="active">Dons</a>
-    <a href="/exams3-main/exams3/logout">Déconnexion</a>
+    <a href="/exams3-main/exams3/logout">Sortir</a>
   </nav>
 
   <div class="container">
