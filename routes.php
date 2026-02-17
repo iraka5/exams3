@@ -1,8 +1,14 @@
 <?php
 // routes.php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/config/config.php';
 
-define('BASE_URL', '/exams3-main/exams3');
+// Vérifier si BASE_URL est déjà défini
+if (!defined('BASE_URL')) {
+    define('BASE_URL', '/exams3-main/exams3');
+}
 
 // Récupérer l'URL
 $request = $_SERVER['REQUEST_URI'];
@@ -29,20 +35,42 @@ switch ($path) {
         break;
     
     // ========== TABLEAU DE BORD ==========
-    // TABLEAU DE BORD
-case '/tableau-bord':
-    $stats = [
-        'regions' => $db->query("SELECT COUNT(*) FROM regions")->fetchColumn(),
-        'villes' => $db->query("SELECT COUNT(*) FROM ville")->fetchColumn(),
-        'besoins' => $db->query("SELECT COUNT(*) FROM besoins")->fetchColumn(),
-        'dons' => $db->query("SELECT COUNT(*) FROM dons")->fetchColumn()
-    ];
-    $dernieres_regions = $db->query("SELECT * FROM regions ORDER BY id DESC LIMIT 3")->fetchAll(PDO::FETCH_ASSOC);
-    $dernieres_villes = $db->query("SELECT v.*, r.nom as region_nom FROM ville v JOIN regions r ON v.id_regions = r.id ORDER BY v.id DESC LIMIT 3")->fetchAll(PDO::FETCH_ASSOC);
-    
-    // CORRECTION: tableau_bord_simple.php au lieu de tableau_bord.php
-    include __DIR__ . '/views/tableau_bord_simple.php';
-    break;
+    case '/tableau-bord':
+        // Récupérer toutes les données aggrégées
+        $sql = "SELECT 
+                    r.id as region_id,
+                    r.nom as region_nom,
+                    v.id as ville_id,
+                    v.nom as ville_nom,
+                    b.nom as type_besoin,
+                    COALESCE(b.nombre, 0) as besoin_quantite,
+                    COALESCE(SUM(d.nombre_don), 0) as dons_quantite
+                FROM regions r
+                LEFT JOIN ville v ON r.id = v.id_regions
+                LEFT JOIN besoins b ON v.id = b.id_ville
+                LEFT JOIN dons d ON v.id = d.id_ville
+                GROUP BY v.id, b.id
+                ORDER BY r.nom, v.nom";
+        
+        $donnees = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Initialiser les valeurs et calculer la progression pour chaque ligne
+        foreach ($donnees as &$row) {
+            $row['besoin_quantite'] = $row['besoin_quantite'] ?? 0;
+            $row['dons_quantite'] = $row['dons_quantite'] ?? 0;
+            $row['type_besoin'] = $row['type_besoin'] ?? 'Non spécifié';
+            $row['region_nom'] = $row['region_nom'] ?? 'Non définie';
+            $row['ville_nom'] = $row['ville_nom'] ?? 'Non définie';
+            
+            if ($row['besoin_quantite'] > 0) {
+                $row['progression'] = min(100, round(($row['dons_quantite'] / $row['besoin_quantite']) * 100, 1));
+            } else {
+                $row['progression'] = 0;
+            }
+        }
+        
+        include __DIR__ . '/views/tableau_bord_simple.php';
+        break;
     
     // ========== RÉGIONS ==========
     case '/regions':
@@ -60,41 +88,6 @@ case '/tableau-bord':
             header('Location: ' . BASE_URL . '/regions');
             exit;
         }
-        break;
-        
-    case (preg_match('/^\/regions\/(\d+)$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        $region = $db->prepare("SELECT * FROM regions WHERE id = ?");
-        $region->execute([$id]);
-        $region = $region->fetch(PDO::FETCH_ASSOC);
-        // Ici vous afficheriez la vue show.php si elle existe
-        header('Location: ' . BASE_URL . '/regions');
-        exit;
-        break;
-        
-    case (preg_match('/^\/regions\/(\d+)\/edit$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom = trim($_POST['nom'] ?? '');
-            if (!empty($nom)) {
-                $stmt = $db->prepare("UPDATE regions SET nom = ? WHERE id = ?");
-                $stmt->execute([$nom, $id]);
-            }
-            header('Location: ' . BASE_URL . '/regions');
-            exit;
-        } else {
-            $region = $db->prepare("SELECT * FROM regions WHERE id = ?");
-            $region->execute([$id]);
-            $region = $region->fetch(PDO::FETCH_ASSOC);
-            include __DIR__ . '/views/regions/edit.php';
-        }
-        break;
-        
-    case (preg_match('/^\/regions\/(\d+)\/delete$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        $db->prepare("DELETE FROM regions WHERE id = ?")->execute([$id]);
-        header('Location: ' . BASE_URL . '/regions');
-        exit;
         break;
     
     // ========== VILLES ==========
@@ -129,41 +122,6 @@ case '/tableau-bord':
             header('Location: ' . BASE_URL . '/villes');
             exit;
         }
-        break;
-        
-    case (preg_match('/^\/villes\/(\d+)$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        $ville = $db->prepare("SELECT v.*, r.nom as region_nom FROM ville v JOIN regions r ON v.id_regions = r.id WHERE v.id = ?");
-        $ville->execute([$id]);
-        $ville = $ville->fetch(PDO::FETCH_ASSOC);
-        include __DIR__ . '/views/villes/show.php';
-        break;
-        
-    case (preg_match('/^\/villes\/(\d+)\/edit$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom = trim($_POST['nom'] ?? '');
-            $id_regions = intval($_POST['id_regions'] ?? 0);
-            if (!empty($nom) && $id_regions > 0) {
-                $stmt = $db->prepare("UPDATE ville SET nom = ?, id_regions = ? WHERE id = ?");
-                $stmt->execute([$nom, $id_regions, $id]);
-            }
-            header('Location: ' . BASE_URL . '/villes');
-            exit;
-        } else {
-            $ville = $db->prepare("SELECT * FROM ville WHERE id = ?");
-            $ville->execute([$id]);
-            $ville = $ville->fetch(PDO::FETCH_ASSOC);
-            $regions = $db->query("SELECT * FROM regions ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
-            include __DIR__ . '/views/villes/edit.php';
-        }
-        break;
-        
-    case (preg_match('/^\/villes\/(\d+)\/delete$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        $db->prepare("DELETE FROM ville WHERE id = ?")->execute([$id]);
-        header('Location: ' . BASE_URL . '/villes');
-        exit;
         break;
     
     // ========== BESOINS ==========
@@ -200,44 +158,6 @@ case '/tableau-bord':
             include __DIR__ . '/views/besoins/create.php';
         }
         break;
-        
-    case (preg_match('/^\/besoins\/(\d+)$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        $besoin = $db->prepare("SELECT b.*, v.nom as ville_nom FROM besoins b JOIN ville v ON b.id_ville = v.id WHERE b.id = ?");
-        $besoin->execute([$id]);
-        $besoin = $besoin->fetch(PDO::FETCH_ASSOC);
-        include __DIR__ . '/views/besoins/show.php';
-        break;
-        
-    case (preg_match('/^\/besoins\/(\d+)\/edit$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom = trim($_POST['nom'] ?? '');
-            $nombre = floatval($_POST['nombre'] ?? 0);
-            $prix_unitaire = floatval($_POST['prix_unitaire'] ?? 0);
-            $id_ville = intval($_POST['id_ville'] ?? 0);
-            
-            if (!empty($nom) && $nombre > 0 && $prix_unitaire > 0 && $id_ville > 0) {
-                $stmt = $db->prepare("UPDATE besoins SET nom = ?, nombre = ?, prix_unitaire = ?, id_ville = ? WHERE id = ?");
-                $stmt->execute([$nom, $nombre, $prix_unitaire, $id_ville, $id]);
-            }
-            header('Location: ' . BASE_URL . '/besoins');
-            exit;
-        } else {
-            $besoin = $db->prepare("SELECT * FROM besoins WHERE id = ?");
-            $besoin->execute([$id]);
-            $besoin = $besoin->fetch(PDO::FETCH_ASSOC);
-            $villes = $db->query("SELECT * FROM ville ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
-            include __DIR__ . '/views/besoins/edit.php';
-        }
-        break;
-        
-    case (preg_match('/^\/besoins\/(\d+)\/delete$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        $db->prepare("DELETE FROM besoins WHERE id = ?")->execute([$id]);
-        header('Location: ' . BASE_URL . '/besoins');
-        exit;
-        break;
     
     // ========== DONS ==========
     case '/dons':
@@ -263,42 +183,24 @@ case '/tableau-bord':
             include __DIR__ . '/views/dons/create.php';
         }
         break;
+    
+    // ========== SUPPRESSION ==========
+    case (preg_match('/^\/(regions|villes|besoins|dons)\/(\d+)\/delete$/', $path, $matches) ? true : false):
+        $table = $matches[1];
+        $id = $matches[2];
         
-    case (preg_match('/^\/dons\/(\d+)$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        $don = $db->prepare("SELECT d.*, v.nom as ville_nom FROM dons d JOIN ville v ON d.id_ville = v.id WHERE d.id = ?");
-        $don->execute([$id]);
-        $don = $don->fetch(PDO::FETCH_ASSOC);
-        include __DIR__ . '/views/dons/show.php';
-        break;
+        $table_map = [
+            'regions' => 'regions',
+            'villes' => 'ville',
+            'besoins' => 'besoins',
+            'dons' => 'dons'
+        ];
         
-    case (preg_match('/^\/dons\/(\d+)\/edit$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom_donneur = trim($_POST['nom_donneur'] ?? '');
-            $type_don = trim($_POST['type_don'] ?? '');
-            $nombre_don = floatval($_POST['nombre_don'] ?? 0);
-            $id_ville = intval($_POST['id_ville'] ?? 0);
-            
-            if (!empty($nom_donneur) && !empty($type_don) && $nombre_don > 0 && $id_ville > 0) {
-                $stmt = $db->prepare("UPDATE dons SET nom_donneur = ?, type_don = ?, nombre_don = ?, id_ville = ? WHERE id = ?");
-                $stmt->execute([$nom_donneur, $type_don, $nombre_don, $id_ville, $id]);
-            }
-            header('Location: ' . BASE_URL . '/dons');
-            exit;
-        } else {
-            $don = $db->prepare("SELECT * FROM dons WHERE id = ?");
-            $don->execute([$id]);
-            $don = $don->fetch(PDO::FETCH_ASSOC);
-            $villes = $db->query("SELECT * FROM ville ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
-            include __DIR__ . '/views/dons/edit.php';
-        }
-        break;
+        $db_table = $table_map[$table];
+        $stmt = $db->prepare("DELETE FROM $db_table WHERE id = ?");
+        $stmt->execute([$id]);
         
-    case (preg_match('/^\/dons\/(\d+)\/delete$/', $path, $matches) ? true : false):
-        $id = $matches[1];
-        $db->prepare("DELETE FROM dons WHERE id = ?")->execute([$id]);
-        header('Location: ' . BASE_URL . '/dons');
+        header('Location: ' . BASE_URL . '/' . $table);
         exit;
         break;
     

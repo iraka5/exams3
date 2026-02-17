@@ -6,8 +6,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Constante pour l'URL de base (utilisée dans les redirections)
-define('BASE_URL', '/exams3-main/exams3');
+// Constante pour l'URL de base
+if (!defined('BASE_URL')) {
+    define('BASE_URL', '/exams3-main/exams3');
+}
 
 function getDB()
 {
