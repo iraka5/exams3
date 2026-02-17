@@ -98,7 +98,7 @@ if (!isset($villes)) $villes = [];
           <?php foreach ($villes as $ville): ?>
             <tr>
               <td><?= $ville['id'] ?></td>
-              <td><strong><?= htmlspecialchars($ville['nom']) ?></strong></td>
+              <td style="color: white;"><strong><?= htmlspecialchars($ville['nom']) ?></strong></td>
               <td>
                 <span style="background: #e3f2fd; padding: 3px 8px; border-radius: 15px;">
                   <?= htmlspecialchars($ville['region_nom']) ?>
