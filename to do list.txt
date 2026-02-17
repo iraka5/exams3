@@ -1,342 +1,112 @@
-TO DO LIST
-Base de données (20 min)
 
-    user 
-        id
-        nom
-        password
-        email
 
-    regions
+ TO DO LIST – ESTIMATION TEMPS
 
-        id
+ PARTIE 1 - BASE (6h)
 
-        nom
+ Base de données – Alintsoa & Melissa (2h)
 
-    ville
+ Table regions (id, nom) – 20 min
+ Table ville (id, id_regions, nom) – 20 min
+ Table besoins (id, nom, nombre, id_ville) – 20 min
+ Table dons (id, nom_donneur, type_don, nombre_don, id_ville) – 30 min
+ Table echange (id, id_besoin, id_don, nombre_echange, date_don) – 30 min
 
-        id
+ Pages – Alintsoa (1h30)
 
-        id regions
+ Pages regions et villes – 1h
+ Design unifié pour les pages – 30 min
 
-        nom
+ Pages – Melissa (1h)
 
-    besoins
+ Pages besoins et dons, formulaires et vues – 1h
 
-        id
+ Corrections & Routes – Iraka (2h)
 
-        nom
+ Création routes, corrections 404/500, chemins – 2h
 
-        nombre
+Répartition Partie 1
 
-        id ville
+ Iraka : 2h
+ Alintsoa : 1h30
+ Melissa : 1h
 
-    dons
 
-        id
 
-        nom du donneur
+ PARTIE 2 - SYSTEME ACHATS (8h)
 
-        type don
+ Fait par Iraka – 5h
 
-        nombre don
+ Page besoins avec prix unitaire + progression – 1h
+ Formulaire achat (ville, besoin, quantité) – 45 min
+ Calcul montant auto JS – 45 min
+ Liste achats + filtre par ville – 1h
+ Page récapitulatif + totaux – 1h
+ Ajax + routes – 30 min
 
-        id ville
+ A faire par Alintsoa – 1h30
 
-    echange
+ Table achats + colonnes prix_unitaire/type – 30 min
+ Controllers (insertion + filtre + totaux) – 1h
 
-        id
+ A faire par Melissa – 1h30
 
-        id besoins
+ Model Achat + méthodes totaux – 45 min
+ Gestion dons + vérification fonds – 45 min
 
-        id don
+Répartition Partie 2
 
-        nombre echangee
+ Iraka : 5h
+ Alintsoa : 1h30
+ Melissa : 1h30
 
-        date don
+---
 
-Pages
+ PARTIE 3 - SYSTEME VENTE (V3) (10h)
 
-    pages regions (30 min)
+ Fait par Iraka – 7h
 
-        liste des regions
+ Models + logique (isVendable, calcul prix, vendre) – 3h
+ Règles métier (interdictions, vérification besoins) – 1h30
+ Dashboard et historique – 1h
+ Routes + pages (vente, config, historique, reset) – 1h30
 
-    pages villes (30 min)
+ A faire par Alintsoa – 2h
 
-        liste des villes
+ Base de données (table paramètres, champs essentiel/vendu) – 45 min
+ Controllers (reset, vérification, conversion) – 45 min
+ Design pour interfaces V3 – 30 min
 
-    pages besoins (30 min)
+ A faire par Melissa – 1h30
 
-        affiche les listes des besoins de la ville
+ Interface vente + config + indicateurs + vues – 1h30
 
-    pages insertions des besoins formulaire (40 min)
+Répartition Partie 3
 
-        nom ville
+ Iraka : 7h
+ Alintsoa : 2h
+ Melissa : 1h30
 
-        besoins en quantite
+---
 
-    pages insertion des dons (40 min)
+ TESTS & CORRECTIONS (2h)
 
-        nom donateur
+ Tests fonctionnels complets – 1h
+ Correction bugs – 1h
 
-        type
+Répartition Tests
 
-        quantite
+ Iraka : 1h
+ Alintsoa : 0,5h
+ Melissa : 0,5h
 
-    pages ensemble (60 min)
+---
 
-        regions
+ TOTAL HEURES PAR PERSONNE 
 
-        ville
+ Iraka : 2 + 5 + 7 + 1 = 15h
+ Alintsoa : 1,5 + 1,5 + 2 + 0,5 = 5,5h
+ Melissa : 1 + 1,5 + 1,5 + 0,5 = 4,5h
 
-        besoins
+Total général : 25h
 
-        attributions
-
-FlightMVC
-
-    adaptation des routes (30 min)
-
-    organisation mvc
-
-        classes (40 min)
-
-        controllers (40 min)
-
-        views (40 min)
-
-
-
-
-Alintsoa (~2h30)
-
-    creation Base de données (20 min)
-
-    Pages Régions (30 min)
-
-    Pages Villes (30 min)
-
-    Controllers (40 min)
-    Total ≈ 2h40
-
-Melissa (~2h40)
-
-    Pages Besoins (30 min)
-
-    Formulaire insertion besoins (40 min)
-
-    Pages Dons (30 min)
-
-    Formulaire insertion dons (40 min)
-
-    Views (40 min)
-    Total ≈ 2h40
-
-Iraka (~2h30)
-
-    Page login admin/user (50 min)
-
-    Page signup (40 min)
-
-    insertion donnees dans base de donnees (20 min)
-
-    Pages Ensemble/Tableau de bord (60 min)
-
-    Classes (models) (40 min)
-    Adaptation des routes (30 min)
-    initialization design (30 min)
-    Total ≈ 2h30
-
-
-=== PHASE 2 - SYSTÈME ACHATS ===
-
-Personne1 (~2h30)
-
-- Alintsoa
-
-    Base de données (40 min)
-        - Table achats + relations
-        - Ajout prix_unitaire et type_besoin
-
-    Routes (30 min)
-        - Liste achats
-        - Filtre par ville
-        - Page récap + route AJAX
-
-    Controllers (1h20)
-        - Insertion achat (calcul montant auto)
-        - Filtre par ville
-        - Calcul totaux (besoins, satisfaits, dons reçus, dispatchés)
-
-
-Personne2 (~2h40)
-
--Iraka
-
-    Page Besoins (40 min)
-        - Affichage prix unitaire + progression
-
-    Formulaire Achat (45 min)
-        - Ville, besoin, quantité
-        - Calcul montant auto (JS)
-
-    Liste Achats (35 min)
-        - Tableau + filtre par ville
-
-    Page Récap (40 min)
-        - Totaux + bouton Actualiser (Ajax)
-
-
-Personne3 (~2h30)
-
-    Models (40 min)
-        - Model Achat + relations
-        - Méthodes de calcul des totaux
-
-    Gestion dispatch dons (50 min)
-        - Déduction automatique des dons
-        - Vérification fonds disponibles
-
-    Dashboard V2 (1h)
-        - Montant achats par ville
-        - Indicateurs besoins satisfaits
-        - Mise à jour dynamique
-
-
-
-
-
-
-
-bouton reinitialiser au donnees initialement donne
-tableau dons et besoins amena aveo 
-fonctionnalite afaka mivarotra don mamadika don ho lasa vola
-oh hoe nisy nanome camion de nefa le camion tsy misy de avadika vola donc amidy le camion pour de l argent, pour faire un don (oh: toles)
-omaly afaka mividy don ajd afaka mivarotra (si tsy mifanaraka amle region na ville ny zavatra misy)
-rehefa mivarotra de mihena vidiny (oh ip 50k ar, de misy pourcentage ana contraire ana majoration(diminution) config iray ihany tsy maintsy 10% ny mihena, misy interface afaka manova anle pourcentage sur l affichage )
-misy validation tsy mahazo mivarotra article ilain' ny olona (anaty besoin)
-misy liste de besoin (avec demande ) si qlq1 veut vendre et que l article qui n est pas vendable (donc encore dans les demandes de certains), il y aura une erreur : "vente non permise"
-raha efa nahazo daholo anefa le olona de afaka varotana reste anle article si personne n a plus besoin de l article en question
-+
-
-
-un bouton reinitialiser besoin et dons (on nous donnera une liste de base et a chaque fois qu on reinitialise l affichage, les donnes de base reaparaitront et les updates precedentes ne s afficheront plus)
-
-nouvelle fonctionnalite 
-on pourra convertir les articles donnees non utiles en argent (ex: un donateur a fait don d'un camion mais il s'avere que ca ne rentre pas dans les besoins imediats des necessiteux alors pour s'y faire on a vendu le camion pour en faire un don, ce don qu on peut soit convertir en article soit juste laisser en argent )
-on peut donc vendre les articles offerts si ils ne conviennent pas aux besoins de la ville en question 
-IMPORTANT: quand on vend un article offert, ce dernier aura une diminutionde 10% a son prix de vente initial. ce sera configurable dans l interface mais de base ce sera une diminutionde 10% selon l article 
-il y aura une validation pour les articles essentiels qui ne pourront pas etre vendus (dans les besoins)
-il y aura une liste de besoin, si l'on veut vendre mais que l'article n'est pas vendable (encore dans la liste besoins de certains ) alors il y aura une erreur comme quoi "vente non permise"
-quoique si tout le monde, c est a dire les necessiteux n'ont plus besoin de l'article en question, on peut tout a fait le mettre en vendre pour le convertir en argent ou en autre article pour en faire un don.
-
-
-
---V3
-
-Alintsoa (~2h30)
-
-Base de données (45 min)
-
-Table parametres (taux diminution configurable – défaut 10%)
-
-Champ essentiel dans besoins
-
-Champ vendu dans dons/articles
-
-Gestion données de base (seed reset)
-
-Routes (30 min)
-
-Route réinitialisation
-
-Route vente article
-
-Route config taux
-
-Controllers (1h15)
-
-Reset : restaurer données initiales
-
-Vente article :
-
-Vérifier si vendable
-
-Appliquer –10% (configurable)
-
-Convertir en don argent
-
-Message erreur "vente non permise"
-
-
-
-Melissa (~2h40)
-
-Bouton Réinitialiser (30 min)
-
-Bouton + confirmation
-
-Rafraîchissement affichage
-
-Interface Vente (50 min)
-
-Bouton “Vendre” sur article
-
-Affichage prix initial / prix après réduction
-
-Message erreur si non vendable
-
-Interface Configuration (40 min)
-
-Champ modification taux (%)
-
-Valeur par défaut 10%
-
-Mise à jour Views (40 min)
-
-Indicateur article essentiel
-
-Statut vendu
-
-Affichage conversion en argent
-
-
-
-
-Iraka (~2h30)
-
-Models (45 min)
-
-Méthode isVendable()
-
-Vérification si encore dans besoins
-
-Méthode calcul prix réduit
-
-Logique Métier (55 min)
-
-Interdire vente si :
-
-Article essentiel
-
-Encore présent dans besoins
-
-Autoriser vente si plus aucun nécessiteux n’en a besoin
-
-Dashboard Update (50 min)
-
-Total argent issu des ventes
-
-Historique conversions
-
-Mise à jour dynamique
-
-
-
-V3 objectifs :
- Bouton réinitialisation (retour données initiales)
- Vente d’articles non utiles
- Réduction automatique 10% (configurable)
- Blocage vente articles essentiels
- Erreur si article encore dans liste besoins
- Conversion article → argent → autre don possible

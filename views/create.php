@@ -34,9 +34,15 @@
 
     <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
         <!-- REGION -->
+<<<<<<< HEAD
         <div class="card" style="transition: all 0.3s ease;">
             <h2 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.25rem; font-weight: 600;">Nouvelle Région</h2>
             <form method="post" action="/exams3-main/exams3/regions">
+=======
+        <div class="card">
+            <h2>🗺️ Ajouter une Région</h2>
+            <form method="post" action="/exams3-main/exams3/regions/create">
+>>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
                 <div class="form-group">
                     <label for="region_nom">Nom de la région</label>
                     <input id="region_nom" type="text" name="nom" placeholder="Ex: Analamanga">
@@ -46,9 +52,15 @@
         </div>
 
         <!-- VILLE -->
+<<<<<<< HEAD
         <div class="card" style="transition: all 0.3s ease;">
             <h2 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.25rem; font-weight: 600;">Nouvelle Ville</h2>
             <form method="post" action="/exams3-main/exams3/villes">
+=======
+        <div class="card">
+            <h2>🏘️ Ajouter une Ville</h2>
+            <form method="post" action="/exams3-main/exams3/villes/create">
+>>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
                 <div class="form-group">
                     <label for="ville_nom">Nom de la ville</label>
                     <input id="ville_nom" type="text" name="nom" placeholder="Ex: Antananarivo">
@@ -70,9 +82,15 @@
         </div>
 
         <!-- BESOIN -->
+<<<<<<< HEAD
         <div class="card" style="transition: all 0.3s ease;">
             <h2 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.25rem; font-weight: 600;">Nouveau Besoin</h2>
             <form method="post" action="/exams3-main/exams3/besoins">
+=======
+        <div class="card">
+            <h2>📦 Ajouter un Besoin</h2>
+            <form method="post" action="/exams3-main/exams3/besoins/create">
+>>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
                 <div class="form-group">
                     <label for="besoin_nom">Type de besoin</label>
                     <input id="besoin_nom" type="text" name="nom" placeholder="Ex: Riz, Eau, Médicaments">

@@ -23,10 +23,13 @@ if (preg_match('#^/public/(.+)$#', $_SERVER['REQUEST_URI'], $matches)) {
 
 // Charger Composer (Flight, etc.)
 require __DIR__ . '/vendor/autoload.php';
+<<<<<<< HEAD
 
 // Charger la config DB + fonctions
 require_once __DIR__ . '/config/config.php';
 
 // Charger les routes
+=======
+>>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
 require_once __DIR__ . '/routes.php';
 ?>

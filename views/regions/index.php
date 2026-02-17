@@ -3,7 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Régions - BNGRC</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
+=======
+    <style>
+        :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
+        body { font-family: Arial, sans-serif; background: var(--bg); margin: 0; padding: 0; }
+        .header { background: var(--brand); color: white; padding: 20px; text-align: center; }
+        nav { background: white; padding: 10px; display: flex; gap: 10px; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        nav a { color: var(--brand); text-decoration: none; padding: 8px 15px; border-radius: 20px; }
+        nav a:hover, nav a.active { background: var(--brand); color: white; }
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn { display: inline-block; padding: 10px 20px; border-radius: 20px; background: var(--brand); color: white; text-decoration: none; font-weight: 600; }
+        .btn-success { background: #28a745; }
+        .btn-danger { background: #dc3545; }
+        .btn-warning { background: #ffc107; color: black; }
+        table { width: 100%; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        th { background: var(--brand); color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; }
+        tr:hover { background: #f5f5f5; }
+        .actions { display: flex; gap: 5px; }
+        .btn-small { padding: 5px 10px; font-size: 12px; }
+    </style>
+>>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
 </head>
 <body>
     <div class="container">
