@@ -137,11 +137,368 @@ switch ($path) {
         echo "<a href='" . $base . "/logout'>Déconnexion</a>";
         break;
         
+    // DASHBOARD V2
+    case '/dashboard-v2':
+        if (!isset($_SESSION['user'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once __DIR__ . '/controllers/DashboardController.php';
+        DashboardController::dashboardV2();
+        break;
+        
+    // API DASHBOARD V2
+    case '/api/dashboard-v2':
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            exit;
+        }
+        require_once __DIR__ . '/controllers/DashboardController.php';
+        DashboardController::apiDashboardV2();
+        break;
+        
+    // API VERIFICATION FONDS
+    case '/api/verifier-fonds':
+        if (!isset($_SESSION['user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Non autorisé']);
+            exit;
+        }
+        require_once __DIR__ . '/controllers/DashboardController.php';
+        DashboardController::apiVerifierFonds();
+        break;
+        
     // LOGOUT
     case '/logout':
         session_destroy();
         header('Location: ' . $base . '/login');
         exit;
+        
+    // ===== ROUTES AJOUTÉES POUR RÉSOUDRE LES ERREURS 404 =====
+    
+    // Routes pour les régions
+    case '/regions':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/RegionController.php';
+        $controller = new RegionController();
+        $controller->index();
+        break;
+        
+    case '/regions/create':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/RegionController.php';
+        $controller = new RegionController();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->store();
+        } else {
+            $controller->create();
+        }
+        break;
+        
+    case '/regions/edit':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/RegionController.php';
+        $controller = new RegionController();
+        $id = $_GET['id'] ?? null;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->update($id);
+        } else {
+            $controller->edit($id);
+        }
+        break;
+        
+    case '/regions/show':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/RegionController.php';
+        $controller = new RegionController();
+        $id = $_GET['id'] ?? null;
+        $controller->show($id);
+        break;
+        
+    // Routes pour les villes
+    case '/villes':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/VilleController.php';
+        $controller = new VilleController();
+        $controller->index();
+        break;
+        
+    case '/villes/create':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/VilleController.php';
+        $controller = new VilleController();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->store();
+        } else {
+            $controller->create();
+        }
+        break;
+        
+    case '/villes/edit':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/VilleController.php';
+        $controller = new VilleController();
+        $id = $_GET['id'] ?? null;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->update($id);
+        } else {
+            $controller->edit($id);
+        }
+        break;
+        
+    case '/villes/show':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/VilleController.php';
+        $controller = new VilleController();
+        $id = $_GET['id'] ?? null;
+        $controller->show($id);
+        break;
+        
+    // Routes pour les besoins
+    case '/besoins':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/BesoinController.php';
+        $controller = new BesoinController();
+        $controller->index();
+        break;
+        
+    case '/besoins/create':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/BesoinController.php';
+        $controller = new BesoinController();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->store();
+        } else {
+            $controller->create();
+        }
+        break;
+        
+    case '/besoins/edit':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/BesoinController.php';
+        $controller = new BesoinController();
+        $id = $_GET['id'] ?? null;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->update($id);
+        } else {
+            $controller->edit($id);
+        }
+        break;
+        
+    case '/besoins/show':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/BesoinController.php';
+        $controller = new BesoinController();
+        $id = $_GET['id'] ?? null;
+        $controller->show($id);
+        break;
+        
+    // Routes pour les dons
+    case '/dons':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/DonController.php';
+        $controller = new DonController();
+        $controller->index();
+        break;
+        
+    case '/dons/create':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/DonController.php';
+        $controller = new DonController();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->store();
+        } else {
+            $controller->create();
+        }
+        break;
+        
+    case '/dons/edit':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/DonController.php';
+        $controller = new DonController();
+        $id = $_GET['id'] ?? null;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->update($id);
+        } else {
+            $controller->edit($id);
+        }
+        break;
+        
+    case '/dons/show':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/DonController.php';
+        $controller = new DonController();
+        $id = $_GET['id'] ?? null;
+        $controller->show($id);
+        break;
+        
+    // Routes pour les achats
+    case '/achats':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/AchatController.php';
+        $controller = new AchatController();
+        $controller->index();
+        break;
+        
+    case '/achats/create':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/AchatController.php';
+        $controller = new AchatController();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->store();
+        } else {
+            $controller->create();
+        }
+        break;
+        
+    case '/achats/recapitulatif':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'controllers/AchatController.php';
+        $controller = new AchatController();
+        $controller->recapitulatif();
+        break;
+        
+    // Page de test (sans authen)
+    case '/test':
+        echo "<!DOCTYPE html>
+<html>
+<head>
+    <title>Test BNGRC - Routing</title>
+    <link rel='stylesheet' href='/public/css/styles.css'>
+</head>
+<body>
+    <div class='container'>
+        <div class='card slide-up'>
+            <div class='card-header'>
+                <h1>✅ Test du Routing BNGRC</h1>
+                <p>Si vous voyez cette page, le routing fonctionne correctement!</p>
+            </div>
+            <div class='card-body'>
+                <h3>Pages disponibles:</h3>
+                <div class='grid grid-2 mt-4'>
+                    <a href='/dashboard' class='btn btn-primary'>🏠 Dashboard</a>
+                    <a href='/regions/create' class='btn btn-success'>🌍 Créer région</a>
+                    <a href='/villes/create' class='btn btn-info'>🏢 Créer ville</a>
+                    <a href='/besoins/create' class='btn btn-warning'>📋 Créer besoin</a>
+                    <a href='/dons/create' class='btn btn-secondary'>🎁 Créer don</a>
+                    <a href='/dashboard-v2' class='btn btn-primary'>📊 Dashboard V2</a>
+                </div>
+                <div class='mt-4 p-3' style='background: #f8fafc; border-radius: 0.5rem;'>
+                    <h4>Debug info:</h4>
+                    <ul class='text-sm text-secondary'>
+                        <li>PHP Version: " . PHP_VERSION . "</li>
+                        <li>Server: " . $_SERVER['SERVER_SOFTWARE'] . "</li>
+                        <li>Request URI: " . $_SERVER['REQUEST_URI'] . "</li>
+                        <li>Path: $path</li>
+                        <li>Session: " . (isset($_SESSION['user_id']) ? 'Connecté ID=' . $_SESSION['user_id'] : 'Non connecté') . "</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>";
+        break;
+        
+    // Dashboard principal
+    case '/dashboard':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        require_once 'views/tableau_bord_simple.php';
+        break;
+        
+    // Connexion automatique de test
+    case '/auto-login':
+        $_SESSION['user_id'] = 1;
+        $_SESSION['username'] = 'Utilisateur Test';
+        $_SESSION['role'] = 'admin';
+        echo "<!DOCTYPE html>
+<html>
+<head>
+    <title>Auto-Login - BNGRC</title>
+    <link rel='stylesheet' href='/public/css/styles.css'>
+    <meta http-equiv='refresh' content='2;url=/dashboard'>
+</head>
+<body>
+    <div class='container'>
+        <div class='card slide-up'>
+            <div class='card-body text-center'>
+                <h2>✅ Connexion automatique réussie</h2>
+                <p>Vous êtes maintenant connecté en tant qu'utilisateur test.</p>
+                <div class='loading mb-3'></div>
+                <p class='text-muted'>Redirection automatique vers le Dashboard...</p>
+                <a href='/dashboard' class='btn btn-primary mt-3'>Continuer manuellement</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>";
+        break;
+        
+    // Page de démo finale
+    case '/temp':
+        include 'temp.html';
+        break;
         
     default:
         http_response_code(404);
