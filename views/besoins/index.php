@@ -46,8 +46,8 @@ foreach ($besoins as $b) {
             <select name="id_ville">
                 <option value="0">-- Toutes les villes --</option>
                 <?php foreach ($villes as $v): ?>
-                    <option value="<?= $v['id'] ?>" <?= ($id_ville == $v['id']) ? "selected" : "" ?>>
-                        <?= htmlspecialchars($v['nom']) ?>
+                    <option value="<?= htmlspecialchars($v['id'] ?? 0) ?>" <?= ($id_ville == ($v['id'] ?? 0)) ? "selected" : "" ?>>
+                        <?= htmlspecialchars($v['nom'] ?? '-') ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -62,7 +62,7 @@ foreach ($besoins as $b) {
     <!-- Affichage ville filtrée -->
     <?php if ($ville_selected): ?>
         <div class="ville-info">
-            Affichage des besoins pour la ville : <strong><?= htmlspecialchars($ville_selected['nom']) ?></strong>
+            Affichage des besoins pour la ville : <strong><?= htmlspecialchars($ville_selected['nom'] ?? '-') ?></strong>
         </div>
     <?php endif; ?>
 
@@ -85,14 +85,14 @@ foreach ($besoins as $b) {
             <?php else: ?>
                 <?php foreach ($besoins as $b): ?>
                     <tr>
-                        <td><?= htmlspecialchars($b['id']) ?></td>
-                        <td><?= htmlspecialchars($b['description']) ?></td>
-                        <td><?= number_format(floatval($b['montant']), 2, ',', ' ') ?> Ar</td>
-                        <td><?= htmlspecialchars($b['ville_nom']) ?></td>
+                        <td><?= htmlspecialchars($b['id'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($b['description'] ?? '-') ?></td>
+                        <td><?= number_format(floatval($b['montant'] ?? 0), 2, ',', ' ') ?> Ar</td>
+                        <td><?= htmlspecialchars($b['ville_nom'] ?? '-') ?></td>
                         <td>
-                            <a href="<?= $base ?>/besoins/<?= $b['id'] ?>" class="btn">Voir</a>
-                            <a href="<?= $base ?>/besoins/<?= $b['id'] ?>/edit" class="btn" style="background: #ffc107; color: black;">Modifier</a>
-                            <a href="<?= $base ?>/besoins/<?= $b['id'] ?>/delete" class="btn" style="background: #dc3545;">Supprimer</a>
+                            <a href="<?= $base ?>/besoins/<?= htmlspecialchars($b['id'] ?? 0) ?>" class="btn">Voir</a>
+                            <a href="<?= $base ?>/besoins/<?= htmlspecialchars($b['id'] ?? 0) ?>/edit" class="btn" style="background: #ffc107; color: black;">Modifier</a>
+                            <a href="<?= $base ?>/besoins/<?= htmlspecialchars($b['id'] ?? 0) ?>/delete" class="btn" style="background: #dc3545;">Supprimer</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
