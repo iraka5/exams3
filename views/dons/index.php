@@ -1,124 +1,47 @@
+<?php
+$base = '/exams3-main/exams3';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <title>Dons - BNGRC</title>
   <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
-  <style>
-    :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
-    * { box-sizing: border-box; }
-    body {
-      font-family: Inter, Segoe UI, Arial, sans-serif;
-      background: var(--bg);
-      margin: 0;
-      padding: 0;
-    }
-    .header {
-      background: var(--brand);
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    .header h1 { margin: 0; font-size: 22px; }
-    .header p { margin: 5px 0 0; font-size: 14px; color: rgba(255,255,255,0.8); }
-
-    nav {
-      background: white;
-      padding: 10px 20px;
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-    nav a {
-      color: var(--brand);
-      text-decoration: none;
-      padding: 8px 15px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 14px;
-      background: rgba(19,38,92,0.08);
-    }
-    nav a:hover, nav a.active {
-      background: var(--brand);
-      color: white;
-    }
-
-    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 14px;
-      background: var(--brand);
-      color: white;
-      text-decoration: none;
-    }
-    .btn:hover { opacity: 0.9; }
-    .btn-success { background: #28a745; }
-    .btn-danger { background: #dc3545; }
-    .btn-warning { background: #ffc107; color: black; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      overflow: hidden;
-      margin-top: 20px;
-    }
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      font-size: 14px;
-      border-bottom: 1px solid #e6e9ef;
-    }
-    th {
-      background: var(--brand);
-      color: white;
-      font-weight: 600;
-    }
-    tr:nth-child(even) { background: #f9fafc; }
-    tr:hover { background: rgba(19,38,92,0.05); }
-
-    .no-data {
-      text-align: center;
-      color: var(--muted);
-      padding: 20px;
-    }
-  </style>
 </head>
 <body>
-
-  <div class="header">
-    <h1> Gestion des Dons - BNGRC</h1>
-    <p>Suivi des dons reçus par ville et type</p>
-  </div>
-
-  <nav>
-    <a href="/exams3-main/exams3/">Accueil</a>
-    <a href="/exams3-main/exams3/regions">Régions</a>
-    <a href="/exams3-main/exams3/villes">Villes</a>
-    <a href="/exams3-main/exams3/besoins">Besoins</a>
-    <a href="/exams3-main/exams3/dons" class="active">Dons</a>
-<<<<<<< HEAD
-    <a href="/exams3-main/exams3/config-taux">Config V3</a>
-    <a href="/exams3-main/exams3/reset-data">Reset</a>
-    <a href="/exams3-main/exams3/logout">Déconnexion</a>
-=======
-    <a href="/exams3-main/exams3/logout">Sortir</a>
->>>>>>> 440cd6c1b68c915059324f07a8149f02f8ec3097
-  </nav>
-
   <div class="container">
-    <a href="/exams3-main/exams3/dons/create" class="btn btn-success"> Ajouter un Don</a>
+    <!-- Header avec logo BNGRC -->
+    <header class="header">
+      <div class="logo">
+        BNG<span>RC</span>
+      </div>
+    </header>
 
-    <table>
+    <!-- Hero avec fond du thème -->
+    <div class="hero" style="background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--accent-blue-light) 50%, var(--bg-secondary) 100%); padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; text-align: center; border: 1px solid var(--border-light);">
+      <h1 style="color: var(--text-primary); font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">Gestion des Dons - BNGRC</h1>
+      <p style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 300;">Suivi des dons reçus par ville et type</p>
+    </div>
+
+    <!-- Navigation avec boutons arrondis individuels -->
+    <nav class="nav-buttons" style="display: flex; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center;">
+      <a href="/exams3-main/exams3/" class="btn btn-outline" style="border-radius: 25px;">Accueil</a>
+      <a href="/exams3-main/exams3/regions" class="btn btn-outline" style="border-radius: 25px;">Régions</a>
+      <a href="/exams3-main/exams3/villes" class="btn btn-outline" style="border-radius: 25px;">Villes</a>
+      <a href="/exams3-main/exams3/besoins" class="btn btn-outline" style="border-radius: 25px;">Besoins</a>
+      <a href="/exams3-main/exams3/dons" class="btn btn-primary" style="border-radius: 25px;">Dons</a>
+      <a href="/exams3-main/exams3/config-taux" class="btn btn-outline" style="border-radius: 25px;">Config V3</a>
+      <a href="/exams3-main/exams3/reset-data" class="btn btn-outline" style="border-radius: 25px;">Reset</a>
+    </nav>
+
+    <!-- Contenu principal -->
+    <div class="section-header">
+      <h2 class="section-title">Liste des Dons</h2>
+      <a href="/exams3-main/exams3/dons/create" class="btn btn-success">➕ Ajouter un Don</a>
+    </div>
+    
+    <div class="table-container">
+      <table>
       <thead>
         <tr>
           <th>ID</th>
@@ -142,27 +65,28 @@
               <td><?= htmlspecialchars($don['type_don']) ?></td>
               <td><?= number_format($don['nombre_don'], 0, ',', ' ') ?></td>
               <td>
-                <span style="background: #e3f2fd; padding: 3px 8px; border-radius: 15px;">
+                <span class="badge badge-info">
                   <?= htmlspecialchars($don['ville_nom']) ?>
                 </span>
               </td>
-              <td>
-                <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>" class="btn"> Voir</a>
-                <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/edit" class="btn btn-warning"> Modifier</a>
+              <td class="actions">
+                <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>" class="action-btn" title="Voir">👁️</a>
+                <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/edit" class="action-btn" title="Modifier">✏️</a>
                 <?php if (!($don['vendu'] ?? false)): ?>
-                  <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/vendre" class="btn" style="background: #17a2b8; color: white;"> Vendre</a>
+                  <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/vendre" class="btn btn-sm" style="background: #17a2b8; color: white;">💰 Vendre</a>
                 <?php else: ?>
-                  <span style="background: #6c757d; color: white; padding: 8px 12px; border-radius: 999px; font-size: 12px;">VENDU</span>
+                  <span class="badge badge-success">✅ VENDU</span>
                 <?php endif; ?>
                 <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/delete" 
                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce don ?')" 
-                   class="btn btn-danger"> Supprimer</a>
+                   class="action-btn" title="Supprimer" style="color: var(--danger);">🗑️</a>
               </td>
             </tr>
           <?php endforeach; ?>
         <?php endif; ?>
       </tbody>
-    </table>
+      </table>
+    </div>
   </div>
 
 </body>

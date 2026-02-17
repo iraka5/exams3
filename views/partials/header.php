@@ -28,7 +28,7 @@
                             $initiales .= strtoupper(substr($mot, 0, 1));
                         }
                     } else {
-                        $initiales = 'U';
+                        $initiales = 'USR';
                     }
                     echo substr($initiales, 0, 2);
                     ?>
@@ -39,10 +39,11 @@
 
         <!-- Navigation -->
         <nav class="nav">
-            <a href="/exams3-main/exams3/user/dashboard" <?php echo (basename($_SERVER['PHP_SELF']) == 'dashboard.php') ? 'class="active"' : ''; ?>>Dashboard</a>
-            <a href="/exams3-main/exams3/user/besoins" <?php echo (strpos($_SERVER['REQUEST_URI'], 'besoins') !== false) ? 'class="active"' : ''; ?>>Besoins</a>
-            <a href="/exams3-main/exams3/user/dons" <?php echo (strpos($_SERVER['REQUEST_URI'], 'dons') !== false) ? 'class="active"' : ''; ?>>Dons</a>
-            <a href="/exams3-main/exams3/user/villes" <?php echo (strpos($_SERVER['REQUEST_URI'], 'villes') !== false) ? 'class="active"' : ''; ?>>Villes</a>
-            <a href="#">Statistiques</a>
-            <a href="#">Rapports</a>
+            <a href="/exams3-main/exams3/">Accueil</a>
+            <a href="/exams3-main/exams3/regions">Régions</a>
+            <a href="/exams3-main/exams3/villes">Villes</a>
+            <a href="/exams3-main/exams3/besoins">Besoins</a>
+            <a href="/exams3-main/exams3/dons">Dons</a>
+            <a href="/exams3-main/exams3/config-taux" <?php echo (strpos($_SERVER['REQUEST_URI'], 'config-taux') !== false) ? 'class="active"' : ''; ?>>Config V3</a>
+            <a href="/exams3-main/exams3/reset-data" <?php echo (strpos($_SERVER['REQUEST_URI'], 'reset-data') !== false) ? 'class="active"' : ''; ?>>Reset</a>
         </nav>

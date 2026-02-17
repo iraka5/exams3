@@ -12,6 +12,7 @@ if (!defined('BASE_URL')) {
 
 // Récupérer l'URL
 $request = $_SERVER['REQUEST_URI'];
+
 if (strpos($request, BASE_URL) === 0) {
     $path = substr($request, strlen(BASE_URL));
 } else {
@@ -268,25 +269,22 @@ case '/villes':
     // ========== PAGE 404 ==========
     default:
         http_response_code(404);
-        echo "<!DOCTYPE html>
+        ?>
+        <!DOCTYPE html>
         <html>
         <head>
             <title>404 - Page non trouvée</title>
-            <style>
-                body { font-family: Arial; background: #f6f8fb; text-align: center; padding: 50px; }
-                .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; }
-                h1 { color: #13265C; }
-                a { color: #13265C; text-decoration: none; font-weight: bold; }
-            </style>
+            <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
         </head>
         <body>
-            <div class='container'>
+            <div class="container">
                 <h1>404 - Page non trouvée</h1>
-                <p>Le chemin demandé <strong>$path</strong> n'existe pas.</p>
-                <p><a href='" . BASE_URL . "'>← Retour à l'accueil</a></p>
+                <p>Le chemin demandé <strong><?= htmlspecialchars($path) ?></strong> n'existe pas.</p>
+                <p><a href="<?= BASE_URL ?>">← Retour à l'accueil</a></p>
             </div>
         </body>
-        </html>";
+        </html>
+        <?php
         break;
 }
 ?>

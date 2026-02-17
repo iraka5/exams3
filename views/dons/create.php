@@ -1,62 +1,43 @@
 <?php
 $base = '/exams3-main/exams3';
 ?>
+<?php
+$base = '/exams3-main/exams3';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Nouveau Don - BNGRC</title>
-    <style>
-        :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
-        body { font-family: Arial, sans-serif; background: var(--bg); margin: 0; padding: 0; }
-        .header { background: var(--brand); color: white; padding: 20px; text-align: center; }
-        .header h1 { margin: 0; }
-        nav { background: white; padding: 10px; display: flex; gap: 10px; justify-content: center; }
-        nav a { color: var(--brand); text-decoration: none; padding: 8px 15px; border-radius: 20px; }
-        nav a:hover { background: var(--brand); color: white; }
-        .container { max-width: 600px; margin: 30px auto; padding: 0 20px; }
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        h2 { color: var(--brand); margin-top: 0; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-weight: 600; margin-bottom: 5px; color: var(--muted); }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            border-radius: 20px;
-            border: none;
-            background: var(--brand);
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .btn:hover { opacity: 0.9; }
-        .btn-success { background: #28a745; }
-        .btn-back { background: #6b7280; margin-right: 10px; }
-    </style>
+    <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
 </head>
 <body>
-    <div class="header">
-        <h1>BNGRC - Enregistrement d'un don</h1>
-    </div>
-
-    <nav>
-        <a href="<?= $base ?>/">Accueil</a>
-        <a href="<?= $base ?>/regions">Régions</a>
-        <a href="<?= $base ?>/villes">Villes</a>
-        <a href="<?= $base ?>/besoins">Besoins</a>
-        <a href="<?= $base ?>/dons">Dons</a>
-        <a href="<?= $base ?>/create">➕ Créer</a>
-    </nav>
-
     <div class="container">
+        <!-- Header avec logo BNGRC -->
+        <header class="header">
+            <div class="logo">
+                BNG<span>RC</span>
+            </div>
+        </header>
+
+        <!-- Hero avec fond du thème -->
+        <div class="hero" style="background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--accent-blue-light) 50%, var(--bg-secondary) 100%); padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; text-align: center; border: 1px solid var(--border-light);">
+            <h1 style="color: var(--text-primary); font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">BNGRC - Enregistrement d'un don</h1>
+            <p style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 300;">Ajouter un nouveaux don au système</p>
+        </div>
+
+        <!-- Navigation avec boutons arrondis individuels -->
+        <nav class="nav-buttons" style="display: flex; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center;">
+            <a href="<?= $base ?>/" class="btn btn-outline" style="border-radius: 25px;">Accueil</a>
+            <a href="<?= $base ?>/regions" class="btn btn-outline" style="border-radius: 25px;">Régions</a>
+            <a href="<?= $base ?>/villes" class="btn btn-outline" style="border-radius: 25px;">Villes</a>
+            <a href="<?= $base ?>/besoins" class="btn btn-outline" style="border-radius: 25px;">Besoins</a>
+            <a href="<?= $base ?>/dons" class="btn btn-primary" style="border-radius: 25px;">Dons</a>
+            <a href="<?= $base ?>/config-taux" class="btn btn-outline" style="border-radius: 25px;">Config V3</a>
+            <a href="<?= $base ?>/reset-data" class="btn btn-outline" style="border-radius: 25px;">Reset</a>
+        </nav>
+
+        <!-- Contenu principal -->
         <div class="card">
             <h2>Enregistrer un nouveau don</h2>
             
@@ -93,8 +74,8 @@ $base = '/exams3-main/exams3';
                     </select>
                 </div>
 
-                <div>
-                    <a href="<?= $base ?>/dons" class="btn btn-back">Annuler</a>
+                <div class="actions" style="display: flex; gap: 1rem; justify-content: space-between; margin-top: 2rem;">
+                    <a href="<?= $base ?>/dons" class="btn btn-outline">Annuler</a>
                     <button type="submit" class="btn btn-success">Enregistrer le don</button>
                 </div>
             </form>

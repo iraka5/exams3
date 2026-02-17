@@ -4,42 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Achats - BNGRC</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f8f9fa; }
-        .header { background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 20px; text-align: center; }
-        .header h1 { margin: 0; font-size: 24px; }
-        .nav { background-color: #2c3e50; padding: 15px; display: flex; align-items: center; }
-        .nav a { color: white; text-decoration: none; margin-right: 20px; padding: 8px 15px; border-radius: 999px; }
-        .nav a:hover, .nav a.active { background-color: #34495e; }
-        .container { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
-        .filter { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .filter form { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
-        .filter select, .filter button { padding: 10px 15px; border: 1px solid #ddd; border-radius: 999px; }
-        .filter button { background: #3498db; color: white; border: none; cursor: pointer; }
-        .filter button:hover { background: #2980b9; }
-        .btn-add { background: #27ae60; color: white; padding: 12px 20px; text-decoration: none; border-radius: 999px; display: inline-block; margin-bottom: 20px; }
-        .btn-add:hover { background: #229954; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .stat-card { background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: relative; }
-        .stat-info { display: flex; flex-direction: column; align-items: center; }
-        .stat-number { font-size: 28px; font-weight: bold; margin: 0; }
-        .stat-label { color: #7f8c8d; font-size: 14px; }
-        .stat-trend { font-size: 12px; }
-        .trend-up { color: #27ae60; }
-        .trend-down { color: #e74c3c; }
-        .icon-besoins { position: absolute; top: 15px; right: 15px; font-size: 32px; }
-        table { width: 100%; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        th { background: #3498db; color: white; padding: 15px; text-align: left; }
-        td { padding: 15px; border-bottom: 1px solid #eee; }
-        tr:hover { background: #f8f9fa; }
-        .badge { display: inline-block; padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
-        .badge-nature { background: #e8f5e8; color: #2e7d32; }
-        .badge-materiaux { background: #fff3e0; color: #ef6c00; }
-        .no-data { text-align: center; padding: 40px; color: #7f8c8d; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .alert { padding: 15px; margin-bottom: 20px; border-radius: 12px; }
-        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-    </style>
+    
+    <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
 </head>
 <body>
     <div class="header">

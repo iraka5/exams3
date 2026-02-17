@@ -2,7 +2,7 @@
 // views/partials/footer.php
 ?>
         <footer class="footer">
-            Powered by BNGRC · Tous droits réservés · <?php echo date('Y'); ?>
+            Copyright 2026- 4191-4194-4222
         </footer>
     </div>
     <!-- Fin du container -->
