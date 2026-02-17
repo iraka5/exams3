@@ -212,17 +212,16 @@ p {
     font-size: 2rem;
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: var(--slate-900);
+    background: linear-gradient(135deg, var(--primary-600), var(--emerald-600));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-decoration: none;
     position: relative;
     transition: var(--transition-smooth);
 }
 
 .logo span {
-    background: linear-gradient(135deg, var(--primary-600), var(--emerald-600));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
     font-weight: 900;
 }
 
