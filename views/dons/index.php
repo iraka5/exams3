@@ -106,6 +106,8 @@
     <a href="/exams3-main/exams3/villes">Villes</a>
     <a href="/exams3-main/exams3/besoins">Besoins</a>
     <a href="/exams3-main/exams3/dons" class="active">Dons</a>
+    <a href="/exams3-main/exams3/config-taux">Config V3</a>
+    <a href="/exams3-main/exams3/reset-data">Reset</a>
     <a href="/exams3-main/exams3/logout">Déconnexion</a>
   </nav>
 
@@ -143,6 +145,11 @@
               <td>
                 <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>" class="btn"> Voir</a>
                 <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/edit" class="btn btn-warning"> Modifier</a>
+                <?php if (!($don['vendu'] ?? false)): ?>
+                  <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/vendre" class="btn" style="background: #17a2b8; color: white;"> Vendre</a>
+                <?php else: ?>
+                  <span style="background: #6c757d; color: white; padding: 8px 12px; border-radius: 999px; font-size: 12px;">VENDU</span>
+                <?php endif; ?>
                 <a href="/exams3-main/exams3/dons/<?= $don['id'] ?>/delete" 
                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce don ?')" 
                    class="btn btn-danger"> Supprimer</a>

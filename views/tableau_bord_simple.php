@@ -103,6 +103,8 @@ $base = '/exams3-main/exams3';
     <a href="<?= $base ?>/villes">Villes</a>
     <a href="<?= $base ?>/besoins">Besoins</a>
     <a href="<?= $base ?>/dons">Dons</a>
+    <a href="<?= $base ?>/config-taux" style="background: #17a2b8; color: white;">Config V3</a>
+    <a href="<?= $base ?>/reset-data" style="background: #ffc107; color: black;">Reset</a>
     <a href="<?= $base ?>/logout">Déconnexion</a>
   </nav>
 
@@ -187,6 +189,23 @@ $base = '/exams3-main/exams3';
         <?php endif; ?>
       </tbody>
     </table>
+
+    <!-- Fonctionnalités V3 -->
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 12px; margin: 30px 0; color: white; text-align: center;">
+      <h2 style="margin: 0 0 10px 0; color: white;">🚀 Nouvelles fonctionnalités V3</h2>
+      <p style="margin: 0 0 20px 0; opacity: 0.9;">Système de vente d'articles et gestion configurable</p>
+      <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <a href="<?= $base ?>/config-taux" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
+          ⚙️ Configurer taux de vente
+        </a>
+        <a href="<?= $base ?>/dons" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
+          💰 Vendre des articles
+        </a>
+        <a href="<?= $base ?>/reset-data" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
+          🔄 Réinitialiser données
+        </a>
+      </div>
+    </div>
 
     <!-- Liens rapides -->
     <div style="text-align: center; margin: 40px 0;">

@@ -309,6 +309,52 @@ case '/tableau-bord':
         exit;
         break;
     
+    // ========== NOUVELLES ROUTES V3 - SYSTÈME DE VENTE ==========
+    
+    // Route de réinitialisation des données (accessible à tous)
+    case '/reset-data':
+        require_once __DIR__ . '/controllers/ResetController.php';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            ResetController::executeReset();
+        } else {
+            ResetController::showResetForm();
+        }
+        break;
+    
+    // Route de vente d'article
+    case (preg_match('/^\/dons\/(\d+)\/vendre$/', $path, $matches) ? true : false):
+        require_once __DIR__ . '/controllers/VenteController.php';
+        $don_id = $matches[1];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            VenteController::processSale($don_id);
+        } else {
+            VenteController::showSaleForm($don_id);
+        }
+        break;
+        
+    // API pour vérifier si un article est vendable
+    case (preg_match('/^\/api\/dons\/(\d+)\/vendable$/', $path, $matches) ? true : false):
+        require_once __DIR__ . '/controllers/VenteController.php';
+        $don_id = $matches[1];
+        VenteController::checkVendable($don_id);
+        break;
+    
+    // Route de configuration du taux de diminution (accessible à tous)
+    case '/config-taux':
+        require_once __DIR__ . '/controllers/ConfigController.php';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            ConfigController::updateTaux();
+        } else {
+            ConfigController::showConfigForm();
+        }
+        break;
+        
+    // API pour récupérer le taux actuel
+    case '/api/config/taux':
+        require_once __DIR__ . '/controllers/ConfigController.php';
+        ConfigController::getTauxApi();
+        break;
+    
     // ========== PAGE 404 ==========
     default:
         http_response_code(404);
