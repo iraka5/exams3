@@ -100,7 +100,7 @@ switch ($path) {
                 error_log("DEBUG: DB connected");
                 
                 // Vérifier si l'email existe
-                $check = $pdo->prepare("SELECT id FROM user WHERE email = ?");
+                $check = $pdo->prepare("SELECT id FROM users WHERE email = ?");
                 $check->execute([$email]);
                 if ($check->fetch()) {
                     error_log("DEBUG: Email déjà existant");
@@ -109,7 +109,7 @@ switch ($path) {
                 }
                 
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                $stmt = $pdo->prepare("INSERT INTO user (nom, email, password, created_at) VALUES (?, ?, ?, NOW())");
+                $stmt = $pdo->prepare("INSERT INTO users (username, email, password, role, created_at) VALUES (?, ?, ?, 'user', NOW())");
                 error_log("DEBUG: Tentative INSERT");
                 $stmt->execute([$nom, $email, $hashedPassword]);
                 error_log("DEBUG: INSERT réussi");

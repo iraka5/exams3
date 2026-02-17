@@ -29,7 +29,7 @@ class UserController {
             $pdo = getDB();
             
             // Vérifier si l'email existe déjà
-            $check = $pdo->prepare("SELECT id FROM user WHERE email = ?");
+            $check = $pdo->prepare("SELECT id FROM users WHERE email = ?");
             $check->execute([$email]);
             if ($check->fetch()) {
                 Flight::redirect('/signup?error=email_exists');

@@ -8,7 +8,7 @@ class LoginController {
             $pdo = getDB();
             
             // Chercher l'utilisateur par email
-            $stmt = $pdo->prepare("SELECT * FROM user WHERE email = ?");
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
             $stmt->execute([$email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             
@@ -22,7 +22,7 @@ class LoginController {
             if (password_verify($password, $user['password'])) {
                 // Stocker les informations en session
                 $_SESSION['user'] = $user['id'];
-                $_SESSION['nom'] = $user['nom'];
+                $_SESSION['nom'] = $user['username'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role'];
                 
@@ -52,7 +52,7 @@ class LoginController {
         
         try {
             $pdo = getDB();
-            $stmt = $pdo->prepare("SELECT id, nom, email, role FROM user WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT id, username, email, role FROM users WHERE id = ?");
             $stmt->execute([$_SESSION['user']]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
