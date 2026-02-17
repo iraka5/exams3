@@ -18,7 +18,11 @@ foreach ($besoins as $b) {
 >>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
 =======
 if (!isset($id_ville)) $id_ville = 0;
+<<<<<<< HEAD
 >>>>>>> 081edf842b0ee1a47e5237d4f57e015de0ec2ed3
+=======
+if (!isset($ville_selected)) $ville_selected = null;
+>>>>>>> 2f68b3f (aaa)
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -164,6 +168,14 @@ if (!isset($id_ville)) $id_ville = 0;
         .btn-warning { background: var(--warning); color: black; }
         .btn-info { background: #17a2b8; color: white; }
 
+        .ville-info {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--success);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -294,18 +306,28 @@ if (!isset($id_ville)) $id_ville = 0;
                     <td colspan="8" class="no-data">Aucun besoin trouvé</td>
                 </tr>
             <?php else: ?>
-                <?php foreach ($besoins as $b): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($b['id'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($b['description'] ?? '-') ?></td>
-                        <td><?= number_format(floatval($b['montant'] ?? 0), 2, ',', ' ') ?> Ar</td>
-                        <td><?= htmlspecialchars($b['ville_nom'] ?? '-') ?></td>
-                        <td>
-                            <a href="<?= $base ?>/besoins/<?= htmlspecialchars($b['id'] ?? 0) ?>" class="btn">Voir</a>
-                            <a href="<?= $base ?>/besoins/<?= htmlspecialchars($b['id'] ?? 0) ?>/edit" class="btn" style="background: #ffc107; color: black;">Modifier</a>
-                            <a href="<?= $base ?>/besoins/<?= htmlspecialchars($b['id'] ?? 0) ?>/delete" class="btn" style="background: #dc3545;">Supprimer</a>
-                        </td>
-                    </tr>
+                <?php foreach ($besoins as $b): 
+                    $prix_unitaire = $b['prix_unitaire'] ?? 0;
+                    $quantite = $b['nombre'] ?? 0;
+                    $montant_total = $prix_unitaire * $quantite;
+                    $type_besoin = $b['type_besoin'] ?? 'nature';
+                ?>
+                <tr>
+                    <td><?= htmlspecialchars($b['id'] ?? '') ?></td>
+                    <td><strong><?= htmlspecialchars($b['nom'] ?? '') ?></strong></td>
+                    <td>
+                        <span class="badge badge-<?= $type_besoin ?>">
+                            <?= ucfirst($type_besoin) ?>
+                        </span>
+                    </td>
+                    <td><?= number_format($quantite, 0, ',', ' ') ?></td>
+                    <td><?= number_format($prix_unitaire, 0, ',', ' ') ?> Ar</td>
+                    <td class="montant-total"><?= number_format($montant_total, 0, ',', ' ') ?> Ar</td>
+                    <td><?= htmlspecialchars($b['ville_nom'] ?? '') ?></td>
+                    <td class="actions">
+                        <a href="<?= $base ?>/besoins/<?= $b['id'] ?>/delete" class="btn btn-danger" onclick="return confirm('Supprimer ce besoin ?')">🗑️ Supprimer</a>
+                    </td>
+                </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
         </tbody>
