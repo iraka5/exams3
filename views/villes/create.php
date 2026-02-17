@@ -71,7 +71,8 @@ $base = '/exams3-main/exams3';
             <form method="post" action="<?= $base ?>/villes/create">
                 <div class="form-group">
                     <label for="nom">Nom de la ville</label>
-                    <input type="text" id="nom" name="nom" placeholder="Ex: Antananarivo, Toamasina..." required>
+                    <input type="text" id="nom" name="nom" placeholder="Ex: Analamanga, Atsinanana..." required value="<?= htmlspecialchars($nom ?? '') ?>">
+
                 </div>
 
                 <div class="form-group">

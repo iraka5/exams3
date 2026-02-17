@@ -10,21 +10,12 @@ $base = '/exams3-main/exams3';
         :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
         body { font-family: Arial, sans-serif; background: var(--bg); margin: 0; padding: 0; }
         .header { background: var(--brand); color: white; padding: 20px; text-align: center; }
-        .header h1 { margin: 0; }
         nav { background: white; padding: 10px; display: flex; gap: 10px; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         nav a { color: var(--brand); text-decoration: none; padding: 8px 15px; border-radius: 20px; }
         nav a:hover, nav a.active { background: var(--brand); color: white; }
         .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
         .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 20px;
-            background: var(--brand);
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-        }
+        .btn { display: inline-block; padding: 10px 20px; border-radius: 20px; background: var(--brand); color: white; text-decoration: none; font-weight: 600; }
         .btn-success { background: #28a745; }
         .btn-danger { background: #dc3545; }
         .btn-warning { background: #ffc107; color: black; }
