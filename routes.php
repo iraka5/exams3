@@ -11,10 +11,6 @@ if (!defined('BASE_URL')) {
 
 // URL actuelle
 $request = $_SERVER['REQUEST_URI'];
-<<<<<<< HEAD
-=======
-$path = $request;
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
 
 if (strpos($request, BASE_URL) === 0) {
     $path = substr($request, strlen(BASE_URL));
@@ -477,7 +473,6 @@ switch ($path) {
     // =======================
     default:
         http_response_code(404);
-<<<<<<< HEAD
         ?>
         <!DOCTYPE html>
         <html>
@@ -494,9 +489,6 @@ switch ($path) {
         </body>
         </html>
         <?php
-=======
-        echo "<h1>404</h1><p>Le chemin demandé <b>$path</b> n'existe pas.</p>";
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
         break;
 }
 ?>

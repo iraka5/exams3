@@ -4,55 +4,24 @@ $base = '/exams3-main/exams3';
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<<<<<<< HEAD
-<<<<<<< HEAD
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Achats - BNGRC</title>
     
     <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
-=======
-  <meta charset="UTF-8">
-  <title>Achats - BNGRC</title>
-  <style>
-    :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; --success: #28a745; --info: #17a2b8; --warning: #ffc107; --danger: #dc3545; }
-    * { box-sizing: border-box; }
-    body {
-      font-family: Inter, Segoe UI, Arial, sans-serif;
-      background: var(--bg);
-      margin: 0;
-      padding: 0;
-    }
-    .header {
-      background: var(--brand);
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    .header h1 { margin: 0; font-size: 28px; }
-    .header p { margin: 5px 0 0; opacity: 0.9; font-size: 14px; }
-=======
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Achats - BNGRC</title>
+</head>
+<body>
     <style>
-        :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; --success: #28a745; }
-        * { box-sizing: border-box; }
         body {
-            font-family: Inter, Segoe UI, Arial, sans-serif;
-            background: var(--bg);
+            font-family: var(--font-family);
+            background: var(--bg-primary);
             margin: 0;
-            padding: 0;
+            color: var(--text-primary);
         }
         .header {
-            background: var(--brand);
+            background: var(--gradient-primary);
             color: white;
             padding: 20px;
-            text-align: center;
-        }
-        .header h1 { margin: 0; font-size: 28px; }
-        .header p { margin: 5px 0 0; opacity: 0.9; font-size: 14px; }
->>>>>>> 081edf842b0ee1a47e5237d4f57e015de0ec2ed3
 
         nav {
             background: white;
@@ -140,24 +109,12 @@ $base = '/exams3-main/exams3';
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
-<<<<<<< HEAD
-    .no-data {
-      text-align: center;
-      padding: 40px;
-      color: var(--muted);
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
 
-    .actions {
-      display: flex;
-      gap: 10px;
-      margin: 20px 0;
-    }
-  </style>
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
-=======
         .filter-form {
             background: white;
             padding: 20px;
@@ -171,7 +128,6 @@ $base = '/exams3-main/exams3';
             font-size: 14px;
         }
     </style>
->>>>>>> 081edf842b0ee1a47e5237d4f57e015de0ec2ed3
 </head>
 <body>
     <div class="header">

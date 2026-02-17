@@ -1,14 +1,10 @@
 <?php
 $base = '/exams3-main/exams3';
-<<<<<<< HEAD
-=======
 if (!isset($dons)) $dons = [];
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<<<<<<< HEAD
   <meta charset="UTF-8">
   <title>Dons - BNGRC</title>
   <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
@@ -93,23 +89,8 @@ if (!isset($dons)) $dons = [];
       </table>
     </div>
   </div>
-=======
-    <meta charset="UTF-8">
-    <title>Dons - BNGRC</title>
-    <style>
-        :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
-        body {
-            font-family: Inter, Segoe UI, Arial, sans-serif;
-            background: var(--bg);
-            margin: 0;
-            padding: 0;
-        }
-        .header {
-            background: var(--brand);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+</body>
+</html>
         .header h1 { margin: 0; font-size: 28px; }
         .header p { margin: 5px 0 0; opacity: 0.9; font-size: 14px; }
 
@@ -285,7 +266,6 @@ if (!isset($dons)) $dons = [];
     </table>
 
 </div>
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
 
 </body>
 </html>

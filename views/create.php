@@ -32,17 +32,12 @@
             <a href="/exams3-main/exams3/reset-data" class="btn btn-outline" style="border-radius: 25px;">Reset</a>
         </nav>
 
-    <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+    <!-- Section 1: Deux blocs en haut -->
+    <div class="top-row" style="display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center;">
         <!-- REGION -->
-<<<<<<< HEAD
-        <div class="card" style="transition: all 0.3s ease;">
+        <div class="card" style="flex: 1; min-width: 300px; max-width: 450px; transition: all 0.3s ease;">
             <h2 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.25rem; font-weight: 600;">Nouvelle Région</h2>
             <form method="post" action="/exams3-main/exams3/regions">
-=======
-        <div class="card">
-            <h2>🗺️ Ajouter une Région</h2>
-            <form method="post" action="/exams3-main/exams3/regions/create">
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
                 <div class="form-group">
                     <label for="region_nom">Nom de la région</label>
                     <input id="region_nom" type="text" name="nom" placeholder="Ex: Analamanga">
@@ -52,15 +47,9 @@
         </div>
 
         <!-- VILLE -->
-<<<<<<< HEAD
-        <div class="card" style="transition: all 0.3s ease;">
+        <div class="card" style="flex: 1; min-width: 300px; max-width: 450px; transition: all 0.3s ease;">
             <h2 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.25rem; font-weight: 600;">Nouvelle Ville</h2>
             <form method="post" action="/exams3-main/exams3/villes">
-=======
-        <div class="card">
-            <h2>🏘️ Ajouter une Ville</h2>
-            <form method="post" action="/exams3-main/exams3/villes/create">
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
                 <div class="form-group">
                     <label for="ville_nom">Nom de la ville</label>
                     <input id="ville_nom" type="text" name="nom" placeholder="Ex: Antananarivo">
@@ -80,17 +69,14 @@
                 <button class="btn btn-success" type="submit">Créer la ville</button>
             </form>
         </div>
+    </div>
 
+    <!-- Section 2: Un bloc centré en bas -->
+    <div class="bottom-row" style="display: flex; justify-content: center; margin-bottom: 2rem;">
         <!-- BESOIN -->
-<<<<<<< HEAD
-        <div class="card" style="transition: all 0.3s ease;">
+        <div class="card" style="max-width: 450px; width: 100%; transition: all 0.3s ease;">
             <h2 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.25rem; font-weight: 600;">Nouveau Besoin</h2>
             <form method="post" action="/exams3-main/exams3/besoins">
-=======
-        <div class="card">
-            <h2>📦 Ajouter un Besoin</h2>
-            <form method="post" action="/exams3-main/exams3/besoins/create">
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
                 <div class="form-group">
                     <label for="besoin_nom">Type de besoin</label>
                     <input id="besoin_nom" type="text" name="nom" placeholder="Ex: Riz, Eau, Médicaments">

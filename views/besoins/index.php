@@ -1,29 +1,13 @@
 <?php
 $base = '/exams3-main/exams3';
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
-=======
->>>>>>> 081edf842b0ee1a47e5237d4f57e015de0ec2ed3
 if (!isset($villes)) $villes = [];
 if (!isset($besoins)) $besoins = [];
-<<<<<<< HEAD
-$total_montant = 0;
-
-// Calcul du montant total sécurisé
-foreach ($besoins as $b) {
-    $total_montant += isset($b['montant']) ? floatval($b['montant']) : 0;
-}
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
-=======
 if (!isset($id_ville)) $id_ville = 0;
->>>>>>> 081edf842b0ee1a47e5237d4f57e015de0ec2ed3
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<<<<<<< HEAD
   <meta charset="UTF-8">
   <title>Besoins - BNGRC</title>
   <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
@@ -70,30 +54,6 @@ if (!isset($id_ville)) $id_ville = 0;
         <button type="submit" class="btn"> Filtrer</button>
       </form>
       <a href="/exams3-main/exams3/besoins/create" class="btn btn-success"> Ajouter un Besoin</a>
-=======
-    <meta charset="UTF-8">
-    <title>Besoins - BNGRC</title>
-    <style>
-        :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; --success: #28a745; --danger: #dc3545; --warning: #ffc107; }
-        body {
-            font-family: Inter, Segoe UI, Arial, sans-serif;
-            background: var(--bg);
-            margin: 0;
-            padding: 0;
-        }
-        .header {
-            background: var(--brand);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        .header h1 { margin: 0; font-size: 28px; }
-        .header p { margin: 5px 0 0; opacity: 0.9; font-size: 14px; }
-
-        nav {
-            background: white;
-            padding: 10px 20px;
-            display: flex;
             gap: 10px;
             justify-content: center;
             box-shadow: 0 2px 6px rgba(0,0,0,0.08);
@@ -257,14 +217,6 @@ if (!isset($id_ville)) $id_ville = 0;
                 <a href="<?= $base ?>/besoins" class="btn btn-warning">Réinitialiser</a>
             <?php endif; ?>
         </form>
-<<<<<<< HEAD
-
-        <?php if($id_ville > 0): ?>
-            <a href="<?= $base ?>/besoins" class="btn" style="background: #6c757d;">🗑️ Réinitialiser</a>
-        <?php endif; ?>
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
-=======
->>>>>>> 081edf842b0ee1a47e5237d4f57e015de0ec2ed3
     </div>
 
     <!-- Affichage ville filtrée -->

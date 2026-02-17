@@ -4,15 +4,11 @@ $base = '/exams3-main/exams3';
 // Initialisation de la variable $villes pour éviter les erreurs
 if (!isset($villes)) $villes = [];
 ?>
-<?php
-$base = '/exams3-main/exams3';
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Nouveau Don - BNGRC</title>
-<<<<<<< HEAD
     <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
 </head>
 <body>
@@ -42,13 +38,6 @@ $base = '/exams3-main/exams3';
         </nav>
 
         <!-- Contenu principal -->
-=======
-    <style>
-        :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
-        body { font-family: Arial, sans-serif; background: var(--bg); margin: 0; padding: 0; }
-        .header { background: var(--brand); color: white; padding: 20px; text-align: center; }
-        .header h1 { margin: 0; }
-        nav { background: white; padding: 10px; display: flex; gap: 10px; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         nav a { color: var(--brand); text-decoration: none; padding: 8px 15px; border-radius: 20px; }
         nav a:hover { background: var(--brand); color: white; }
         .container { max-width: 600px; margin: 30px auto; padding: 0 20px; }
@@ -150,7 +139,6 @@ $base = '/exams3-main/exams3';
             </div>
         <?php endif; ?>
 
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
         <div class="card">
             <h2>Nouveau don</h2>
             
@@ -189,13 +177,8 @@ $base = '/exams3-main/exams3';
                     </select>
                 </div>
 
-<<<<<<< HEAD
                 <div class="actions" style="display: flex; gap: 1rem; justify-content: space-between; margin-top: 2rem;">
                     <a href="<?= $base ?>/dons" class="btn btn-outline">Annuler</a>
-=======
-                <div class="actions">
-                    <a href="<?= $base ?>/dons" class="btn btn-back">Annuler</a>
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
                     <button type="submit" class="btn btn-success">Enregistrer le don</button>
                 </div>
             </form>

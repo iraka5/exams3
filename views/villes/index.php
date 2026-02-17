@@ -1,79 +1,21 @@
 <?php
 $base = '/exams3-main/exams3';
-<<<<<<< HEAD
-=======
 
 // Initialisation sécurisée des variables pour éviter les erreurs
 if (!isset($regions)) $regions = [];
 if (!isset($region_id)) $region_id = 0;
 if (!isset($region_selected)) $region_selected = null;
 if (!isset($villes)) $villes = [];
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <title>Villes - BNGRC</title>
-<<<<<<< HEAD
   <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
 </head>
 <body>
-=======
-  <style>
-    :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
-    * { box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; background: var(--bg); margin: 0; padding: 0; }
-    .header { background: var(--brand); color: white; padding: 20px; text-align: center; }
-    .header h1 { margin: 0; font-size: 22px; }
-    .header p { margin: 5px 0 0; font-size: 14px; color: rgba(255,255,255,0.8); }
 
-    nav { background: white; padding: 10px 20px; display: flex; gap: 10px; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
-    nav a { color: var(--brand); text-decoration: none; padding: 8px 15px; border-radius: 999px; font-weight: 600; font-size: 14px; background: rgba(19,38,92,0.08); }
-    nav a:hover, nav a.active { background: var(--brand); color: white; }
-
-    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-
-    .btn {
-      display: inline-block; padding: 10px 20px; border-radius: 999px; border: none; cursor: pointer;
-      font-weight: 600; font-size: 14px; background: var(--brand); color: white; text-decoration: none;
-    }
-    .btn:hover { opacity: 0.9; }
-    .btn-success { background: #28a745; }
-    .btn-danger { background: #dc3545; }
-    .btn-warning { background: #ffc107; color: black; }
-
-    .filter-form { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    select { padding: 8px 12px; border-radius: 12px; border: 1px solid #e6e9ef; font-size: 14px; }
-    .filter-form button, .filter-form a { font-size: 14px; }
-
-    table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; margin-top: 20px; }
-    th, td { padding: 12px 15px; text-align: left; font-size: 14px; border-bottom: 1px solid #e6e9ef; }
-    th { background: var(--brand); color: white; font-weight: 600; }
-    tr:nth-child(even) { background: #f9fafc; }
-    tr:hover { background: rgba(19,38,92,0.05); }
-
-    .no-data { text-align: center; color: var(--muted); padding: 20px; }
-    .region-info { background: #e8f5e8; padding: 10px; border-radius: 8px; margin-bottom: 15px; }
-  </style>
-</head>
-<body>
-
-  <div class="header">
-    <h1>Gestion des Villes - BNGRC</h1>
-    <p>Administration des villes et communes par région</p>
-  </div>
-
-  <nav>
-    <a href="<?= $base ?>/">Accueil</a>
-    <a href="<?= $base ?>/regions">Régions</a>
-    <a href="<?= $base ?>/villes" class="active">Villes</a>
-    <a href="<?= $base ?>/besoins">Besoins</a>
-    <a href="<?= $base ?>/dons">Dons</a>
-    <a href="<?= $base ?>/logout">Déconnexion</a>
-  </nav>
-
->>>>>>> 7d7cc3b657c0f4235199ad9f22097ff9ac7e2299
   <div class="container">
     <!-- Header avec logo BNGRC -->
     <header class="header">
