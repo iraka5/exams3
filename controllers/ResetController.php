@@ -11,6 +11,52 @@ class ResetController {
         
         $db = getDB();
         
+        // Vérifier si les tables V3 existent, sinon les créer
+        try {
+            $tables = $db->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
+            
+            // Vérifier table parametres
+            if (!in_array('parametres', $tables)) {
+                echo "<!-- Création de la table parametres -->";
+                $db->exec("CREATE TABLE `parametres` (
+                    `id` INT AUTO_INCREMENT PRIMARY KEY,
+                    `cle` VARCHAR(100) NOT NULL UNIQUE,
+                    `valeur` TEXT NOT NULL,
+                    `description` TEXT,
+                    `type` ENUM('integer', 'decimal', 'text', 'boolean') NOT NULL DEFAULT 'text',
+                    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                )");
+                
+                $db->exec("INSERT IGNORE INTO `parametres` (`cle`, `valeur`, `description`, `type`) VALUES
+                ('taux_diminution_vente', '10', 'Pourcentage de diminution appliqué lors de la vente d\\'articles (défaut: 10%)', 'integer')");
+            }
+            
+            // Vérifier champs V3 dans besoins
+            $columns = $db->query("SHOW COLUMNS FROM besoins")->fetchAll(PDO::FETCH_COLUMN);
+            if (!in_array('essentiel', $columns)) {
+                echo "<!-- Ajout du champ essentiel dans besoins -->";
+                $db->exec("ALTER TABLE `besoins` ADD COLUMN `essentiel` BOOLEAN NOT NULL DEFAULT FALSE");
+            }
+            
+            // Vérifier champs V3 dans dons
+            $columns = $db->query("SHOW COLUMNS FROM dons")->fetchAll(PDO::FETCH_COLUMN);
+            if (!in_array('vendu', $columns)) {
+                echo "<!-- Ajout des champs V3 dans dons -->";
+                $db->exec("ALTER TABLE `dons` 
+                    ADD COLUMN `vendu` BOOLEAN NOT NULL DEFAULT FALSE,
+                    ADD COLUMN `prix_original` DECIMAL(10,2) DEFAULT NULL,
+                    ADD COLUMN `prix_vente` DECIMAL(10,2) DEFAULT NULL,
+                    ADD COLUMN `date_vente` TIMESTAMP NULL DEFAULT NULL");
+            }
+            
+        } catch (Exception $e) {
+            // En cas d'erreur, on continue quand même
+            error_log("Erreur initialisation V3: " . $e->getMessage());
+        }
+        
+        $db = getDB();
+        
         // Récupérer les statistiques actuelles
         $stats = [
             'regions' => $db->query("SELECT COUNT(*) FROM regions")->fetchColumn(),
