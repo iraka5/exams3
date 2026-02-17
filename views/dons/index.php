@@ -106,13 +106,9 @@
     <a href="/exams3-main/exams3/villes">Villes</a>
     <a href="/exams3-main/exams3/besoins">Besoins</a>
     <a href="/exams3-main/exams3/dons" class="active">Dons</a>
-<<<<<<< HEAD
     <a href="/exams3-main/exams3/config-taux">Config V3</a>
     <a href="/exams3-main/exams3/reset-data">Reset</a>
     <a href="/exams3-main/exams3/logout">Déconnexion</a>
-=======
-    <a href="/exams3-main/exams3/logout">Sortir</a>
->>>>>>> 440cd6c1b68c915059324f07a8149f02f8ec3097
   </nav>
 
   <div class="container">

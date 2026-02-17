@@ -26,7 +26,7 @@ $db = getDB();
 // ROUTAGE
 switch ($path) {
     
-    // ========== PAGE D'ACCUEIL = CREATE.PHP ==========
+    // ========== 1. PAGE D'ACCUEIL = CREATE.PHP ==========
     case '/':
     case '':
         $regions = $db->query("SELECT * FROM regions ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
@@ -34,9 +34,124 @@ switch ($path) {
         include __DIR__ . '/views/create.php';
         break;
     
-    // ========== TABLEAU DE BORD ==========
+    // ========== 2. TOUTES LES ROUTES DE CRÉATION ==========
+    
+    // RÉGIONS - Création
+    case '/regions/create':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // TRAITEMENT DU FORMULAIRE
+            $nom = trim($_POST['nom'] ?? '');
+            if (!empty($nom)) {
+                $stmt = $db->prepare("INSERT INTO regions (nom) VALUES (?)");
+                $stmt->execute([$nom]);
+            }
+            header('Location: ' . BASE_URL . '/regions');
+            exit;
+        } else {
+            // AFFICHAGE DU FORMULAIRE
+            include __DIR__ . '/views/regions/create.php';
+        }
+        break;
+    
+    // VILLES - Création
+    case '/villes/create':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // TRAITEMENT DU FORMULAIRE
+            $nom = trim($_POST['nom'] ?? '');
+            $id_regions = intval($_POST['id_regions'] ?? 0);
+            if (!empty($nom) && $id_regions > 0) {
+                $stmt = $db->prepare("INSERT INTO ville (nom, id_regions) VALUES (?, ?)");
+                $stmt->execute([$nom, $id_regions]);
+            }
+            header('Location: ' . BASE_URL . '/villes');
+            exit;
+        } else {
+            // AFFICHAGE DU FORMULAIRE
+            $regions = $db->query("SELECT * FROM regions ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
+            include __DIR__ . '/views/villes/create.php';
+        }
+        break;
+    
+    // BESOINS - Création
+    case '/besoins/create':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // TRAITEMENT DU FORMULAIRE
+            $nom = trim($_POST['nom'] ?? '');
+            $nombre = floatval($_POST['nombre'] ?? 0);
+            $prix_unitaire = floatval($_POST['prix_unitaire'] ?? 0);
+            $id_ville = intval($_POST['id_ville'] ?? 0);
+            
+            if (!empty($nom) && $nombre > 0 && $prix_unitaire > 0 && $id_ville > 0) {
+                $stmt = $db->prepare("INSERT INTO besoins (nom, nombre, prix_unitaire, id_ville) VALUES (?, ?, ?, ?)");
+                $stmt->execute([$nom, $nombre, $prix_unitaire, $id_ville]);
+            }
+            header('Location: ' . BASE_URL . '/besoins');
+            exit;
+        } else {
+            // AFFICHAGE DU FORMULAIRE
+            $villes = $db->query("SELECT * FROM ville ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
+            include __DIR__ . '/views/besoins/create.php';
+        }
+        break;
+    
+    // DONS - Création (AVEC VÉRIFICATION)
+    case '/dons/create':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // TRAITEMENT DU FORMULAIRE
+            $nom_donneur = trim($_POST['nom_donneur'] ?? '');
+            $type_don = trim($_POST['type_don'] ?? '');
+            $nombre_don = floatval($_POST['nombre_don'] ?? 0);
+            $id_ville = intval($_POST['id_ville'] ?? 0);
+            
+            if (!empty($nom_donneur) && !empty($type_don) && $nombre_don > 0 && $id_ville > 0) {
+                
+                // ===== VÉRIFICATION DE LA QUANTITÉ =====
+                // Calculer le total des besoins pour cette ville
+                $stmt = $db->prepare("SELECT COALESCE(SUM(nombre), 0) as total_besoins FROM besoins WHERE id_ville = ?");
+                $stmt->execute([$id_ville]);
+                $total_besoins = $stmt->fetch(PDO::FETCH_ASSOC)['total_besoins'];
+                
+                // Calculer le total des dons déjà reçus pour cette ville
+                $stmt = $db->prepare("SELECT COALESCE(SUM(nombre_don), 0) as total_dons FROM dons WHERE id_ville = ?");
+                $stmt->execute([$id_ville]);
+                $total_dons = $stmt->fetch(PDO::FETCH_ASSOC)['total_dons'];
+                
+                // Vérifier si le nouveau don dépasse les besoins
+                $nouveau_total = $total_dons + $nombre_don;
+                $max_autorise = $total_besoins - $total_dons;
+                
+                if ($max_autorise <= 0) {
+                    // Plus aucun besoin à satisfaire
+                    header('Location: ' . BASE_URL . '/dons/create?error=plus_besoin');
+                    exit;
+                }
+                
+                if ($nouveau_total > $total_besoins) {
+                    // Rediriger avec un message d'erreur
+                    header('Location: ' . BASE_URL . '/dons/create?error=depassement&max=' . $max_autorise);
+                    exit;
+                }
+                // ===== FIN DE LA VÉRIFICATION =====
+                
+                // Si tout est OK, insérer le don
+                $stmt = $db->prepare("INSERT INTO dons (nom_donneur, type_don, nombre_don, id_ville) VALUES (?, ?, ?, ?)");
+                $stmt->execute([$nom_donneur, $type_don, $nombre_don, $id_ville]);
+                
+                header('Location: ' . BASE_URL . '/dons?success=created');
+                exit;
+            } else {
+                header('Location: ' . BASE_URL . '/dons/create?error=invalid');
+                exit;
+            }
+        } else {
+            // AFFICHAGE DU FORMULAIRE
+            $villes = $db->query("SELECT * FROM ville ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
+            include __DIR__ . '/views/dons/create.php';
+        }
+        break;
+    
+    // ========== 3. TABLEAU DE BORD ==========
     case '/tableau-bord':
-        // Récupérer toutes les données aggrégées
         $sql = "SELECT 
                     r.id as region_id,
                     r.nom as region_nom,
@@ -54,7 +169,6 @@ switch ($path) {
         
         $donnees = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         
-        // Initialiser les valeurs et calculer la progression pour chaque ligne
         foreach ($donnees as &$row) {
             $row['besoin_quantite'] = $row['besoin_quantite'] ?? 0;
             $row['dons_quantite'] = $row['dons_quantite'] ?? 0;
@@ -72,67 +186,40 @@ switch ($path) {
         include __DIR__ . '/views/tableau_bord_simple.php';
         break;
     
-    // ========== RÉGIONS ==========
+    // ========== 4. ROUTES DE LISTAGE ==========
+    
+    // RÉGIONS - Liste
     case '/regions':
         $regions = $db->query("SELECT * FROM regions ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
         include __DIR__ . '/views/regions/index.php';
         break;
+    
+    // VILLES - Liste
+    case '/villes':
+        $regions = $db->query("SELECT * FROM regions ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
+        $region_id = isset($_GET['region_id']) ? intval($_GET['region_id']) : 0;
+        $region_selected = null;
         
-    case '/regions/create':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom = trim($_POST['nom'] ?? '');
-            if (!empty($nom)) {
-                $stmt = $db->prepare("INSERT INTO regions (nom) VALUES (?)");
-                $stmt->execute([$nom]);
-            }
-            header('Location: ' . BASE_URL . '/regions');
-            exit;
+        $sql = "SELECT v.*, r.nom as region_nom FROM ville v JOIN regions r ON v.id_regions = r.id";
+        $params = [];
+        
+        if ($region_id > 0) {
+            $sql .= " WHERE v.id_regions = ?";
+            $params[] = $region_id;
+            $region = $db->prepare("SELECT * FROM regions WHERE id = ?");
+            $region->execute([$region_id]);
+            $region_selected = $region->fetch(PDO::FETCH_ASSOC);
         }
+        
+        $sql .= " ORDER BY r.nom, v.nom";
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
+        $villes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        include __DIR__ . '/views/villes/index.php';
         break;
-
-        // ========== PAGE DE CRÉATION ==========
-case '/create':
-    $regions = $db->query("SELECT * FROM regions ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
-    $villes = $db->query("SELECT * FROM ville ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
-    include __DIR__ . '/views/create.php';
-    break;
     
-// ========== VILLES ==========
-case '/villes':
-    // Récupérer toutes les régions pour le filtre
-    $regions = $db->query("SELECT * FROM regions ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
-    
-    // Récupérer l'ID de la région depuis l'URL
-    $region_id = isset($_GET['region_id']) ? intval($_GET['region_id']) : 0;
-    
-    // Initialiser la variable region_selected
-    $region_selected = null;
-    
-    // Construire la requête en fonction du filtre
-    if ($region_id > 0) {
-        // Vérifier que la région existe
-        $region_check = $db->prepare("SELECT * FROM regions WHERE id = ?");
-        $region_check->execute([$region_id]);
-        $region_selected = $region_check->fetch(PDO::FETCH_ASSOC);
-        
-        if ($region_selected) {
-            // Récupérer les villes de la région sélectionnée
-            $stmt = $db->prepare("SELECT v.*, r.nom as region_nom FROM ville v JOIN regions r ON v.id_regions = r.id WHERE v.id_regions = ? ORDER BY v.nom");
-            $stmt->execute([$region_id]);
-            $villes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            // Si la région n'existe pas, on ignore le filtre
-            $villes = $db->query("SELECT v.*, r.nom as region_nom FROM ville v JOIN regions r ON v.id_regions = r.id ORDER BY r.nom, v.nom")->fetchAll(PDO::FETCH_ASSOC);
-        }
-    } else {
-        // Pas de filtre, toutes les villes
-        $villes = $db->query("SELECT v.*, r.nom as region_nom FROM ville v JOIN regions r ON v.id_regions = r.id ORDER BY r.nom, v.nom")->fetchAll(PDO::FETCH_ASSOC);
-    }
-    
-    include __DIR__ . '/views/villes/index.php';
-    break;
-    
-    // ========== BESOINS ==========
+    // BESOINS - Liste
     case '/besoins':
         $id_ville = isset($_GET['id_ville']) ? intval($_GET['id_ville']) : 0;
         
@@ -147,52 +234,14 @@ case '/villes':
         $villes = $db->query("SELECT * FROM ville ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
         include __DIR__ . '/views/besoins/index.php';
         break;
-        
-    case '/besoins/create':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom = trim($_POST['nom'] ?? '');
-            $nombre = floatval($_POST['nombre'] ?? 0);
-            $prix_unitaire = floatval($_POST['prix_unitaire'] ?? 0);
-            $id_ville = intval($_POST['id_ville'] ?? 0);
-            
-            if (!empty($nom) && $nombre > 0 && $prix_unitaire > 0 && $id_ville > 0) {
-                $stmt = $db->prepare("INSERT INTO besoins (nom, nombre, prix_unitaire, id_ville) VALUES (?, ?, ?, ?)");
-                $stmt->execute([$nom, $nombre, $prix_unitaire, $id_ville]);
-            }
-            header('Location: ' . BASE_URL . '/besoins');
-            exit;
-        } else {
-            $villes = $db->query("SELECT * FROM ville ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
-            include __DIR__ . '/views/besoins/create.php';
-        }
-        break;
     
-    // ========== DONS ==========
+    // DONS - Liste
     case '/dons':
         $dons = $db->query("SELECT d.*, v.nom as ville_nom FROM dons d JOIN ville v ON d.id_ville = v.id ORDER BY d.id DESC")->fetchAll(PDO::FETCH_ASSOC);
         include __DIR__ . '/views/dons/index.php';
         break;
-        
-    case '/dons/create':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom_donneur = trim($_POST['nom_donneur'] ?? '');
-            $type_don = trim($_POST['type_don'] ?? '');
-            $nombre_don = floatval($_POST['nombre_don'] ?? 0);
-            $id_ville = intval($_POST['id_ville'] ?? 0);
-            
-            if (!empty($nom_donneur) && !empty($type_don) && $nombre_don > 0 && $id_ville > 0) {
-                $stmt = $db->prepare("INSERT INTO dons (nom_donneur, type_don, nombre_don, id_ville) VALUES (?, ?, ?, ?)");
-                $stmt->execute([$nom_donneur, $type_don, $nombre_don, $id_ville]);
-            }
-            header('Location: ' . BASE_URL . '/dons');
-            exit;
-        } else {
-            $villes = $db->query("SELECT * FROM ville ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
-            include __DIR__ . '/views/dons/create.php';
-        }
-        break;
     
-    // ========== SUPPRESSION ==========
+    // ========== 5. SUPPRESSION ==========
     case (preg_match('/^\/(regions|villes|besoins|dons)\/(\d+)\/delete$/', $path, $matches) ? true : false):
         $table = $matches[1];
         $id = $matches[2];
@@ -212,7 +261,7 @@ case '/villes':
         exit;
         break;
     
-    // ========== DÉCONNEXION ==========
+    // ========== 6. DÉCONNEXION ==========
     case '/logout':
         session_destroy();
         header('Location: ' . BASE_URL . '/');

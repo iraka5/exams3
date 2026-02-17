@@ -1,3 +1,12 @@
+<?php
+// Initialisation des variables pour éviter les erreurs
+if (!isset($regions)) $regions = [];
+if (!isset($region_id)) $region_id = 0;
+if (!isset($region_selected)) $region_selected = null;
+if (!isset($villes)) $villes = [];
+
+$base = '/exams3-main/exams3';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -120,18 +129,18 @@
   </div>
 
   <nav>
-    <a href="/exams3-main/exams3/">Accueil</a>
-    <a href="/exams3-main/exams3/regions">Régions</a>
-    <a href="/exams3-main/exams3/villes" class="active">Villes</a>
-    <a href="/exams3-main/exams3/besoins">Besoins</a>
-    <a href="/exams3-main/exams3/dons">Dons</a>
-    <a href="/exams3-main/exams3/logout">Déconnexion</a>
+    <a href="<?= $base ?>/">Accueil</a>
+    <a href="<?= $base ?>/regions">Régions</a>
+    <a href="<?= $base ?>/villes" class="active">Villes</a>
+    <a href="<?= $base ?>/besoins">Besoins</a>
+    <a href="<?= $base ?>/dons">Dons</a>
+    <a href="<?= $base ?>/logout">Déconnexion</a>
   </nav>
 
   <div class="container">
 
     <div class="filter-form">
-      <form method="GET" action="/exams3-main/exams3/villes">
+      <form method="GET" action="<?= $base ?>/villes">
         <label>Filtrer par région :</label>
         <select name="region_id">
           <option value="0">-- Toutes les régions --</option>
@@ -142,6 +151,9 @@
           <?php endforeach; ?>
         </select>
         <button type="submit" class="btn">🔍 Filtrer</button>
+        <?php if ($region_id > 0): ?>
+          <a href="<?= $base ?>/villes" class="btn" style="background: #6c757d;">🗑️ Réinitialiser</a>
+        <?php endif; ?>
       </form>
     </div>
 
@@ -151,7 +163,7 @@
       </div>
     <?php endif; ?>
 
-    <a href="/exams3-main/exams3/villes/create" class="btn btn-success">➕ Ajouter une ville</a>
+    <a href="<?= $base ?>/villes/create" class="btn btn-success">➕ Ajouter une ville</a>
 
     <table>
       <thead>
@@ -184,9 +196,9 @@
                 </span>
               </td>
               <td>
-                <a href="/exams3-main/exams3/villes/<?= $ville["id"] ?>" class="btn"> Voir</a>
-                <a href="/exams3-main/exams3/villes/<?= $ville["id"] ?>/edit" class="btn btn-warning"> Modifier</a>
-                <a href="/exams3-main/exams3/villes/<?= $ville["id"] ?>/delete" 
+                <a href="<?= $base ?>/villes/<?= $ville["id"] ?>" class="btn"> Voir</a>
+                <a href="<?= $base ?>/villes/<?= $ville["id"] ?>/edit" class="btn btn-warning"> Modifier</a>
+                <a href="<?= $base ?>/villes/<?= $ville["id"] ?>/delete" 
                    class="btn btn-danger" 
                    onclick="return confirm('Supprimer cette ville ?')"> Supprimer</a>
               </td>
@@ -197,7 +209,7 @@
     </table>
 
     <div style="text-align: center; margin-top: 20px;">
-      <a href="/exams3-main/exams3/tableau-bord" class="btn" style="background: #6f42c1;">
+      <a href="<?= $base ?>/tableau-bord" class="btn" style="background: #6f42c1;">
          Voir le Tableau de Bord
       </a>
     </div>

@@ -82,7 +82,7 @@
         <!-- REGION -->
         <div class="card">
             <h2>🗺️ Ajouter une Région</h2>
-            <form method="post" action="/exams3-main/exams3/regions">
+            <form method="post" action="/exams3-main/exams3/regions/create">
                 <div class="form-group">
                     <label for="region_nom">Nom de la région</label>
                     <input id="region_nom" type="text" name="nom" placeholder="Ex: Analamanga">
@@ -94,7 +94,7 @@
         <!-- VILLE -->
         <div class="card">
             <h2>🏘️ Ajouter une Ville</h2>
-            <form method="post" action="/exams3-main/exams3/villes">
+            <form method="post" action="/exams3-main/exams3/villes/create">
                 <div class="form-group">
                     <label for="ville_nom">Nom de la ville</label>
                     <input id="ville_nom" type="text" name="nom" placeholder="Ex: Antananarivo">
@@ -118,7 +118,7 @@
         <!-- BESOIN -->
         <div class="card">
             <h2>📦 Ajouter un Besoin</h2>
-            <form method="post" action="/exams3-main/exams3/besoins">
+            <form method="post" action="/exams3-main/exams3/besoins/create">
                 <div class="form-group">
                     <label for="besoin_nom">Type de besoin</label>
                     <input id="besoin_nom" type="text" name="nom" placeholder="Ex: Riz, Eau, Médicaments">
