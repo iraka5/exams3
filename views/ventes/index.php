@@ -194,7 +194,7 @@ $base = '/exams3-main/exams3';
                 <div style="font-size: 48px; margin-bottom: 15px;">📭</div>
                 <h3>Aucune vente enregistrée</h3>
                 <p>Les ventes apparaîtront ici après avoir converti des dons en argent.</p>
-                <a href="<?= $base ?>/dons" class="btn" style="margin-top: 10px;">Voir les dons disponibles</a>
+                
             </div>
         <?php else: ?>
             <table>
@@ -239,10 +239,6 @@ $base = '/exams3-main/exams3';
                 </tbody>
             </table>
         <?php endif; ?>
-
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="<?= $base ?>/dons" class="btn" style="padding: 12px 24px;">← Retour aux dons</a>
-        </div>
     </div>
 </body>
 </html>
