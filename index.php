@@ -171,6 +171,26 @@ switch ($path) {
             header('Location: ' . $base . '/login');
             exit;
         }
+        // Récupérer les données des villes
+        try {
+            $pdo = getDB();
+            $sql = "SELECT 
+                        v.id, v.nom, r.nom as region_nom,
+                        COUNT(DISTINCT b.id) as nb_besoins,
+                        COUNT(DISTINCT d.id) as nb_dons,
+                        COALESCE(SUM(b.quantite), 0) as total_besoins,
+                        COALESCE(SUM(d.quantite), 0) as total_dons
+                    FROM ville v
+                    LEFT JOIN regions r ON v.id_regions = r.id
+                    LEFT JOIN besoins b ON b.id_ville = v.id
+                    LEFT JOIN dons d ON d.id_ville = v.id
+                    GROUP BY v.id
+                    ORDER BY v.nom";
+            $stmt = $pdo->query($sql);
+            $villes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            $villes = [];
+        }
         require_once __DIR__ . '/views/users/villes_stats.php';
         break;
         
