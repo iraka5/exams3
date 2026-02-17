@@ -218,5 +218,15 @@ rehefa mivarotra de mihena vidiny (oh ip 50k ar, de misy pourcentage ana contrai
 misy validation tsy mahazo mivarotra article ilain' ny olona (anaty besoin)
 misy liste de besoin (avec demande ) si qlq1 veut vendre et que l article qui n est pas vendable (donc encore dans les demandes de certains), il y aura une erreur : "vente non permise"
 raha efa nahazo daholo anefa le olona de afaka varotana reste anle article si personne n a plus besoin de l article en question
++
 
 
+un bouton reinitialiser besoin et dons (on nous donnera une liste de base et a chaque fois qu on reinitialise l affichage, les donnes de base reaparaitront et les updates precedentes ne s afficheront plus)
+
+nouvelle fonctionnalite 
+on pourra convertir les articles donnees non utiles en argent (ex: un donateur a fait don d'un camion mais il s'avere que ca ne rentre pas dans les besoins imediats des necessiteux alors pour s'y faire on a vendu le camion pour en faire un don, ce don qu on peut soit convertir en article soit juste laisser en argent )
+on peut donc vendre les articles offerts si ils ne conviennent pas aux besoins de la ville en question 
+IMPORTANT: quand on vend un article offert, ce dernier aura une diminutionde 10% a son prix de vente initial. ce sera configurable dans l interface mais de base ce sera une diminutionde 10% selon l article 
+il y aura une validation pour les articles essentiels qui ne pourront pas etre vendus (dans les besoins)
+il y aura une liste de besoin, si l'on veut vendre mais que l'article n'est pas vendable (encore dans la liste besoins de certains ) alors il y aura une erreur comme quoi "vente non permise"
+quoique si tout le monde, c est a dire les necessiteux n'ont plus besoin de l'article en question, on peut tout a fait le mettre en vendre pour le convertir en argent ou en autre article pour en faire un don.
