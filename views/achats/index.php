@@ -54,7 +54,7 @@
         <a href="/exams3-main/exams3/achats/recapitulatif">📊 Récapitulatif</a>
         <a href="/exams3-main/exams3/besoins">📋 Besoins</a>
         <a href="/exams3-main/exams3/dons">🎁 Dons</a>
-        <a href="/exams3-main/exams3/logout" style="margin-left: auto;">🚪 Déconnexion</a>
+        <a href="/exams3-main/exams3/logout" style="margin-left: auto;"> Sortir</a>
     </nav>
 
     <div class="container">

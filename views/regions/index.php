@@ -1,155 +1,89 @@
+<?php
+$base = '/exams3-main/exams3';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Régions - BNGRC</title>
-  <link rel="stylesheet" href="/exams3-main/exams3/public/css/styles.css">
-  <style>
-    :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
-    * { box-sizing: border-box; }
-    body {
-      font-family: Inter, Segoe UI, Arial, sans-serif;
-      background: var(--bg);
-      margin: 0;
-      padding: 0;
-    }
-    .header {
-      background: var(--brand);
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    .header h1 { margin: 0; font-size: 22px; }
-    .header p { margin: 5px 0 0; font-size: 14px; color: rgba(255,255,255,0.8); }
-
-    nav {
-      background: white;
-      padding: 10px 20px;
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-    nav a {
-      color: var(--brand);
-      text-decoration: none;
-      padding: 8px 15px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 14px;
-      background: rgba(19,38,92,0.08);
-    }
-    nav a:hover, nav a.active {
-      background: var(--brand);
-      color: white;
-    }
-
-    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 14px;
-      background: var(--brand);
-      color: white;
-      text-decoration: none;
-    }
-    .btn:hover { opacity: 0.9; }
-    .btn-success { background: #28a745; }
-    .btn-danger { background: #dc3545; }
-    .btn-warning { background: #ffc107; color: black; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      overflow: hidden;
-      margin-top: 20px;
-    }
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      font-size: 14px;
-      border-bottom: 1px solid #e6e9ef;
-    }
-    th {
-      background: var(--brand);
-      color: white;
-      font-weight: 600;
-    }
-    tr:nth-child(even) { background: #f9fafc; }
-    tr:hover { background: rgba(19,38,92,0.05); }
-
-    .no-data {
-      text-align: center;
-      color: var(--muted);
-      padding: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Régions - BNGRC</title>
+    <style>
+        :root { --brand: #13265C; --muted: #6b7280; --bg: #f6f8fb; }
+        body { font-family: Arial, sans-serif; background: var(--bg); margin: 0; padding: 0; }
+        .header { background: var(--brand); color: white; padding: 20px; text-align: center; }
+        .header h1 { margin: 0; }
+        nav { background: white; padding: 10px; display: flex; gap: 10px; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        nav a { color: var(--brand); text-decoration: none; padding: 8px 15px; border-radius: 20px; }
+        nav a:hover, nav a.active { background: var(--brand); color: white; }
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 20px;
+            background: var(--brand);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .btn-success { background: #28a745; }
+        .btn-danger { background: #dc3545; }
+        .btn-warning { background: #ffc107; color: black; }
+        table { width: 100%; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        th { background: var(--brand); color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; }
+        tr:hover { background: #f5f5f5; }
+        .actions { display: flex; gap: 5px; }
+        .btn-small { padding: 5px 10px; font-size: 12px; }
+    </style>
 </head>
 <body>
+    <div class="header">
+        <h1>BNGRC - Gestion des Régions</h1>
+    </div>
 
-  <div class="header">
-    <h1>🏛️ Gestion des Régions - BNGRC</h1>
-    <p>Administration des régions et suivi des villes</p>
-  </div>
+    <nav>
+        <a href="<?= $base ?>/">Accueil</a>
+        <a href="<?= $base ?>/regions" class="active">Régions</a>
+        <a href="<?= $base ?>/villes">Villes</a>
+        <a href="<?= $base ?>/besoins">Besoins</a>
+        <a href="<?= $base ?>/dons">Dons</a>
+        <a href="<?= $base ?>/logout">Sortir</a>
+    </nav>
 
-  <nav>
-    <a href="/exams3-main/exams3/">Accueil</a>
-    <a href="/exams3-main/exams3/regions" class="active">Régions</a>
-    <a href="/exams3-main/exams3/villes">Villes</a>
-    <a href="/exams3-main/exams3/besoins">Besoins</a>
-    <a href="/exams3-main/exams3/dons">Dons</a>
-    <a href="/exams3-main/exams3/logout">Déconnexion</a>
+    <div class="container">
+        <div class="header-actions">
+            <h2>Liste des régions</h2>
+            <a href="<?= $base ?>/regions/create" class="btn btn-success">➕ Nouvelle région</a>
+        </div>
 
-  </nav>
-
-  <div class="container">
-    <a href="/exams3-main/exams3/regions/create" class="btn btn-success">➕ Ajouter une région</a>
-
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nom de la Région</th>
-          <th>Nombre de Villes</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
         <?php if (empty($regions)): ?>
-          <tr>
-            <td colspan="4" class="no-data">Aucune région enregistrée</td>
-          </tr>
+            <p style="text-align: center; padding: 40px; background: white; border-radius: 8px;">
+                Aucune région enregistrée. <a href="<?= $base ?>/regions/create">Ajouter une région</a>
+            </p>
         <?php else: ?>
-          <?php foreach ($regions as $region): ?>
-            <tr>
-              <td><?= $region["id"] ?></td>
-              <td><strong><?= htmlspecialchars($region["nom"]) ?></strong></td>
-              <td>
-                <span style="background: #e8f5e8; padding: 3px 8px; border-radius: 15px;">
-                  <?= $region["nb_villes"] ?> ville(s)
-                </span>
-              </td>
-              <td>
-                <a href="/exams3-main/exams3/regions/<?= $region["id"] ?>" class="btn"> Voir</a>
-                <a href="/exams3-main/exams3/regions/<?= $region["id"] ?>/edit" class="btn btn-warning"> Modifier</a>
-                <a href="/exams3-main/exams3/regions/<?= $region["id"] ?>/delete" 
-                   class="btn btn-danger" 
-                   onclick="return confirm('Supprimer cette région ?')"> Supprimer</a>
-              </td>
-            </tr>
-          <?php endforeach; ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($regions as $region): ?>
+                    <tr>
+                        <td><?= $region['id'] ?></td>
+                        <td><strong><?= htmlspecialchars($region['nom']) ?></strong></td>
+                        <td class="actions">
+                            <a href="<?= $base ?>/regions/<?= $region['id'] ?>" class="btn btn-small">Voir</a>
+                            <a href="<?= $base ?>/regions/<?= $region['id'] ?>/edit" class="btn btn-small btn-warning">Modifier</a>
+                            <a href="<?= $base ?>/regions/<?= $region['id'] ?>/delete" class="btn btn-small btn-danger" onclick="return confirm('Supprimer cette région ?')">Supprimer</a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         <?php endif; ?>
-      </tbody>
-    </table>
-  </div>
-
+    </div>
 </body>
 </html>
