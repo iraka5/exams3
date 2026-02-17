@@ -153,6 +153,32 @@ switch ($path) {
             header('Location: ' . $base . '/login');
             exit;
         }
+        // Récupérer les villes et besoins
+        try {
+            $pdo = getDB();
+            $villes_stmt = $pdo->query("SELECT id, nom FROM ville ORDER BY nom");
+            $villes = $villes_stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Filtrer par ville si sélectionné
+            $sql = "SELECT b.*, v.nom as ville_nom, r.nom as region_nom 
+                    FROM besoins b 
+                    JOIN ville v ON b.id_ville = v.id 
+                    JOIN regions r ON v.id_regions = r.id 
+                    WHERE 1=1";
+            
+            if (isset($_GET['id_ville']) && $_GET['id_ville'] != 0 && $_GET['id_ville'] != '') {
+                $sql .= " AND b.id_ville = ?";
+                $besoins_stmt = $pdo->prepare($sql . " ORDER BY b.created_at DESC");
+                $besoins_stmt->execute([$_GET['id_ville']]);
+            } else {
+                $besoins_stmt = $pdo->prepare($sql . " ORDER BY b.created_at DESC");
+                $besoins_stmt->execute();
+            }
+            $besoins = $besoins_stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            $villes = [];
+            $besoins = [];
+        }
         require_once __DIR__ . '/views/users/besoins.php';
         break;
         
