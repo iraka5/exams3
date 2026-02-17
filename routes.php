@@ -3,6 +3,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/models/Don.php'; // Ajout important pour les méthodes de vente
 
 if (!defined('BASE_URL')) {
     define('BASE_URL', '/exams3-main/exams3');
@@ -61,6 +62,45 @@ switch ($path) {
         }
 
         include __DIR__ . '/views/tableau_bord_simple.php';
+        break;
+
+    // =======================
+    // CONFIGURATION TAUX DE VENTE
+    // =======================
+    case '/config-taux':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Traitement du formulaire
+            $taux = floatval($_POST['taux_diminution'] ?? 10);
+            
+            if ($taux < 0 || $taux > 100) {
+                header('Location: ' . BASE_URL . '/config-taux?error=taux_invalide');
+                exit;
+            }
+            
+            try {
+                // Récupérer l'ancien taux
+                $stmt = $db->prepare("SELECT valeur FROM parametres WHERE cle = 'taux_diminution_vente'");
+                $stmt->execute();
+                $ancien = $stmt->fetch(PDO::FETCH_ASSOC);
+                $ancien_taux = $ancien ? $ancien['valeur'] : 10;
+                
+                // Mettre à jour le taux
+                $stmt = $db->prepare("UPDATE parametres SET valeur = ? WHERE cle = 'taux_diminution_vente'");
+                $stmt->execute([$taux]);
+                
+                header('Location: ' . BASE_URL . '/config-taux?success=1&ancien=' . $ancien_taux . '&nouveau=' . $taux);
+                exit;
+            } catch (Exception $e) {
+                header('Location: ' . BASE_URL . '/config-taux?error=erreur_sauvegarde');
+                exit;
+            }
+        } else {
+            // Afficher la page de configuration
+            $parametres = $db->query("SELECT * FROM parametres")->fetchAll(PDO::FETCH_ASSOC);
+            $stats_vente = Don::getStatsVentes();
+            $dernieres_ventes = Don::getDernieresVentes(10);
+            include __DIR__ . '/views/config-taux.php';
+        }
         break;
 
     // =======================
@@ -221,6 +261,15 @@ switch ($path) {
         break;
 
     // =======================
+    // VENTES
+    // =======================
+    case '/ventes':
+        $ventes = Don::getDernieresVentes(50);
+        $stats = Don::getStatsVentes();
+        include __DIR__ . '/views/ventes/index.php';
+        break;
+
+    // =======================
     // DELETE (REGIONS/VILLES/BESOINS/DONS)
     // =======================
     case (preg_match('/^\/(regions|villes|besoins|dons)\/(\d+)\/delete$/', $path, $m) ? true : false):
@@ -243,13 +292,11 @@ switch ($path) {
         exit;
 
     // =======================
-    // RESET (OPTIONNEL)
+    // RESET
     // =======================
-
-        case '/reset-data':
-    include __DIR__ . '/views/reset_form.php';
-    break;
-
+    case '/reset-data':
+        include __DIR__ . '/views/reset_form.php';
+        break;
 
     // =======================
     // 404
@@ -259,3 +306,4 @@ switch ($path) {
         echo "<h1>404</h1><p>Le chemin demandé <b>$path</b> n'existe pas.</p>";
         break;
 }
+?>
